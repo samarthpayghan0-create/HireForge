@@ -131,7 +131,9 @@ if DATABASE_URL:
         # Needed for pooled connections (Neon/Supabase pgbouncer, transaction mode).
         DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
     if "mysql" in _engine:
-        DATABASES["default"].setdefault("OPTIONS", {}).setdefault("charset", "utf8mb4")
+    DATABASES["default"].setdefault("OPTIONS", {}).setdefault("charset", "utf8mb4")
+    DATABASES["default"]["OPTIONS"].pop("ssl-mode", None)
+    DATABASES["default"]["OPTIONS"].pop("ssl_mode", None)
 elif ON_VERCEL:
     raise ImproperlyConfigured(
         "DATABASE_URL is not set. Vercel needs a hosted database "
