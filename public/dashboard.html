@@ -1,0 +1,1188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Your HireForge student dashboard.">
+  <title>Dashboard | HireForge</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --background: #f7f7f3;
+      --surface: #ffffff;
+      --text: #26332c;
+      --muted: #747d74;
+      --border: #e2e6de;
+      --green: #285847;
+      --green-dark: #1d4436;
+      --green-soft: #e7eee7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font: 14px/1.65 Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid #88ad97;
+      outline-offset: 3px;
+    }
+
+    .dashboard {
+      max-width: none;
+      margin: 0;
+      padding: 0 42px 40px 286px;
+    }
+
+    .dash-nav {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 36px;
+      width: 246px;
+      padding: 29px 17px;
+      background: var(--green-dark);
+      border: 0;
+      color: white;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 12px;
+      color: white;
+      font: 700 25px Georgia, serif;
+      letter-spacing: -.7px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 35px;
+      height: 35px;
+      border-radius: 7px;
+      background: #dfe9dc;
+      color: var(--green-dark);
+      font: 700 23px Georgia, serif;
+    }
+
+    .dash-links {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .dash-links a {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 12px 14px;
+      border-radius: 6px;
+      color: #d4e0d6;
+      font-size: 13px;
+      transition: background .15s, color .15s;
+    }
+
+    .dash-links a:hover,
+    .dash-links a.active {
+      background: #e5eee2;
+      color: var(--green-dark);
+    }
+
+    .nav-symbol {
+      display: inline-grid;
+      place-items: center;
+      width: 19px;
+      font-size: 16px;
+    }
+
+    .nav-bottom {
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.2);
+    }
+
+    .dash-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 76px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #e2ebe0;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .dash-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 35px 0 28px;
+    }
+
+    .dash-eyebrow {
+      margin: 0 0 7px;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .dash-hero h1 {
+      margin: 0;
+      font: 500 clamp(29px, 3vw, 39px)/1.25 Georgia, serif;
+      letter-spacing: -.8px;
+    }
+
+    .dash-muted {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .dash-hero .dash-muted {
+      margin: 9px 0 0;
+      font-size: 13px;
+    }
+
+    .dash-button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-height: 39px;
+      padding: 10px 15px;
+      border: 1px solid var(--green);
+      border-radius: 5px;
+      background: var(--green);
+      color: white;
+      font-size: 12px;
+      font-weight: 650;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .dash-button:hover { background: var(--green-dark); }
+    .dash-button:disabled { opacity: .65; cursor: wait; }
+
+    .dash-button.secondary {
+      border-color: var(--border);
+      background: transparent;
+      color: var(--green);
+    }
+
+    .dash-button.secondary:hover { background: var(--green-soft); }
+
+    .dash-notice {
+      margin: 0 0 22px;
+      padding: 11px 14px;
+      border-left: 3px solid var(--green);
+      background: #edf2e9;
+      color: var(--green-dark);
+      font-size: 12px;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .overview-main {
+      padding: 27px 30px 28px 0;
+    }
+
+    .overview-side {
+      padding: 27px 0 28px 30px;
+      border-left: 1px solid var(--border);
+    }
+
+    .section-label {
+      margin: 0 0 17px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .education-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+    }
+
+    .education-score {
+      min-width: 94px;
+      padding-right: 25px;
+      border-right: 1px solid var(--border);
+    }
+
+    .education-score strong {
+      display: block;
+      color: var(--green);
+      font: 500 34px/1.2 Georgia, serif;
+    }
+
+    .education-score span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .education-details h2 {
+      margin: 1px 0 4px;
+      font-size: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    .education-details p {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .meta-line strong { color: var(--text); }
+
+    .completion-number {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .completion-number strong {
+      color: var(--green);
+      font: 500 29px Georgia, serif;
+    }
+
+    .completion-number span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .dash-progress {
+      height: 5px;
+      margin: 13px 0 11px;
+      overflow: hidden;
+      background: #e6e9e2;
+    }
+
+    .dash-progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--green);
+      transition: width .25s;
+    }
+
+    .overview-side p { margin: 0 0 15px; font-size: 12px; }
+
+    .dash-section { margin-top: 35px; }
+
+    .dash-section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .dash-section-title h2,
+    .dash-section > h2 {
+      margin: 0;
+      font: 500 23px/1.3 Georgia, serif;
+      letter-spacing: -.3px;
+    }
+
+    .section-caption {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tools-list { border-top: 1px solid var(--border); }
+
+    .tool-row {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 15px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tool-number {
+      color: #839486;
+      font: 500 18px Georgia, serif;
+    }
+
+    .tool-copy h3 {
+      margin: 0 0 3px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .tool-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tool-link {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .tool-link:hover { color: var(--green-dark); }
+
+    .assessment-card {
+      padding: 27px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .assessment-intro { max-width: 670px; }
+    .assessment-intro h2 { margin: 0; font: 500 25px Georgia, serif; }
+    .assessment-intro .dash-muted { margin: 9px 0; font-size: 12px; }
+
+    .assessment-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .assessment-status {
+      margin: 13px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .assessment-results { margin-top: 25px; }
+
+    .assessment-score-row {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 20px;
+      background: #edf2e9;
+    }
+
+    .assessment-score {
+      display: grid;
+      flex: 0 0 88px;
+      width: 88px;
+      height: 88px;
+      place-items: center;
+      border: 6px solid #cdddc9;
+      border-radius: 50%;
+      background: white;
+      color: var(--green);
+      font-size: 20px;
+      font-weight: 750;
+    }
+
+    .assessment-score-row h3 { margin: 4px 0; font-size: 15px; }
+    .assessment-score-row p { margin: 0; font-size: 12px; }
+
+    .assessment-result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 32px;
+      margin-top: 22px;
+    }
+
+    .assessment-subcard {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      min-width: 0;
+    }
+
+    .assessment-subcard h3 {
+      margin: 0 0 12px;
+      font-size: 13px;
+    }
+
+    .assessment-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding-left: 19px;
+    }
+
+    .assessment-list li {
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .assessment-list p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    .assessment-priority {
+      margin-left: 6px;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .assessment-disclaimer {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 15px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dash-tag {
+      padding: 5px 10px;
+      border: 1px solid #dce4d9;
+      border-radius: 4px;
+      background: #edf2e9;
+      color: var(--green-dark);
+      font-size: 11px;
+    }
+
+    .dash-empty {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .lower-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 30px;
+    }
+
+    .data-section {
+      min-width: 0;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    .data-section h2 {
+      margin: 0 0 16px;
+      font: 500 20px Georgia, serif;
+    }
+
+    .dash-list { display: grid; }
+
+    .dash-item {
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+
+    .dash-item h3 {
+      margin: 0 0 5px;
+      font-size: 12px;
+    }
+
+    .dash-item p {
+      margin: 4px 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .dash-item a {
+      display: inline-block;
+      margin-top: 5px;
+      color: var(--green);
+      font-size: 11px;
+    }
+
+    .dash-footer {
+      margin-top: 42px;
+      padding-top: 17px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 1000px) {
+      .dashboard { padding-right: 26px; padding-left: 270px; }
+      .overview { grid-template-columns: 1fr; }
+      .overview-main { padding-right: 0; }
+      .overview-side {
+        padding: 22px 0;
+        border-top: 1px solid var(--border);
+        border-left: 0;
+      }
+      .lower-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .dashboard { padding: 0 19px 30px; }
+      .dash-nav {
+        position: static;
+        width: auto;
+        gap: 18px;
+        margin: 0 -19px;
+        padding: 16px 19px;
+      }
+      .brand { padding: 0; font-size: 22px; }
+      .dash-links {
+        flex-direction: row;
+        gap: 5px;
+        overflow-x: auto;
+        padding-bottom: 3px;
+      }
+      .dash-links a {
+        flex: 0 0 auto;
+        gap: 7px;
+        padding: 9px 10px;
+        font-size: 11px;
+      }
+      .nav-bottom { display: flex; margin-top: 0; padding-top: 0; border: 0; }
+      .dash-topbar { min-height: 53px; }
+      .dash-hero { align-items: flex-start; flex-direction: column; padding: 27px 0 22px; }
+      .overview-main { padding-top: 22px; }
+      .education-line { gap: 16px; }
+      .education-score { min-width: 80px; padding-right: 15px; }
+      .education-score strong { font-size: 29px; }
+      .assessment-result-grid { grid-template-columns: 1fr; }
+      .lower-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    @media (max-width: 430px) {
+      .tool-row { grid-template-columns: 25px minmax(0, 1fr); gap: 10px; }
+      .tool-row > a { grid-column: 2; }
+      .assessment-score-row { align-items: flex-start; gap: 14px; padding: 14px; }
+      .assessment-score { flex-basis: 70px; width: 70px; height: 70px; font-size: 17px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="dashboard">
+    <nav class="dash-nav" aria-label="Main navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">H</span>
+        <span>HireForge</span>
+      </a>
+
+      <div class="dash-links">
+        <a class="active" href="#overview"><span class="nav-symbol">⌂</span>Dashboard</a>
+        <a href="#aiAssessment"><span class="nav-symbol">▥</span>Readiness</a>
+        <a href="assessments/index.html"><span class="nav-symbol">✓</span>Assessments</a>
+        <a href="/interview/"><span class="nav-symbol">◉</span>Mock interview</a>
+        <a href="resume/index.html"><span class="nav-symbol">▤</span>Resume</a>
+        <a href="#skills"><span class="nav-symbol">⌘</span>My skills</a>
+        <a href="profile.html"><span class="nav-symbol">◎</span>Edit profile</a>
+      </div>
+
+      <div class="nav-bottom">
+        <div class="dash-links">
+          <a href="login.html" id="logoutLink"><span class="nav-symbol">↪</span>Log out</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="dash-topbar">
+      <span class="breadcrumb">Workspace / Dashboard</span>
+      <div class="account">
+        <span class="avatar" id="userAvatar">S</span>
+        <span id="accountName">Student</span>
+      </div>
+    </header>
+
+    <header class="dash-hero" id="overview">
+      <div>
+        <p class="dash-eyebrow">Your career workspace</p>
+        <h1 id="welcomeTitle">Welcome to HireForge</h1>
+        <p class="dash-muted">Your profile, preparation, and next steps — all in one place.</p>
+      </div>
+      <a class="dash-button" href="profile.html">Update profile ↗</a>
+    </header>
+
+    <div id="dashboardNotice" class="dash-notice" role="status" aria-live="polite" hidden></div>
+
+    <section class="overview" aria-label="Profile overview">
+      <div class="overview-main">
+        <p class="section-label">Education overview</p>
+        <div class="education-line">
+          <div class="education-score">
+            <strong id="cgpaValue">—</strong>
+            <span>CGPA / 10</span>
+          </div>
+          <div class="education-details">
+            <h2 id="degreeValue">Degree not available</h2>
+            <p class="dash-muted" id="collegeValue">College not provided</p>
+            <div class="meta-line">
+              <span>Graduation <strong id="graduationValue">Not provided</strong></span>
+              <span>Goal <strong id="careerValue">Not selected</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-side">
+        <p class="section-label">Profile completion</p>
+        <div class="completion-number">
+          <strong id="completionValue">0%</strong>
+          <span>Profile progress</span>
+        </div>
+        <div class="dash-progress" id="completionBar" role="progressbar" aria-label="Profile completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <span id="completionFill"></span>
+        </div>
+        <p class="dash-muted" id="completionDescription">Complete your profile to improve your career guidance.</p>
+        <a href="profile.html" class="tool-link">Review profile →</a>
+      </div>
+    </section>
+
+    <section class="dash-section" id="tools">
+      <div class="dash-section-title">
+        <div>
+          <h2>Your next move</h2>
+          <p class="section-caption">Choose an area to work on next.</p>
+        </div>
+      </div>
+
+      <div class="tools-list">
+        <div class="tool-row">
+          <span class="tool-number">01</span>
+          <div class="tool-copy">
+            <h3>AI readiness assessment</h3>
+            <p>Understand your current preparation and identify priority skill gaps.</p>
+          </div>
+          <a class="tool-link" href="#aiAssessment">View readiness →</a>
+        </div>
+        <div class="tool-row">
+          <span class="tool-number">02</span>
+          <div class="tool-copy">
+            <h3>Skill assessments</h3>
+            <p>Practise aptitude, DSA, and technical questions.</p>
+          </div>
+          <a class="tool-link" href="assessments/index.html">Practise →</a>
+        </div>
+        <div class="tool-row">
+          <span class="tool-number">03</span>
+          <div class="tool-copy">
+            <h3>AI mock interview</h3>
+            <p>Practise interview questions and receive feedback.</p>
+          </div>
+          <a class="tool-link" href="/interview/">Start interview →</a>
+        </div>
+        <div class="tool-row">
+          <span class="tool-number">04</span>
+          <div class="tool-copy">
+            <h3>Resume analysis</h3>
+            <p>Review resume feedback, ATS suggestions, and career alignment.</p>
+          </div>
+          <a class="tool-link" href="resume/index.html">Review resume →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dash-section assessment-card" id="aiAssessment">
+      <div class="assessment-intro">
+        <p class="dash-eyebrow">Personalized career guidance</p>
+        <h2>AI readiness assessment</h2>
+        <p class="dash-muted">Review your preparation for your target role and get practical recommendations based on your profile.</p>
+      </div>
+
+      <p id="assessmentRole" class="dash-muted">Your target role will personalize this assessment.</p>
+
+      <div class="assessment-actions">
+        <button class="dash-button" id="generateAssessmentButton" type="button">Predict &amp; analyze skill gaps</button>
+        <a class="dash-button secondary" href="profile.html">Improve profile</a>
+      </div>
+
+      <p id="assessmentStatus" class="assessment-status" role="status" aria-live="polite">Your assessment has not been generated yet.</p>
+
+      <div id="assessmentResults" class="assessment-results" hidden>
+        <div class="assessment-score-row">
+          <div class="assessment-score" id="assessmentScore" aria-label="Readiness score">—</div>
+          <div>
+            <p class="dash-eyebrow" id="assessmentTargetRole">Target role</p>
+            <h3>Your current preparation</h3>
+            <p id="assessmentSummary" class="dash-muted"></p>
+          </div>
+        </div>
+
+        <div class="assessment-result-grid">
+          <article class="assessment-subcard">
+            <h3>Strengths</h3>
+            <ul id="assessmentStrengths" class="assessment-list"></ul>
+          </article>
+          <article class="assessment-subcard">
+            <h3>Skill gaps to prioritize</h3>
+            <ul id="assessmentSkillGaps" class="assessment-list"></ul>
+          </article>
+          <article class="assessment-subcard">
+            <h3>Recommended action plan</h3>
+            <ol id="assessmentActionPlan" class="assessment-list"></ol>
+          </article>
+          <article class="assessment-subcard">
+            <h3>Profile improvements</h3>
+            <ul id="assessmentProfileImprovements" class="assessment-list"></ul>
+          </article>
+        </div>
+
+        <p id="assessmentLimitations" class="assessment-disclaimer"></p>
+        <p id="assessmentDisclaimer" class="assessment-disclaimer"></p>
+      </div>
+    </section>
+
+    <section class="dash-section" id="skills">
+      <div class="dash-section-title">
+        <div>
+          <h2>Technical skills</h2>
+          <p class="section-caption">Skills saved in your profile.</p>
+        </div>
+        <a href="profile.html" class="tool-link">Edit skills →</a>
+      </div>
+      <div id="skillsList" class="skills-list"></div>
+      <p id="skillsEmpty" class="dash-empty" hidden>No technical skills saved yet. Add skills to your profile.</p>
+    </section>
+
+    <section class="dash-section lower-grid">
+      <article class="data-section">
+        <h2>Core readiness</h2>
+        <div id="readinessList" class="dash-list"></div>
+      </article>
+      <article class="data-section">
+        <h2>Projects</h2>
+        <div id="projectsList" class="dash-list"></div>
+      </article>
+      <article class="data-section">
+        <h2>Internships</h2>
+        <div id="internshipsList" class="dash-list"></div>
+      </article>
+    </section>
+
+    <section class="dash-section">
+      <div class="dash-section-title">
+        <h2>Certifications</h2>
+        <a href="profile-details.html" class="tool-link">Edit experience →</a>
+      </div>
+      <div id="certificationsList" class="dash-list"></div>
+    </section>
+
+    <footer class="dash-footer">HireForge · Profile information is loaded from your account.</footer>
+  </main>
+
+  <script>
+    (async () => {
+      const API_BASE = window.HIREFORGE_API_ROOT ||
+        (location.port === "5500" || location.protocol === "file:"
+          ? "http://127.0.0.1:8000/api"
+          : "/api");
+
+      const token = localStorage.getItem("hireforgeToken");
+      const byId = id => document.getElementById(id);
+      const setText = (id, value) => {
+        const element = byId(id);
+        if (element) element.textContent = value ?? "";
+      };
+
+      const showNotice = message => {
+        const notice = byId("dashboardNotice");
+        notice.textContent = message;
+        notice.hidden = false;
+      };
+
+      byId("logoutLink").addEventListener("click", event => {
+        event.preventDefault();
+        localStorage.removeItem("hireforgeToken");
+        localStorage.removeItem("hireforgeEmail");
+        localStorage.removeItem("hireforgeUsername");
+        sessionStorage.removeItem("hireforgeProfileDraft");
+        window.location.href = "login.html";
+      });
+
+      function renderAssessmentList(id, items, emptyMessage) {
+        const list = byId(id);
+        list.replaceChildren();
+
+        if (!Array.isArray(items) || items.length === 0) {
+          const emptyItem = document.createElement("li");
+          emptyItem.textContent = emptyMessage;
+          list.appendChild(emptyItem);
+          return;
+        }
+
+        items.forEach(entry => {
+          const item = document.createElement("li");
+
+          if (typeof entry === "string") {
+            item.textContent = entry;
+          } else if (entry && typeof entry === "object") {
+            const heading = document.createElement("strong");
+            heading.textContent =
+              entry.skill || entry.step || entry.title || "Recommendation";
+            item.appendChild(heading);
+
+            if (entry.priority) {
+              const priority = document.createElement("span");
+              priority.className = "assessment-priority";
+              priority.textContent = `${entry.priority} priority`;
+              item.appendChild(priority);
+            }
+
+            const explanation = entry.reason || entry.description || "";
+            if (explanation) {
+              const paragraph = document.createElement("p");
+              paragraph.textContent = explanation;
+              item.appendChild(paragraph);
+            }
+          } else {
+            item.textContent = String(entry ?? "");
+          }
+
+          list.appendChild(item);
+        });
+      }
+
+      function displayAssessment(payload) {
+        const assessment = payload.assessment;
+        if (!assessment || typeof assessment !== "object") {
+          throw new Error("The server did not return an assessment.");
+        }
+
+        const score = Number(assessment.readiness_score);
+        setText("assessmentScore", Number.isFinite(score)
+          ? `${Math.max(0, Math.min(100, Math.round(score)))}/100`
+          : "—");
+
+        setText("assessmentTargetRole",
+          assessment.target_role || byId("careerValue").textContent || "Your target role");
+        setText("assessmentSummary", assessment.summary || "No summary was provided.");
+
+        renderAssessmentList("assessmentStrengths", assessment.strengths, "No strengths were returned.");
+        renderAssessmentList("assessmentSkillGaps", assessment.skill_gaps, "No skill gaps were returned.");
+        renderAssessmentList("assessmentActionPlan", assessment.action_plan, "No action steps were returned.");
+        renderAssessmentList("assessmentProfileImprovements", assessment.profile_items_to_improve, "No profile improvements were returned.");
+
+        setText("assessmentLimitations", assessment.limitations
+          ? `Assessment limitations: ${assessment.limitations}`
+          : "");
+
+        setText("assessmentDisclaimer", payload.disclaimer ||
+          "This assessment provides indicative preparation guidance, not a validated probability of getting hired or placed.");
+
+        byId("assessmentResults").hidden = false;
+      }
+
+      async function loadSavedAssessment() {
+        const status = byId("assessmentStatus");
+        status.textContent = "Loading your saved assessment…";
+
+        try {
+          const response = await fetch(`${API_BASE}/assessment/`, {
+            headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" }
+          });
+
+          if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem("hireforgeToken");
+            window.location.href = "login.html";
+            return;
+          }
+
+          if (!response.ok) throw new Error("Could not load your saved assessment.");
+
+          const payload = await response.json();
+          if (!payload.assessment || typeof payload.assessment !== "object") {
+            byId("assessmentResults").hidden = true;
+            status.textContent = "No saved assessment is available yet.";
+            return;
+          }
+
+          displayAssessment(payload);
+          status.textContent = payload.created_at
+            ? `Saved assessment loaded · ${new Date(payload.created_at).toLocaleString()}`
+            : "Your saved assessment has been loaded.";
+        } catch (error) {
+          status.textContent = error.message || "Could not load your saved assessment.";
+        }
+      }
+
+      byId("generateAssessmentButton").addEventListener("click", async () => {
+        const button = byId("generateAssessmentButton");
+        const status = byId("assessmentStatus");
+
+        button.disabled = true;
+        button.textContent = "Generating assessment…";
+        status.textContent = "Your profile is being analyzed. This may take a little while.";
+
+        try {
+          const response = await fetch(`${API_BASE}/assessment/`, {
+            method: "POST",
+            headers: {
+              Authorization: `Token ${token}`,
+              "Content-Type": "application/json"
+            },
+            body: "{}"
+          });
+
+          let payload = {};
+          try { payload = await response.json(); } catch {}
+
+          if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem("hireforgeToken");
+            window.location.href = "login.html";
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error(payload.detail || `Assessment failed (HTTP ${response.status}).`);
+          }
+
+          displayAssessment(payload);
+          status.textContent = "Assessment generated successfully.";
+        } catch (error) {
+          status.textContent = error.message || "Could not generate the assessment. Please try again.";
+        } finally {
+          button.disabled = false;
+          button.textContent = "Predict & analyze skill gaps";
+        }
+      });
+
+      if (!token) {
+        showNotice("Please log in to view your saved HireForge profile.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/profile/`, {
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+          localStorage.removeItem("hireforgeToken");
+          showNotice("Your login session is no longer valid. Please log in again.");
+          window.location.href = "login.html";
+          return;
+        }
+
+        if (!response.ok) throw new Error(`Could not load your profile (HTTP ${response.status}).`);
+
+        const data = await response.json();
+        const profile = {
+          fullName: data.full_name || "",
+          degree: data.degree || "",
+          college: data.college_name || "",
+          cgpa: data.cgpa,
+          graduationYear: data.graduation_year,
+          targetRole: data.target_role || "",
+          dsaRating: data.dsa_rating,
+          aptitudeRating: data.aptitude_rating,
+          communicationRating: data.communication_rating,
+          technicalSkills: Array.isArray(data.technical_skills) ? data.technical_skills : [],
+          projects: Array.isArray(data.projects) ? data.projects : [],
+          internships: Array.isArray(data.internships) ? data.internships : [],
+          certifications: Array.isArray(data.certifications) ? data.certifications : []
+        };
+
+        setText("welcomeTitle", profile.fullName ? `Welcome back, ${profile.fullName}` : "Welcome to HireForge");
+        setText("accountName", profile.fullName || "Student");
+        setText("userAvatar", (profile.fullName || "S").trim().charAt(0).toUpperCase());
+        setText("cgpaValue",
+          profile.cgpa !== null && profile.cgpa !== undefined && profile.cgpa !== ""
+            ? Number(profile.cgpa).toFixed(2)
+            : "—");
+        setText("degreeValue", profile.degree || "Degree not available");
+        setText("collegeValue", profile.college || "College not provided");
+        setText("graduationValue", profile.graduationYear || "Not provided");
+        setText("careerValue", profile.targetRole || "Not selected");
+        setText("assessmentRole", profile.targetRole
+          ? `Assessment target: ${profile.targetRole}`
+          : "Set your target role in your profile before generating an assessment.");
+
+        const readinessList = byId("readinessList");
+        readinessList.replaceChildren();
+
+        [
+          ["Data structures and algorithms", profile.dsaRating],
+          ["Aptitude", profile.aptitudeRating],
+          ["Communication", profile.communicationRating]
+        ].forEach(([label, value]) => {
+          const item = document.createElement("div");
+          item.className = "dash-item";
+          const heading = document.createElement("h3");
+          heading.textContent = label;
+          const score = document.createElement("p");
+          score.textContent = value !== null && value !== undefined ? `${value}/10` : "Not rated";
+          item.append(heading, score);
+          readinessList.appendChild(item);
+        });
+
+        const skillsList = byId("skillsList");
+        skillsList.replaceChildren();
+        byId("skillsEmpty").hidden = profile.technicalSkills.length > 0;
+
+        profile.technicalSkills.forEach(skill => {
+          const tag = document.createElement("span");
+          tag.className = "dash-tag";
+          tag.textContent = typeof skill === "string"
+            ? skill
+            : `${skill.name || "Skill"}${skill.rating ? ` · ${skill.rating}/10` : ""}`;
+          skillsList.appendChild(tag);
+        });
+
+        function renderItems(containerId, items, type) {
+          const container = byId(containerId);
+          container.replaceChildren();
+
+          if (!items.length) {
+            const empty = document.createElement("p");
+            empty.className = "dash-empty";
+            empty.textContent = `No ${type} added yet.`;
+            container.appendChild(empty);
+            return;
+          }
+
+          items.forEach(entry => {
+            const item = document.createElement("article");
+            item.className = "dash-item";
+
+            const heading = document.createElement("h3");
+            heading.textContent = entry.title || entry.organization || entry.name || "Untitled entry";
+            item.appendChild(heading);
+
+            Object.entries(entry).forEach(([field, value]) => {
+              if (!value || field === "title" || field === "link") return;
+              const paragraph = document.createElement("p");
+              const label = field.replace(/([A-Z])/g, " $1").replace(/^./, c => c.toUpperCase());
+              paragraph.textContent = `${label}: ${value}`;
+              item.appendChild(paragraph);
+            });
+
+            if (entry.link) {
+              try {
+                const url = new URL(entry.link);
+                if (["https:", "http:"].includes(url.protocol)) {
+                  const link = document.createElement("a");
+                  link.href = url.href;
+                  link.target = "_blank";
+                  link.rel = "noopener noreferrer";
+                  link.textContent = "Open link ↗";
+                  item.appendChild(link);
+                }
+              } catch {}
+            }
+
+            container.appendChild(item);
+          });
+        }
+
+        renderItems("projectsList", profile.projects, "projects");
+        renderItems("internshipsList", profile.internships, "internships");
+        renderItems("certificationsList", profile.certifications, "certifications");
+
+        const checks = [
+          Boolean(profile.degree && profile.college),
+          profile.cgpa !== null && profile.cgpa !== undefined && profile.cgpa !== "",
+          Boolean(profile.graduationYear),
+          profile.technicalSkills.length > 0,
+          profile.dsaRating !== null && profile.dsaRating !== undefined,
+          profile.aptitudeRating !== null && profile.aptitudeRating !== undefined,
+          profile.communicationRating !== null && profile.communicationRating !== undefined,
+          Boolean(profile.targetRole),
+          profile.projects.length > 0,
+          profile.internships.length > 0,
+          profile.certifications.length > 0
+        ];
+
+        const completion = Math.round(checks.filter(Boolean).length / checks.length * 100);
+        setText("completionValue", `${completion}%`);
+        byId("completionFill").style.width = `${completion}%`;
+        byId("completionBar").setAttribute("aria-valuenow", String(completion));
+
+        setText("completionDescription", completion === 100
+          ? "All profile sections have been completed."
+          : "Complete the missing sections to increase your profile completion.");
+
+        showNotice("Your profile has been loaded from your HireForge account.");
+        await loadSavedAssessment();
+
+        try {
+          sessionStorage.setItem("hireforgeProfileDraft", JSON.stringify({
+            fullName: profile.fullName,
+            degree: profile.degree,
+            college: profile.college,
+            cgpa: profile.cgpa,
+            graduationYear: profile.graduationYear,
+            targetRole: profile.targetRole,
+            dsaLevel: profile.dsaRating,
+            aptitudeLevel: profile.aptitudeRating,
+            communicationLevel: profile.communicationRating,
+            technicalSkills: profile.technicalSkills,
+            projects: profile.projects,
+            internships: profile.internships,
+            certifications: profile.certifications
+          }));
+        } catch {}
+      } catch (error) {
+        showNotice(`${error.message} Your saved database profile has not been deleted.`);
+      }
+    })();
+  </script>
+</body>
+</html>

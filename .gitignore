@@ -1,0 +1,23 @@
+# secrets / local config
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# local databases and generated files
+db.sqlite3
+backend/staticfiles/*
+!backend/staticfiles/.gitkeep
+
+# tooling
+.vercel/
+.vscode/
+.idea/
+node_modules/
+.DS_Store

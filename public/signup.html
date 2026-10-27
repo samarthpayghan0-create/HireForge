@@ -1,0 +1,574 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create your HireForge account and begin preparing for your career.">
+  <title>Create Account | HireForge</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    :root {
+      --auth-bg: #f7f7f3;
+      --auth-text: #26332c;
+      --auth-muted: #747d74;
+      --auth-border: #e2e6de;
+      --auth-green: #285847;
+      --auth-dark: #1d4436;
+      --auth-soft: #e7eee7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--auth-bg);
+      color: var(--auth-text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid #88ad97;
+      outline-offset: 3px;
+    }
+
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-header {
+      min-height: 76px;
+      padding: 0 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--auth-border);
+    }
+
+    .auth-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--auth-dark);
+      font: 700 24px Georgia, "Times New Roman", serif;
+      letter-spacing: -.6px;
+    }
+
+    .auth-brand-mark {
+      display: grid;
+      width: 35px;
+      height: 35px;
+      place-items: center;
+      border-radius: 5px;
+      background: var(--auth-dark);
+      color: #fff;
+      font-size: 22px;
+    }
+
+    .auth-header p {
+      margin: 0;
+      color: var(--auth-muted);
+      font-size: 12px;
+    }
+
+    .auth-header p a,
+    .auth-footer a {
+      margin-left: 5px;
+      color: var(--auth-green);
+      font-weight: 700;
+    }
+
+    .auth-header p a:hover,
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .auth-main {
+      width: min(100% - 40px, 1050px);
+      margin: auto;
+      padding: 52px 0;
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+      align-items: center;
+      gap: clamp(45px, 9vw, 125px);
+    }
+
+    .auth-intro-panel {
+      max-width: 490px;
+    }
+
+    .auth-eyebrow {
+      margin: 0 0 17px;
+      color: var(--auth-green);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .auth-intro-panel h1 {
+      margin: 0;
+      font: 500 clamp(37px, 4.7vw, 58px)/1.12 Georgia, "Times New Roman", serif;
+      letter-spacing: -1.8px;
+    }
+
+    .auth-intro-panel h1 span {
+      color: var(--auth-green);
+    }
+
+    .auth-intro {
+      max-width: 400px;
+      margin: 20px 0 0;
+      color: var(--auth-muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .auth-points {
+      display: grid;
+      max-width: 400px;
+      margin-top: 35px;
+      border-top: 1px solid var(--auth-border);
+    }
+
+    .auth-point {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--auth-border);
+      color: #4d5b50;
+      font-size: 12px;
+    }
+
+    .auth-point-number {
+      color: #7c927e;
+      font: 500 16px Georgia, "Times New Roman", serif;
+    }
+
+    .auth-form-panel {
+      min-width: 0;
+    }
+
+    .auth-form-heading {
+      margin-bottom: 25px;
+    }
+
+    .auth-form-heading h2 {
+      margin: 0 0 7px;
+      font: 500 29px/1.3 Georgia, "Times New Roman", serif;
+      letter-spacing: -.5px;
+    }
+
+    .auth-form-heading p {
+      margin: 0;
+      color: var(--auth-muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .auth-form {
+      display: grid;
+      gap: 17px;
+    }
+
+    .auth-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .auth-field label {
+      color: var(--auth-text);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .auth-field input {
+      width: 100%;
+      min-height: 44px;
+      padding: 11px 13px;
+      border: 1px solid #d9dfd6;
+      border-radius: 4px;
+      outline: none;
+      background: #fff;
+      color: var(--auth-text);
+      font: inherit;
+      font-size: 13px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .auth-field input:focus {
+      border-color: var(--auth-green);
+      box-shadow: 0 0 0 3px rgba(40, 88, 71, .08);
+    }
+
+    .auth-field input::placeholder {
+      color: #a0a69f;
+    }
+
+    .auth-password-wrap {
+      position: relative;
+    }
+
+    .auth-password-wrap input {
+      padding-right: 65px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      top: 50%;
+      right: 11px;
+      transform: translateY(-50%);
+      padding: 5px;
+      border: 0;
+      background: transparent;
+      color: var(--auth-green);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .auth-password-hint {
+      margin: 0;
+      color: var(--auth-muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .auth-terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      color: var(--auth-muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .auth-terms input {
+      flex: 0 0 auto;
+      margin: 3px 0 0;
+      accent-color: var(--auth-green);
+    }
+
+    .auth-terms a {
+      color: var(--auth-green);
+      text-decoration: underline;
+    }
+
+    .auth-submit {
+      width: 100%;
+      min-height: 46px;
+      padding: 12px 18px;
+      border: 1px solid var(--auth-green);
+      border-radius: 4px;
+      background: var(--auth-green);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .auth-submit:hover {
+      background: var(--auth-dark);
+    }
+
+    .auth-submit:disabled {
+      cursor: wait;
+      opacity: .7;
+    }
+
+    .auth-message {
+      display: none;
+      margin: 0;
+      padding: 11px 12px;
+      border-left: 3px solid var(--auth-green);
+      background: var(--auth-soft);
+      color: var(--auth-dark);
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .auth-message.is-visible {
+      display: block;
+    }
+
+    .auth-message.is-error {
+      border-left-color: #a33d32;
+      background: #f8eae7;
+      color: #8a3327;
+    }
+
+    .auth-message.is-info {
+      background: var(--auth-soft);
+      color: var(--auth-dark);
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin: 23px 0;
+      color: var(--auth-muted);
+      font-size: 11px;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--auth-border);
+    }
+
+    .auth-login-prompt {
+      margin: 0;
+      color: var(--auth-muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .auth-login-prompt a {
+      margin-left: 3px;
+      color: var(--auth-green);
+      font-weight: 700;
+    }
+
+    .auth-login-prompt a:hover {
+      text-decoration: underline;
+    }
+
+    .auth-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 20px 6%;
+      border-top: 1px solid var(--auth-border);
+      color: var(--auth-muted);
+      font-size: 11px;
+    }
+
+    @media (max-width: 760px) {
+      .auth-header {
+        min-height: 68px;
+        padding: 0 20px;
+      }
+
+      .auth-main {
+        width: min(100% - 40px, 430px);
+        grid-template-columns: minmax(0, 1fr);
+        gap: 36px;
+        padding: 42px 0;
+      }
+
+      .auth-intro-panel {
+        max-width: 100%;
+      }
+
+      .auth-intro-panel h1 {
+        font-size: clamp(37px, 9vw, 48px);
+      }
+
+      .auth-points {
+        margin-top: 22px;
+      }
+
+      .auth-form-heading {
+        margin-bottom: 22px;
+      }
+
+      .auth-footer {
+        padding: 18px 20px;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .auth-brand {
+        font-size: 21px;
+      }
+
+      .auth-header p {
+        font-size: 11px;
+      }
+
+      .auth-main {
+        width: calc(100% - 32px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="auth-page">
+    <header class="auth-header">
+      <a class="auth-brand" href="index.html">
+        <span class="auth-brand-mark" aria-hidden="true">H</span>
+        <span>HireForge</span>
+      </a>
+      <p>Already a member? <a href="login.html">Log in</a></p>
+    </header>
+
+    <main class="auth-main">
+      <section class="auth-intro-panel" aria-label="About HireForge">
+        <p class="auth-eyebrow">Start your journey</p>
+        <h1>Build your next chapter <span>with purpose.</span></h1>
+        <p class="auth-intro">
+          Create your student profile, understand your strengths, and focus
+          on the skills that matter for your target role.
+        </p>
+
+        <div class="auth-points">
+          <div class="auth-point">
+            <span class="auth-point-number">01</span>
+            <span>Start with your academic and skill profile</span>
+          </div>
+          <div class="auth-point">
+            <span class="auth-point-number">02</span>
+            <span>Identify strengths and areas to improve</span>
+          </div>
+          <div class="auth-point">
+            <span class="auth-point-number">03</span>
+            <span>Prepare for your next career opportunity</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth-form-panel" aria-label="Create your account">
+        <div class="auth-form-heading">
+          <h2>Create your account</h2>
+          <p>Use your details to get started with HireForge.</p>
+        </div>
+
+        <form class="auth-form" id="signupForm">
+          <div class="auth-field">
+            <label for="fullName">Full name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              minlength="2"
+              maxlength="100"
+              required
+            >
+          </div>
+
+          <div class="auth-field">
+            <label for="email">Email address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              maxlength="254"
+              required
+            >
+          </div>
+
+          <div class="auth-field">
+            <label for="password">Create password</label>
+            <div class="auth-password-wrap">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Create a strong password"
+                autocomplete="new-password"
+                minlength="8"
+                maxlength="128"
+                aria-describedby="passwordHint"
+                required
+              >
+              <button
+                class="password-toggle"
+                type="button"
+                data-toggle-password="password"
+                aria-label="Show password"
+              >Show</button>
+            </div>
+            <p class="auth-password-hint" id="passwordHint">
+              Use at least 8 characters. Your password will be validated by the server.
+            </p>
+          </div>
+
+          <div class="auth-field">
+            <label for="confirmPassword">Confirm password</label>
+            <div class="auth-password-wrap">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Enter your password again"
+                autocomplete="new-password"
+                minlength="8"
+                maxlength="128"
+                required
+              >
+              <button
+                class="password-toggle"
+                type="button"
+                data-toggle-password="confirmPassword"
+                aria-label="Show password"
+              >Show</button>
+            </div>
+          </div>
+
+          <label class="auth-terms" for="agreeTerms">
+            <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+            <span>
+              I agree to use HireForge responsibly and understand that my account
+              and student information will be handled according to the project's
+              privacy policy.
+            </span>
+          </label>
+
+          <p class="auth-message" id="signupMessage" role="status" aria-live="polite"></p>
+
+          <button class="auth-submit" type="submit">Create account</button>
+        </form>
+
+        <div class="auth-divider">or</div>
+
+        <p class="auth-login-prompt">
+          Already have an account? <a href="login.html">Log in</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="auth-footer">
+      <span>© <span data-current-year>2026</span> HireForge</span>
+      <span>Built to help students move forward.</span>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,803 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Add your projects, internships, certifications and career goal to HireForge.">
+  <title>Projects and Experience | HireForge</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    :root {
+      --details-bg: #f7f7f3;
+      --details-text: #26332c;
+      --details-muted: #747d74;
+      --details-border: #e2e6de;
+      --details-green: #285847;
+      --details-dark: #1d4436;
+      --details-soft: #e7eee7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--details-bg);
+      color: var(--details-text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: 3px solid #88ad97;
+      outline-offset: 3px;
+    }
+
+    .details-page {
+      width: min(100% - 48px, 1000px);
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .details-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .details-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--details-dark);
+      font: 700 23px Georgia, "Times New Roman", serif;
+      letter-spacing: -.6px;
+    }
+
+    .details-brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 4px;
+      background: var(--details-dark);
+      color: #fff;
+      font-size: 21px;
+    }
+
+    .details-step {
+      color: var(--details-green);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+
+    .details-progress {
+      height: 4px;
+      margin-top: 23px;
+      overflow: hidden;
+      background: #e3e8e0;
+    }
+
+    .details-progress span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: var(--details-green);
+    }
+
+    .details-heading {
+      max-width: 680px;
+      margin: 48px 0 34px;
+    }
+
+    .details-heading h1 {
+      margin: 0;
+      font: 500 clamp(35px, 5vw, 49px)/1.15 Georgia, "Times New Roman", serif;
+      letter-spacing: -1.4px;
+    }
+
+    .details-heading h1 span {
+      color: var(--details-green);
+    }
+
+    .details-heading > p:last-child {
+      margin: 15px 0 0;
+      color: var(--details-muted);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .details-form {
+      display: grid;
+      gap: 24px;
+    }
+
+    .details-card {
+      padding: 27px 0;
+      border-top: 1px solid var(--details-border);
+    }
+
+    .details-card:last-child {
+      border-bottom: 1px solid var(--details-border);
+    }
+
+    .details-card-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .details-card-heading h2 {
+      margin: 0;
+      font: 500 24px/1.35 Georgia, "Times New Roman", serif;
+      letter-spacing: -.4px;
+    }
+
+    .details-card-heading p {
+      margin: 7px 0 0;
+      color: var(--details-muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px 24px;
+    }
+
+    .details-field {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .details-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .details-field label {
+      color: var(--details-text);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .details-field input,
+    .details-field textarea,
+    .details-field select {
+      width: 100%;
+      min-height: 44px;
+      padding: 11px 13px;
+      border: 1px solid #d9dfd6;
+      border-radius: 4px;
+      background: #fff;
+      color: var(--details-text);
+      font: inherit;
+      font-size: 13px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .details-field textarea {
+      min-height: 100px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    .details-field input:focus,
+    .details-field textarea:focus,
+    .details-field select:focus {
+      border-color: var(--details-green);
+      box-shadow: 0 0 0 3px rgba(40, 88, 71, .08);
+    }
+
+    .details-field input::placeholder,
+    .details-field textarea::placeholder {
+      color: #a0a69f;
+    }
+
+    .details-entry {
+      padding: 21px 0;
+      border-top: 1px solid var(--details-border);
+    }
+
+    .details-entry-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .details-entry-head h3 {
+      margin: 0;
+      font: 500 18px Georgia, "Times New Roman", serif;
+      overflow-wrap: anywhere;
+    }
+
+    .details-button {
+      min-height: 43px;
+      padding: 11px 17px;
+      border: 1px solid var(--details-green);
+      border-radius: 4px;
+      background: var(--details-green);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+
+    .details-button:hover {
+      border-color: var(--details-dark);
+      background: var(--details-dark);
+    }
+
+    .details-button.secondary {
+      border-color: #cbd8cc;
+      background: transparent;
+      color: var(--details-green);
+    }
+
+    .details-button.secondary:hover {
+      background: var(--details-soft);
+    }
+
+    .details-button.remove {
+      min-height: 35px;
+      padding: 7px 11px;
+      border-color: #ead6d1;
+      background: transparent;
+      color: #873f34;
+    }
+
+    .details-button.remove:hover {
+      background: #f8eae7;
+    }
+
+    .details-message {
+      display: none;
+      margin: 20px 0 0;
+      padding: 12px 14px;
+      border-left: 3px solid #a33d32;
+      background: #f8eae7;
+      color: #873f34;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .details-message:not(:empty) {
+      display: block;
+    }
+
+    .details-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .details-actions .details-button {
+      min-width: 165px;
+    }
+
+    @media (max-width: 650px) {
+      .details-page {
+        width: calc(100% - 36px);
+        padding: 21px 0 38px;
+      }
+
+      .details-heading {
+        margin: 37px 0 25px;
+      }
+
+      .details-heading h1 {
+        font-size: 37px;
+      }
+
+      .details-card {
+        padding: 23px 0;
+      }
+
+      .details-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .details-field.full {
+        grid-column: auto;
+      }
+
+      .details-card-heading {
+        align-items: flex-start;
+      }
+
+      .details-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .details-actions .details-button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .details-page {
+        width: calc(100% - 28px);
+      }
+
+      .details-brand {
+        font-size: 20px;
+      }
+
+      .details-heading h1 {
+        font-size: 33px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="details-page">
+    <div class="details-top">
+      <a class="details-brand" href="index.html" aria-label="HireForge home">
+        <span class="details-brand-mark" aria-hidden="true">H</span>
+        <span>HireForge</span>
+      </a>
+      <span class="details-step">Profile setup · Step 2 of 2</span>
+    </div>
+
+    <div
+      class="details-progress"
+      role="progressbar"
+      aria-label="Profile setup progress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="100"
+    >
+      <span></span>
+    </div>
+
+    <header class="details-heading">
+      <p class="details-step">Your experience and goals</p>
+      <h1>Show us what you've <span>worked on.</span></h1>
+      <p>
+        Share the work you've done and the role you're working toward.
+        If you're just starting out, you can leave experience sections empty.
+      </p>
+    </header>
+
+    <form id="detailsForm" class="details-form">
+      <section class="details-card">
+        <div class="details-card-heading">
+          <div>
+            <h2>Projects</h2>
+            <p>Academic, personal, or team projects all count.</p>
+          </div>
+          <button class="details-button secondary" type="button" id="addProject">
+            + Add project
+          </button>
+        </div>
+        <div id="projectsList"></div>
+      </section>
+
+      <section class="details-card">
+        <div class="details-card-heading">
+          <div>
+            <h2>Internships</h2>
+            <p>Describe your experience, responsibilities, and contributions.</p>
+          </div>
+          <button class="details-button secondary" type="button" id="addInternship">
+            + Add internship
+          </button>
+        </div>
+        <div id="internshipsList"></div>
+      </section>
+
+      <section class="details-card">
+        <div class="details-card-heading">
+          <div>
+            <h2>Certifications</h2>
+            <p>Include relevant courses and professional certifications.</p>
+          </div>
+          <button class="details-button secondary" type="button" id="addCertification">
+            + Add certification
+          </button>
+        </div>
+        <div id="certificationsList"></div>
+      </section>
+
+      <section class="details-card">
+        <div class="details-card-heading">
+          <div>
+            <h2>Career goal</h2>
+            <p>Choose the role you're currently preparing for.</p>
+          </div>
+        </div>
+
+        <div class="details-grid">
+          <div class="details-field full">
+            <label for="targetRole">Target role *</label>
+            <select id="targetRole" name="targetRole" required>
+              <option value="">Select your target role</option>
+              <option>Python Developer</option>
+              <option>Full Stack Developer</option>
+              <option>Frontend Developer</option>
+              <option>Backend Developer</option>
+              <option>Java Developer</option>
+              <option>Data Analyst</option>
+              <option>Data Scientist</option>
+              <option>Software Engineer</option>
+              <option>Machine Learning Engineer</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <p id="detailsMessage" class="details-message" role="alert" aria-live="polite"></p>
+
+        <div class="details-actions">
+          <button class="details-button secondary" type="button" id="backButton">
+            ← Back to Page 1
+          </button>
+          <button class="details-button" type="submit">Save profile</button>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <script>
+    (() => {
+      const draftKey = "hireforgeProfileDraft";
+      const form = document.getElementById("detailsForm");
+      const message = document.getElementById("detailsMessage");
+      const projectsList = document.getElementById("projectsList");
+      const internshipsList = document.getElementById("internshipsList");
+      const certificationsList = document.getElementById("certificationsList");
+
+      function getDraft() {
+        try {
+          return JSON.parse(sessionStorage.getItem(draftKey) || "{}");
+        } catch {
+          return {};
+        }
+      }
+
+      function makeField(labelText, name, placeholder, type = "text", required = false, full = false) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "details-field" + (full ? " full" : "");
+
+        const label = document.createElement("label");
+        label.textContent = labelText;
+
+        const input = type === "textarea"
+          ? document.createElement("textarea")
+          : document.createElement("input");
+
+        input.name = name;
+        input.placeholder = placeholder || "";
+        input.required = required;
+
+        if (type !== "textarea") {
+          input.type = type;
+        }
+
+        if (type === "url") {
+          input.maxLength = 500;
+        }
+
+        if (type === "text") {
+          input.maxLength = 200;
+        }
+
+        const inputId = name + "-" + Math.random().toString(36).slice(2, 9);
+        input.id = inputId;
+        label.htmlFor = inputId;
+
+        wrapper.append(label, input);
+        return wrapper;
+      }
+
+      function addEntry(container, type, values = {}) {
+        const labels = {
+          project: {
+            title: "Project title *",
+            technologies: "Technologies used *",
+            description: "Description and your contribution *",
+            link: "Project link (optional)"
+          },
+          internship: {
+            organization: "Organization *",
+            role: "Role *",
+            duration: "Duration",
+            responsibilities: "Responsibilities and achievements *"
+          },
+          certification: {
+            name: "Certification name *",
+            issuer: "Issuing organization *",
+            completionMonth: "Completion month",
+            link: "Credential link (optional)"
+          }
+        };
+
+        const requiredFields = {
+          project: ["title", "technologies", "description"],
+          internship: ["organization", "role", "responsibilities"],
+          certification: ["name", "issuer"]
+        };
+
+        const fieldTypes = {
+          link: "url",
+          completionMonth: "month",
+          description: "textarea",
+          responsibilities: "textarea"
+        };
+
+        const placeholders = {
+          title: "e.g. Job Application Tracker",
+          technologies: "e.g. Python, Django, MySQL",
+          description: "What did you build? What was your contribution?",
+          link: "https://",
+          organization: "Organization name",
+          role: "Your role",
+          duration: "e.g. 2 months",
+          responsibilities: "Describe your work and achievements",
+          name: "Certification title",
+          issuer: "Organization or platform",
+          completionMonth: ""
+        };
+
+        const entry = document.createElement("div");
+        entry.className = "details-entry";
+
+        const head = document.createElement("div");
+        head.className = "details-entry-head";
+
+        const heading = document.createElement("h3");
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "details-button remove";
+        remove.textContent = "Remove";
+        remove.setAttribute("aria-label", "Remove entry");
+
+        remove.addEventListener("click", () => entry.remove());
+        head.append(heading, remove);
+
+        const grid = document.createElement("div");
+        grid.className = "details-grid";
+
+        Object.keys(labels[type]).forEach(field => {
+          const wrapper = makeField(
+            labels[type][field],
+            type + "-" + field,
+            placeholders[field],
+            fieldTypes[field] || "text",
+            requiredFields[type].includes(field),
+            ["description", "responsibilities"].includes(field)
+          );
+
+          const input = wrapper.querySelector("input, textarea");
+
+          if (values[field] !== undefined && values[field] !== null) {
+            input.value = values[field];
+          }
+
+          grid.appendChild(wrapper);
+        });
+
+        entry.append(head, grid);
+        container.appendChild(entry);
+
+        const updateHeading = () => {
+          const firstInput = entry.querySelector("input, textarea");
+          const entryType = type === "project"
+            ? "Project"
+            : type === "internship"
+              ? "Internship"
+              : "Certification";
+
+          heading.textContent = entryType +
+            (firstInput && firstInput.value.trim()
+              ? ": " + firstInput.value.trim()
+              : "");
+        };
+
+        entry.querySelector("input, textarea").addEventListener("input", updateHeading);
+        updateHeading();
+      }
+
+      document.getElementById("addProject").addEventListener("click", () => {
+        addEntry(projectsList, "project");
+      });
+
+      document.getElementById("addInternship").addEventListener("click", () => {
+        addEntry(internshipsList, "internship");
+      });
+
+      document.getElementById("addCertification").addEventListener("click", () => {
+        addEntry(certificationsList, "certification");
+      });
+
+      document.getElementById("backButton").addEventListener("click", () => {
+        saveDraft();
+        window.location.href = "profile.html";
+      });
+
+      function readEntries(container, type) {
+        return [...container.querySelectorAll(".details-entry")].map(entry => {
+          const data = {};
+
+          entry.querySelectorAll("input, textarea").forEach(input => {
+            data[input.name.replace(type + "-", "")] = input.value.trim();
+          });
+
+          return data;
+        });
+      }
+
+      function saveDraft() {
+        const draft = getDraft();
+        draft.projects = readEntries(projectsList, "project");
+        draft.internships = readEntries(internshipsList, "internship");
+        draft.certifications = readEntries(certificationsList, "certification");
+        draft.targetRole = document.getElementById("targetRole").value;
+        sessionStorage.setItem(draftKey, JSON.stringify(draft));
+      }
+
+      const draft = getDraft();
+
+      if (Array.isArray(draft.projects)) {
+        draft.projects.forEach(item => addEntry(projectsList, "project", item));
+      }
+
+      if (Array.isArray(draft.internships)) {
+        draft.internships.forEach(item => addEntry(internshipsList, "internship", item));
+      }
+
+      if (Array.isArray(draft.certifications)) {
+        draft.certifications.forEach(item => addEntry(certificationsList, "certification", item));
+      }
+
+      if (draft.targetRole) {
+        document.getElementById("targetRole").value = draft.targetRole;
+      }
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        message.textContent = "";
+        message.style.color = "";
+
+        if (!form.reportValidity()) {
+          return;
+        }
+
+        for (const container of [projectsList, internshipsList, certificationsList]) {
+          const invalidUrl = [
+            ...container.querySelectorAll('input[type="url"]')
+          ].find(input => input.value.trim() && !input.validity.valid);
+
+          if (invalidUrl) {
+            message.textContent = "Please enter a valid URL or leave the optional link empty.";
+            invalidUrl.reportValidity();
+            return;
+          }
+        }
+
+        const token = localStorage.getItem("hireforgeToken");
+
+        try {
+          saveDraft();
+        } catch {
+          message.textContent = "Your profile draft could not be saved in this browser. Check your browser storage settings.";
+          return;
+        }
+
+        if (!token) {
+          message.textContent = "Your draft is saved temporarily. Please log in before saving it to your account.";
+          return;
+        }
+
+        const saved = getDraft();
+
+        const payload = {
+          college_name: saved.college || "",
+          degree: saved.degree || "",
+          graduation_year: saved.graduationYear ? Number(saved.graduationYear) : null,
+          cgpa: saved.cgpa !== undefined && saved.cgpa !== "" ? Number(saved.cgpa) : null,
+          dsa_rating: Number(saved.dsaRating ?? saved.dsaLevel ?? 5),
+          aptitude_rating: Number(saved.aptitudeRating ?? 5),
+          communication_rating: Number(saved.communicationRating ?? 5),
+          technical_skills: Array.isArray(saved.technicalSkills) ? saved.technicalSkills : [],
+          projects: saved.projects || [],
+          internships: saved.internships || [],
+          certifications: saved.certifications || [],
+          target_role: saved.targetRole || ""
+        };
+
+        if (saved.fullName) {
+          payload.full_name = saved.fullName;
+        }
+
+        const button = form.querySelector('button[type="submit"]');
+        const originalText = button.textContent;
+
+        button.disabled = true;
+        button.textContent = "Saving profile...";
+
+        try {
+          const apiRoot = window.HIREFORGE_API_ROOT ||
+            (location.port === "5500" || location.protocol === "file:"
+              ? "http://127.0.0.1:8000/api"
+              : "/api");
+
+          const response = await fetch(apiRoot + "/profile/", {
+            method: "PATCH",
+            headers: {
+              "Authorization": `Token ${token}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            const details = Object.values(result).flat().join(" ");
+            throw new Error(details || `Save failed (${response.status}).`);
+          }
+
+          sessionStorage.setItem(
+            draftKey,
+            JSON.stringify({
+              ...saved,
+              backendProfileSaved: true,
+              backendProfile: result
+            })
+          );
+
+          message.style.color = "var(--details-green)";
+          message.textContent = "Your profile has been saved. Opening dashboard...";
+          window.location.href = "dashboard.html";
+        } catch (error) {
+          message.textContent = `${error.message} Your temporary draft is still available.`;
+        } finally {
+          button.disabled = false;
+          button.textContent = originalText;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

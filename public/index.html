@@ -1,0 +1,1504 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f7f3">
+  <meta name="description" content="HireForge helps students understand career readiness, identify skill gaps, and prepare for placement opportunities.">
+  <title>HireForge — Build Your Career With Confidence</title>
+
+  <style>
+    :root {
+      --page: #f7f7f3;
+      --surface: #ffffff;
+      --surface-soft: #eff1e9;
+      --green: #285847;
+      --green-dark: #1d4436;
+      --green-light: #dce9dc;
+      --text: #242b26;
+      --muted: #737b73;
+      --border: #e4e7df;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --radius: 18px;
+      --content: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 95px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body,
+    button,
+    a {
+      font-family: var(--sans);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid #92b5a0;
+      outline-offset: 4px;
+    }
+
+    .container {
+      width: min(var(--content), calc(100% - 64px));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgb(247 247 243 / 94%);
+      border-bottom: 1px solid rgb(228 231 223 / 85%);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      background: var(--green);
+      color: white;
+      border-radius: 11px;
+      font-family: var(--serif);
+      font-size: 25px;
+      line-height: 1;
+    }
+
+    .brand-name {
+      display: flex;
+      flex-direction: column;
+      color: var(--green-dark);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.65px;
+      line-height: 1.2;
+    }
+
+    .brand-name small {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.55px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 31px;
+    }
+
+    .nav-link {
+      position: relative;
+      padding: 9px 0;
+      color: #646d65;
+      font-size: 13px;
+      transition: color 180ms ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--green);
+    }
+
+    .nav-link.active::after {
+      position: absolute;
+      right: 0;
+      bottom: 2px;
+      left: 0;
+      height: 2px;
+      background: var(--green);
+      content: "";
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button {
+      min-height: 43px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 19px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      background: var(--green);
+      color: white;
+    }
+
+    .button-primary:hover {
+      background: var(--green-dark);
+    }
+
+    .button-quiet {
+      color: var(--green-dark);
+      background: transparent;
+    }
+
+    .button-quiet:hover {
+      background: var(--green-light);
+    }
+
+    .button-outline {
+      color: var(--green-dark);
+      border-color: #cfd7cd;
+      background: transparent;
+    }
+
+    .button-outline:hover {
+      border-color: var(--green);
+      background: white;
+    }
+
+    .button-light {
+      background: #fff;
+      color: var(--green-dark);
+    }
+
+    .button-light:hover {
+      background: var(--green-light);
+    }
+
+    .button-large {
+      min-height: 51px;
+      padding-inline: 23px;
+      font-size: 13px;
+    }
+
+    .button span {
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    .mobile-menu-button {
+      display: none;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+      color: var(--green-dark);
+      font-size: 21px;
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 635px;
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      align-items: center;
+      gap: 68px;
+      padding-top: 76px;
+      padding-bottom: 82px;
+    }
+
+    .hero-copy {
+      max-width: 550px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 23px;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 1.8px;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      flex: 0 0 7px;
+      border-radius: 50%;
+      background: #6d9a75;
+      box-shadow: 0 0 0 4px #e3ece0;
+    }
+
+    .hero h1 {
+      max-width: 570px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(43px, 5.1vw, 65px);
+      font-weight: 400;
+      letter-spacing: -2.5px;
+      line-height: 1.08;
+    }
+
+    .hero h1 span,
+    .section-intro h2 span {
+      color: var(--green);
+      font-style: italic;
+    }
+
+    .hero-description {
+      max-width: 470px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.95;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 31px;
+    }
+
+    .hero-note {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 27px;
+      color: #6e776e;
+      font-size: 11px;
+    }
+
+    .note-check {
+      width: 21px;
+      height: 21px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 21px;
+      border-radius: 50%;
+      background: #e3ece0;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-width: 0;
+      padding: 24px;
+      overflow: hidden;
+      border: 1px solid #e1e5dc;
+      border-radius: 20px;
+      background:
+        radial-gradient(ellipse at 90% 0%, #e3ebdd 0%, transparent 43%),
+        #f0f1e9;
+      box-shadow: 0 22px 55px rgb(39 64 45 / 7%);
+    }
+
+    .visual-topline,
+    .visual-brand,
+    .preview-welcome,
+    .preview-card-heading,
+    .preview-bottom,
+    .skill-card-heading,
+    .preview-skill-row {
+      display: flex;
+      align-items: center;
+    }
+
+    .visual-topline {
+      justify-content: space-between;
+      padding-bottom: 19px;
+      border-bottom: 1px solid #dce1d6;
+    }
+
+    .visual-brand {
+      gap: 9px;
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .visual-brand-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--green);
+      color: white;
+      font-family: var(--serif);
+      font-size: 17px;
+    }
+
+    .preview-label {
+      padding: 5px 9px;
+      border: 1px solid #d9dfd4;
+      border-radius: 5px;
+      color: #687668;
+      font-size: 8px;
+      font-weight: 750;
+      letter-spacing: 1px;
+    }
+
+    .preview-welcome {
+      justify-content: space-between;
+      gap: 12px;
+      padding: 24px 1px 19px;
+    }
+
+    .preview-overline {
+      color: #758176;
+      font-size: 9px;
+      font-weight: 750;
+      letter-spacing: 1.4px;
+    }
+
+    .preview-welcome h2 {
+      margin: 5px 0 0;
+      color: var(--green-dark);
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.5vw, 29px);
+      font-weight: 400;
+      letter-spacing: -0.7px;
+      line-height: 1.25;
+    }
+
+    .preview-avatar {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 40px;
+      border: 1px solid #d1dccd;
+      border-radius: 50%;
+      background: #dfe9dc;
+      color: var(--green);
+      font-family: var(--serif);
+      font-size: 18px;
+    }
+
+    .preview-card,
+    .preview-skill-card {
+      border: 1px solid #e7e9e2;
+      border-radius: 12px;
+      background: rgb(255 255 255 / 94%);
+    }
+
+    .preview-card {
+      padding: 19px;
+    }
+
+    .preview-card-heading {
+      justify-content: space-between;
+      gap: 12px;
+      color: #4f5b51;
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .preview-status {
+      padding: 5px 8px;
+      border-radius: 5px;
+      background: #e7f0e5;
+      color: var(--green);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .preview-placeholder-score {
+      margin-top: 17px;
+      color: var(--green-dark);
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: -0.7px;
+    }
+
+    .preview-card > p {
+      max-width: 350px;
+      margin: 7px 0 17px;
+      color: #7a8279;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .preview-divider {
+      height: 1px;
+      background: #e8ebe4;
+    }
+
+    .preview-bottom {
+      gap: 11px;
+      padding-top: 15px;
+    }
+
+    .mini-symbol {
+      width: 31px;
+      height: 31px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 31px;
+      border-radius: 9px;
+      background: #e9efe5;
+      color: var(--green);
+      font-size: 17px;
+    }
+
+    .preview-bottom strong,
+    .preview-bottom small {
+      display: block;
+    }
+
+    .preview-bottom strong {
+      color: #3d4d40;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .preview-bottom small {
+      margin-top: 2px;
+      color: #858c83;
+      font-size: 9px;
+    }
+
+    .preview-skill-card {
+      margin-top: 13px;
+      padding: 16px 17px 9px;
+    }
+
+    .skill-card-heading {
+      justify-content: space-between;
+      margin-bottom: 9px;
+      color: #435247;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .skill-card-heading > span:last-child {
+      color: #809181;
+      font-size: 17px;
+    }
+
+    .preview-skill-row {
+      gap: 9px;
+      min-height: 37px;
+      border-top: 1px solid #eef0eb;
+      color: #606a60;
+      font-size: 10px;
+    }
+
+    .skill-dot {
+      width: 7px;
+      height: 7px;
+      flex: 0 0 7px;
+      border-radius: 50%;
+    }
+
+    .dot-one {
+      background: #789d79;
+    }
+
+    .dot-two {
+      background: #c4a16a;
+    }
+
+    .dot-three {
+      background: #8399b1;
+    }
+
+    .skill-tag {
+      margin-left: auto;
+      padding: 3px 7px;
+      border-radius: 4px;
+      background: #f0f2ec;
+      color: #687368;
+      font-size: 8px;
+    }
+
+    .visual-footnote {
+      margin-top: 13px;
+      color: #899187;
+      font-size: 9px;
+      text-align: center;
+    }
+
+    .trust-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: #f1f2eb;
+    }
+
+    .trust-inner {
+      min-height: 87px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .trust-inner > p {
+      margin: 0;
+      color: #59655a;
+      font-family: var(--serif);
+      font-size: 17px;
+    }
+
+    .trust-inner > div {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #687268;
+      font-size: 11px;
+    }
+
+    .trust-inner > div span {
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .section {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+
+    .section-intro {
+      max-width: 640px;
+      margin-bottom: 39px;
+    }
+
+    .section-intro .eyebrow {
+      margin-bottom: 16px;
+    }
+
+    .section-intro h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(33px, 4vw, 45px);
+      font-weight: 400;
+      letter-spacing: -1.5px;
+      line-height: 1.2;
+    }
+
+    .section-description {
+      max-width: 610px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .about-grid,
+    .features-grid,
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .about-card {
+      min-height: 215px;
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+    }
+
+    .about-card:hover,
+    .feature-card:hover,
+    .step-card:hover {
+      transform: translateY(-3px);
+      border-color: #cbd7c8;
+      box-shadow: 0 12px 30px rgb(35 59 42 / 5%);
+    }
+
+    .card-number {
+      color: #78917a;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+    }
+
+    .about-card h3,
+    .feature-card h3,
+    .step-card h3 {
+      margin: 17px 0 9px;
+      color: var(--green-dark);
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 400;
+      letter-spacing: -0.35px;
+      line-height: 1.35;
+    }
+
+    .about-card p,
+    .feature-card p,
+    .step-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .features-section {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: #f0f1e9;
+    }
+
+    .features-section .section {
+      padding-top: 90px;
+      padding-bottom: 95px;
+    }
+
+    .features-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .feature-card {
+      min-height: 235px;
+      padding: 23px 21px;
+      border: 1px solid #e1e5db;
+      border-radius: 14px;
+      background: rgb(255 255 255 / 88%);
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+    }
+
+    .feature-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: #e8eee3;
+      color: var(--green);
+      font-size: 19px;
+    }
+
+    .icon-assessment {
+      background: #e7ece0;
+    }
+
+    .icon-skills {
+      background: #e9e9df;
+    }
+
+    .icon-guidance {
+      background: #e2ebe7;
+    }
+
+    .feature-card h3 {
+      margin-top: 20px;
+      font-size: 19px;
+    }
+
+    .steps-grid {
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: white;
+      overflow: hidden;
+    }
+
+    .step-card {
+      position: relative;
+      min-height: 205px;
+      padding: 27px;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+    }
+
+    .step-card + .step-card {
+      border-left: 1px solid var(--border);
+    }
+
+    .step-number {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d7e2d3;
+      border-radius: 50%;
+      background: #eaf0e6;
+      color: var(--green);
+      font-family: var(--serif);
+      font-size: 17px;
+    }
+
+    .step-card h3 {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    .cta-section {
+      padding-bottom: 95px;
+    }
+
+    .cta-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 35px;
+      padding: 43px 48px;
+      border: 1px solid #315b48;
+      border-radius: 18px;
+      background:
+        radial-gradient(ellipse at 100% 0%, rgb(255 255 255 / 7%), transparent 50%),
+        var(--green-dark);
+      color: white;
+    }
+
+    .cta-inner .eyebrow {
+      margin-bottom: 14px;
+      color: #b9d0b8;
+    }
+
+    .cta-inner h2 {
+      max-width: 600px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(30px, 3.5vw, 41px);
+      font-weight: 400;
+      letter-spacing: -1.2px;
+      line-height: 1.2;
+    }
+
+    .cta-inner > div > p:last-child {
+      margin: 13px 0 0;
+      color: #d0ddd0;
+      font-size: 13px;
+    }
+
+    .cta-inner > .button {
+      flex-shrink: 0;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      background: #f1f2eb;
+    }
+
+    .footer-inner {
+      min-height: 115px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      padding-top: 23px;
+      padding-bottom: 23px;
+    }
+
+    .footer-brand .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      font-size: 22px;
+    }
+
+    .footer-brand .brand-name {
+      font-size: 16px;
+    }
+
+    .footer-inner > p {
+      margin: 0;
+      color: #778076;
+      font-size: 11px;
+    }
+
+    .footer-copyright {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: right;
+    }
+
+    .footer-copyright span:last-child {
+      color: #90968d;
+      font-size: 10px;
+    }
+
+    @media (max-width: 1050px) {
+      .container {
+        width: min(100% - 48px, var(--content));
+      }
+
+      .header-inner {
+        gap: 20px;
+      }
+
+      .main-nav {
+        gap: 19px;
+      }
+
+      .hero {
+        gap: 36px;
+      }
+
+      .trust-inner > p {
+        max-width: 230px;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      html {
+        scroll-padding-top: 75px;
+      }
+
+      .container {
+        width: calc(100% - 36px);
+      }
+
+      .header-inner {
+        position: relative;
+        min-height: 72px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+      }
+
+      .brand-name {
+        font-size: 16px;
+      }
+
+      .mobile-menu-button {
+        display: inline-flex;
+        margin-left: auto;
+      }
+
+      .main-nav {
+        position: absolute;
+        top: calc(100% + 1px);
+        right: -18px;
+        left: -18px;
+        display: none;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px 18px 14px;
+        border-bottom: 1px solid var(--border);
+        background: var(--page);
+        box-shadow: 0 12px 20px rgb(35 59 42 / 5%);
+      }
+
+      .main-nav.is-open {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .nav-link {
+        padding: 12px 4px;
+        border-bottom: 1px solid #e8eae3;
+      }
+
+      .nav-link:last-child {
+        border-bottom: 0;
+      }
+
+      .nav-link.active::after {
+        display: none;
+      }
+
+      .header-actions {
+        gap: 4px;
+      }
+
+      .header-actions .button {
+        min-height: 37px;
+        padding-inline: 11px;
+        font-size: 11px;
+      }
+
+      .hero {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 38px;
+        padding-top: 61px;
+        padding-bottom: 57px;
+      }
+
+      .hero h1 {
+        max-width: 560px;
+        font-size: clamp(43px, 10vw, 59px);
+        letter-spacing: -1.9px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .hero-visual {
+        width: 100%;
+        max-width: 500px;
+        justify-self: center;
+        padding: 19px;
+      }
+
+      .trust-inner {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 14px 23px;
+        padding-top: 19px;
+        padding-bottom: 19px;
+      }
+
+      .trust-inner > p {
+        width: 100%;
+        max-width: none;
+        font-size: 16px;
+      }
+
+      .trust-inner > div {
+        font-size: 10px;
+      }
+
+      .section {
+        padding-top: 72px;
+        padding-bottom: 72px;
+      }
+
+      .section-intro h2 {
+        font-size: clamp(33px, 7.5vw, 42px);
+      }
+
+      .about-grid,
+      .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .about-card {
+        min-height: auto;
+        padding: 23px;
+      }
+
+      .features-section .section {
+        padding-top: 72px;
+        padding-bottom: 72px;
+      }
+
+      .feature-card {
+        min-height: 225px;
+      }
+
+      .step-card {
+        min-height: auto;
+        padding: 23px;
+      }
+
+      .step-card + .step-card {
+        border-top: 1px solid var(--border);
+        border-left: 0;
+      }
+
+      .cta-section {
+        padding-bottom: 70px;
+      }
+
+      .cta-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 24px;
+        padding: 31px 25px;
+      }
+
+      .cta-inner h2 {
+        font-size: 34px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+        padding-top: 26px;
+        padding-bottom: 26px;
+      }
+
+      .footer-copyright {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .container {
+        width: calc(100% - 28px);
+      }
+
+      .brand {
+        gap: 8px;
+      }
+
+      .brand-name small {
+        font-size: 7px;
+        letter-spacing: 1.2px;
+      }
+
+      .header-actions .button-quiet {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 49px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .hero-actions .button {
+        width: 100%;
+      }
+
+      .hero-visual {
+        padding: 14px;
+      }
+
+      .preview-card {
+        padding: 15px;
+      }
+
+      .preview-welcome h2 {
+        font-size: 23px;
+      }
+
+      .trust-inner {
+        gap: 12px;
+      }
+
+      .trust-inner > div {
+        width: calc(50% - 8px);
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        min-height: auto;
+        padding: 23px;
+      }
+
+      .section-intro h2 {
+        font-size: 34px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="brand" aria-label="HireForge home">
+        <span class="brand-mark">H</span>
+        <span class="brand-name">HireForge<small>CAREER INTELLIGENCE</small></span>
+      </a>
+
+      <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        aria-controls="mainNav"
+      >☰</button>
+
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How it works</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="button button-quiet" href="login.html">Log in</a>
+        <a class="button button-primary" href="signup.html">Get started <span>→</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span>A smarter approach to placement preparation</p>
+
+        <h1>Your potential deserves <span>the right opportunity.</span></h1>
+
+        <p class="hero-description">
+          Understand where you stand, discover the skills you need, and prepare for your career with a more focused approach to placement readiness.
+        </p>
+
+        <div class="hero-actions">
+          <a href="signup.html" class="button button-primary button-large">Start your journey <span>→</span></a>
+          <a href="#how-it-works" class="button button-outline button-large">See how it works</a>
+        </div>
+
+        <div class="hero-note">
+          <span class="note-check">✓</span>
+          <span>Built to help students prepare with clarity, not guesswork.</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" role="img" aria-label="Illustrative preview of a career readiness dashboard">
+        <div class="visual-topline">
+          <div class="visual-brand">
+            <span class="visual-brand-icon">H</span>
+            <span>Career overview</span>
+          </div>
+          <span class="preview-label">PREVIEW</span>
+        </div>
+
+        <div class="preview-welcome">
+          <div>
+            <span class="preview-overline">YOUR NEXT CHAPTER</span>
+            <h2>A clearer path forward.</h2>
+          </div>
+          <div class="preview-avatar" aria-hidden="true">S</div>
+        </div>
+
+        <div class="preview-card">
+          <div class="preview-card-heading">
+            <span>Career readiness</span>
+            <span class="preview-status">Personalized</span>
+          </div>
+
+          <div class="preview-placeholder-score">Your profile, your plan.</div>
+          <p>Build a clearer picture of your strengths and opportunities to improve.</p>
+
+          <div class="preview-divider"></div>
+
+          <div class="preview-bottom">
+            <span class="mini-symbol" aria-hidden="true">✦</span>
+            <div>
+              <strong>AI-assisted insights</strong>
+              <small>Guidance tailored to your goals</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-skill-card">
+          <div class="skill-card-heading">
+            <span>Skills to work on</span>
+            <span aria-hidden="true">◇</span>
+          </div>
+
+          <div class="preview-skill-row">
+            <span class="skill-dot dot-one"></span>
+            <span>Technical skills</span>
+            <span class="skill-tag">Review</span>
+          </div>
+
+          <div class="preview-skill-row">
+            <span class="skill-dot dot-two"></span>
+            <span>Problem solving</span>
+            <span class="skill-tag">Develop</span>
+          </div>
+
+          <div class="preview-skill-row">
+            <span class="skill-dot dot-three"></span>
+            <span>Target role readiness</span>
+            <span class="skill-tag">Explore</span>
+          </div>
+        </div>
+
+        <div class="visual-footnote">Illustrative interface · Not actual assessment results</div>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="HireForge approach">
+      <div class="container trust-inner">
+        <p>A more structured way to prepare for your career</p>
+        <div><span>01</span> Know your strengths</div>
+        <div><span>02</span> Find skill gaps</div>
+        <div><span>03</span> Plan your next step</div>
+      </div>
+    </section>
+
+    <section class="section container" id="about">
+      <div class="section-intro">
+        <p class="eyebrow">ABOUT HIREFORGE</p>
+        <h2>Preparation should start with <span>understanding.</span></h2>
+        <p class="section-description">
+          Students often work hard without knowing which areas need the most attention. HireForge brings your academic background, skills, and career goals into one place to help you prepare more intentionally.
+        </p>
+      </div>
+
+      <div class="about-grid">
+        <article class="about-card">
+          <span class="card-number">01</span>
+          <h3>Understand your current position</h3>
+          <p>Organize your academic details, technical skills, projects, internships, and career interests in a student profile.</p>
+        </article>
+
+        <article class="about-card">
+          <span class="card-number">02</span>
+          <h3>Make informed improvements</h3>
+          <p>Use AI-assisted guidance to identify strengths, areas to improve, and skills relevant to your target role.</p>
+        </article>
+
+        <article class="about-card">
+          <span class="card-number">03</span>
+          <h3>Prepare with a clear direction</h3>
+          <p>Turn insights into practical next steps so your preparation can be more focused and purposeful.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="features-section" id="features">
+      <div class="container section">
+        <div class="section-intro">
+          <p class="eyebrow">WHAT YOU CAN DO</p>
+          <h2>Tools to support your <span>placement journey.</span></h2>
+          <p class="section-description">
+            A focused set of features designed around your profile, career readiness, and development needs.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon icon-profile" aria-hidden="true">◉</div>
+            <h3>Student profile</h3>
+            <p>Keep your academic background, skills, projects, internships, and certifications organized in one place.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-assessment" aria-hidden="true">✦</div>
+            <h3>AI placement assessment</h3>
+            <p>Receive an AI-assisted readiness assessment with explanations and practical recommendations.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-skills" aria-hidden="true">◇</div>
+            <h3>Skill gap analysis</h3>
+            <p>Explore skills to strengthen based on your current profile and the role you want to pursue.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-guidance" aria-hidden="true">↗</div>
+            <h3>Career guidance</h3>
+            <p>Get suggestions for learning priorities and ways to improve your preparation for your chosen field.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="how-it-works">
+      <div class="section-intro">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2>Start with your profile. <span>Build from there.</span></h2>
+        <p class="section-description">
+          A straightforward process that puts your own information and goals at the center.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <article class="step-card">
+          <span class="step-number">1</span>
+          <h3>Create your account</h3>
+          <p>Register with your email and securely access your personal workspace.</p>
+        </article>
+
+        <article class="step-card">
+          <span class="step-number">2</span>
+          <h3>Complete your profile</h3>
+          <p>Add your academic information, current skills, projects, and career interests.</p>
+        </article>
+
+        <article class="step-card">
+          <span class="step-number">3</span>
+          <h3>Explore your assessment</h3>
+          <p>Review AI-assisted insights, identify skill gaps, and decide what to work on next.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-section container">
+      <div class="cta-inner">
+        <div>
+          <p class="eyebrow">YOUR NEXT STEP STARTS HERE</p>
+          <h2>Make your preparation more purposeful.</h2>
+          <p>Create your profile and begin exploring your career readiness.</p>
+        </div>
+
+        <a href="signup.html" class="button button-light button-large">Get started free <span>→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="#home" class="brand footer-brand" aria-label="HireForge home">
+        <span class="brand-mark">H</span>
+        <span class="brand-name">HireForge<small>CAREER INTELLIGENCE</small></span>
+      </a>
+
+      <p>Helping students prepare for the opportunities ahead.</p>
+
+      <p class="footer-copyright">
+        © <span data-current-year>2026</span> HireForge.
+        <span>Built to help students move forward.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const mobileMenuButton = document.getElementById("mobileMenuButton");
+    const mainNav = document.getElementById("mainNav");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    if (mobileMenuButton && mainNav) {
+      mobileMenuButton.addEventListener("click", () => {
+        const isOpen = mainNav.classList.toggle("is-open");
+
+        mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
+        mobileMenuButton.setAttribute(
+          "aria-label",
+          isOpen ? "Close navigation" : "Toggle navigation"
+        );
+        mobileMenuButton.textContent = isOpen ? "×" : "☰";
+      });
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          mainNav.classList.remove("is-open");
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+          mobileMenuButton.setAttribute("aria-label", "Toggle navigation");
+          mobileMenuButton.textContent = "☰";
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        if (
+          mainNav.classList.contains("is-open") &&
+          !mainNav.contains(event.target) &&
+          !mobileMenuButton.contains(event.target)
+        ) {
+          mainNav.classList.remove("is-open");
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+          mobileMenuButton.setAttribute("aria-label", "Toggle navigation");
+          mobileMenuButton.textContent = "☰";
+        }
+      });
+    }
+
+    const sections = document.querySelectorAll("main section[id]");
+    const updateActiveNavigation = () => {
+      let currentSection = "home";
+
+      sections.forEach((section) => {
+        if (window.scrollY >= section.offsetTop - 140) {
+          currentSection = section.id;
+        }
+      });
+
+      navLinks.forEach((link) => {
+        const isActive = link.getAttribute("href") === `#${currentSection}`;
+        link.classList.toggle("active", isActive);
+
+        if (isActive) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", updateActiveNavigation, { passive: true });
+    updateActiveNavigation();
+
+    document.querySelectorAll("[data-current-year]").forEach((element) => {
+      element.textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# Runtime dependencies (installed by Vercel and used locally)
+Django>=5.2,<6.2
+djangorestframework>=3.15
+django-cors-headers>=4.4
+whitenoise>=6.7
+dj-database-url>=2.2
+python-dotenv>=1.0
+requests>=2.32
+
+# Databases: PostgreSQL (psycopg) and MySQL (PyMySQL). SQLite is built in.
+PyMySQL>=1.1
+cryptography>=42
+
+# Member 4: resume parsing
+pypdf>=5.0
+python-docx>=1.1
+
+# Member 3 / 4: Gemini (optional at runtime; only used when GEMINI_API_KEY is set)
+google-genai>=1.0

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireForge | Resume Analysis</title>
+    <link rel="stylesheet" href="css/resume.css">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="../index.html">HireForge</a>
+    <nav aria-label="Main navigation">
+        <a href="../dashboard.html">Dashboard</a>
+        <a href="../assessments/index.html">Assessments</a>
+        <a href="/interview/">Mock Interview</a>
+        <a href="index.html" aria-current="page">Resume</a>
+    </nav>
+    <button id="authButton" class="btn btn-ghost" type="button">Connect account</button>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <h1>Resume Analysis &amp; Career Development</h1>
+        <p>Upload your resume to get ATS-style feedback, compare it with a job description and see which careers fit your skills.</p>
+    </section>
+
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <div class="grid">
+        <section class="card" aria-labelledby="uploadTitle">
+            <h2 id="uploadTitle">1. Upload resume</h2>
+            <form id="uploadForm">
+                <label for="resumeFile">PDF or DOCX, up to 4 MB</label>
+                <input id="resumeFile" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+                <button class="btn btn-primary" type="submit">Upload</button>
+            </form>
+            <h3>Your resumes</h3>
+            <ul id="resumeList" class="plain-list"><li class="muted">Connect your account to see resumes.</li></ul>
+        </section>
+
+        <section class="card" aria-labelledby="analyzeTitle">
+            <h2 id="analyzeTitle">2. Analyze</h2>
+            <form id="analyzeForm">
+                <label for="resumeSelect">Resume</label>
+                <select id="resumeSelect" required></select>
+                <label for="targetRole">Target role (optional)</label>
+                <input id="targetRole" type="text" maxlength="150" placeholder="e.g. Python Developer">
+                <button class="btn btn-primary" type="submit">Analyze resume</button>
+            </form>
+            <hr>
+            <h3>Compare with a job description</h3>
+            <form id="matchForm">
+                <label for="jobTitle">Job title (optional)</label>
+                <input id="jobTitle" type="text" maxlength="150">
+                <label for="jobDescription">Job description</label>
+                <textarea id="jobDescription" rows="6" maxlength="10000" placeholder="Paste the job description here" required></textarea>
+                <button class="btn btn-secondary" type="submit">Match with job</button>
+            </form>
+        </section>
+    </div>
+
+    <section id="results" class="card" aria-live="polite" hidden></section>
+
+    <section class="card" aria-labelledby="historyTitle">
+        <div class="row-between">
+            <h2 id="historyTitle">Analysis history</h2>
+            <select id="historyFilter" aria-label="Filter history">
+                <option value="">All</option>
+                <option value="general">Resume analyses</option>
+                <option value="job_match">Job matches</option>
+            </select>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Date</th><th>Type</th><th>Resume</th><th>Role</th><th>Score</th><th></th></tr></thead>
+                <tbody id="historyBody"><tr><td colspan="6" class="muted">Connect your account to see history.</td></tr></tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<dialog id="authDialog">
+    <form id="authForm" method="dialog">
+        <h2>Connect your HireForge account</h2>
+        <p class="muted">Log in with the email and password you use on HireForge. If you already logged in on the HireForge login page, you are connected automatically.</p>
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" autocomplete="username">
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password" autocomplete="current-password">
+        <details>
+            <summary>Or use an authentication token</summary>
+            <label for="apiToken">Authentication token</label>
+            <input id="apiToken" type="password" autocomplete="off">
+        </details>
+        <p id="authMessage" class="notice error" hidden></p>
+        <div class="row-between">
+            <button class="btn btn-ghost" type="button" id="authCancel">Cancel</button>
+            <button class="btn btn-primary" type="submit">Connect</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="js/resume.js"></script>
+</body>
+</html>

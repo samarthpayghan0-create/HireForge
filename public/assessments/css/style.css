@@ -1,0 +1,1347 @@
+:root {
+    --primary: #52796F;
+    --primary-dark: #3F6259;
+    --primary-light: #DCE5DC;
+
+    --background: #F7F5EF;
+    --background-soft: #EEF1E9;
+    --surface: #FFFFFF;
+    --surface-soft: #FAFAF7;
+
+    --text: #24352F;
+    --text-secondary: #737B73;
+    --text-light: #92988F;
+
+    --border: #E5E2D9;
+    --border-strong: #D5D9CF;
+
+    --success: #47745D;
+    --success-bg: #E8F2EA;
+    --danger: #B6534B;
+    --danger-bg: #FBECE9;
+    --warning: #967238;
+    --warning-bg: #F8F0DE;
+
+    --shadow-sm: 0 2px 8px rgba(36, 53, 47, 0.04);
+    --shadow-md: 0 8px 24px rgba(36, 53, 47, 0.06);
+    --shadow-lg: 0 18px 45px rgba(36, 53, 47, 0.09);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 22px;
+
+    --container-width: 1180px;
+    --header-height: 76px;
+
+    --transition: 180ms ease;
+}
+
+/* -------------------- 2. RESET AND BASE -------------------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-height) + 20px);
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family:
+        "Inter",
+        "Segoe UI",
+        -apple-system,
+        BlinkMacSystemFont,
+        Arial,
+        sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: var(--text);
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+}
+
+h1 {
+    font-size: clamp(2.3rem, 5vw, 3.8rem);
+    font-weight: 750;
+}
+
+h2 {
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+    font-weight: 720;
+}
+
+h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    color: inherit;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+img,
+svg {
+    max-width: 100%;
+}
+
+img {
+    display: block;
+    height: auto;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+::selection {
+    background: var(--primary-light);
+    color: var(--text);
+}
+
+:focus-visible {
+    outline: 3px solid rgba(82, 121, 111, 0.35);
+    outline-offset: 3px;
+}
+
+/* -------------------- 3. SHARED UTILITIES -------------------- */
+
+.eyebrow {
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.muted,
+.text-muted {
+    color: var(--text-secondary);
+}
+
+.text-success {
+    color: var(--success);
+}
+
+.text-danger {
+    color: var(--danger);
+}
+
+.container {
+    width: min(calc(100% - 48px), var(--container-width));
+    margin-inline: auto;
+}
+
+.section {
+    padding: 76px 0;
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.section-heading h2 {
+    margin-bottom: 8px;
+}
+
+.section-heading p:not(.eyebrow) {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+}
+
+.divider {
+    height: 1px;
+    border: 0;
+    background: var(--border);
+}
+
+/* -------------------- 4. HEADER AND NAVIGATION -------------------- */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    min-height: var(--header-height);
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 14px max(24px, calc((100% - var(--container-width)) / 2));
+    border-bottom: 1px solid rgba(229, 226, 217, 0.9);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--text);
+    font-size: 1.65rem;
+    font-weight: 800;
+    letter-spacing: -0.065em;
+}
+
+.brand span {
+    color: var(--primary);
+}
+
+.site-header nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 28px;
+}
+
+.site-header nav > a {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color var(--transition);
+}
+
+.site-header nav > a:hover,
+.site-header nav > a:focus-visible {
+    color: var(--primary);
+}
+
+/* -------------------- 5. BUTTONS -------------------- */
+
+.button {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        background var(--transition),
+        color var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition);
+}
+
+.button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.button-primary {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #FFFFFF;
+    box-shadow: 0 3px 8px rgba(82, 121, 111, 0.12);
+}
+
+.button-primary:hover:not(:disabled) {
+    border-color: var(--primary-dark);
+    background: var(--primary-dark);
+    box-shadow: 0 5px 14px rgba(82, 121, 111, 0.18);
+}
+
+.button-outline {
+    border-color: var(--border-strong);
+    background: var(--surface);
+    color: var(--text);
+}
+
+.button-outline:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: var(--surface-soft);
+    color: var(--primary-dark);
+}
+
+.button-soft {
+    border-color: transparent;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.button-soft:hover:not(:disabled) {
+    background: #CEDCCF;
+}
+
+.button-danger {
+    border-color: var(--danger);
+    background: var(--danger);
+    color: #FFFFFF;
+}
+
+.button-block {
+    width: 100%;
+}
+
+.button-sm {
+    min-height: 38px;
+    padding: 8px 14px;
+    font-size: 0.84rem;
+}
+
+/* -------------------- 6. HERO SECTION -------------------- */
+
+.hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    align-items: center;
+    gap: clamp(36px, 6vw, 76px);
+    overflow: hidden;
+    padding: clamp(60px, 8vw, 100px) max(
+        24px,
+        calc((100% - var(--container-width)) / 2)
+    );
+    background: linear-gradient(
+        135deg,
+        var(--background) 0%,
+        var(--background-soft) 100%
+    );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+}
+
+.hero h1 {
+    margin-bottom: 22px;
+    line-height: 1.12;
+}
+
+.hero h1 span {
+    color: var(--primary);
+}
+
+.hero-description {
+    max-width: 560px;
+    margin-bottom: 30px;
+    color: var(--text-secondary);
+    font-size: 1.04rem;
+    line-height: 1.85;
+}
+
+.hero-content > .button {
+    margin-top: 4px;
+}
+
+.hero-card {
+    position: relative;
+    padding: 30px;
+    border: 1px solid rgba(229, 226, 217, 0.9);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-label {
+    margin-bottom: 22px;
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.journey-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 19px 0;
+    border-top: 1px solid var(--border);
+}
+
+.journey-number {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border: 1px solid #D1DDD2;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.journey-item h3 {
+    margin-bottom: 5px;
+    font-size: 0.98rem;
+}
+
+.journey-item p {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+}
+
+/* -------------------- 7. ASSESSMENT FORM -------------------- */
+
+.assessment-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+    gap: 18px;
+    padding: 30px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+}
+
+.assessment-form label,
+.auth-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.assessment-form select,
+.auth-form input,
+.form-control,
+textarea.form-control {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 11px 13px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: #FFFFFF;
+    color: var(--text);
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition);
+}
+
+.assessment-form select {
+    cursor: pointer;
+}
+
+.assessment-form select:focus,
+.auth-form input:focus,
+.form-control:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(82, 121, 111, 0.12);
+}
+
+.assessment-form button {
+    grid-column: 1 / -1;
+    margin-top: 6px;
+}
+
+.status-message {
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.status-message:empty {
+    display: none;
+}
+
+.status-message.success {
+    color: var(--success);
+}
+
+.status-message.error {
+    color: var(--danger);
+}
+
+/* -------------------- 8. QUIZ / ASSESSMENT BOX -------------------- */
+
+.quiz-section {
+    margin-top: 32px;
+    padding: clamp(22px, 4vw, 36px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+}
+
+.quiz-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.quiz-header h2 {
+    margin-bottom: 0;
+    font-size: clamp(1.45rem, 3vw, 1.9rem);
+}
+
+.question-progress {
+    flex-shrink: 0;
+    padding: 7px 12px;
+    border: 1px solid #D1DDD2;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.question-card {
+    padding: 0;
+}
+
+.question-card h3 {
+    margin-bottom: 24px;
+    font-size: clamp(1.02rem, 2vw, 1.2rem);
+    font-weight: 700;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+}
+
+.option-list {
+    display: grid;
+    gap: 12px;
+}
+
+.option-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-soft);
+    color: var(--text);
+    cursor: pointer;
+    transition:
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+}
+
+.option-label:hover {
+    border-color: #AABFB0;
+    background: #F6F8F3;
+}
+
+.option-label:has(input:checked) {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: inset 0 0 0 1px rgba(82, 121, 111, 0.08);
+}
+
+.option-label input {
+    width: 17px;
+    height: 17px;
+    flex: 0 0 17px;
+    margin: 4px 0 0;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.option-label span {
+    overflow-wrap: anywhere;
+}
+
+.quiz-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+}
+
+/* -------------------- 9. RESULTS SECTION -------------------- */
+
+.results-section {
+    background: var(--background-soft);
+}
+
+.results-section > h3 {
+    margin: 32px 0 16px;
+}
+
+.result-summary,
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 26px 0;
+}
+
+.stat-card {
+    min-width: 0;
+    padding: 23px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-card .stat-label {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.stat-card .stat-value {
+    color: var(--text);
+    font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+    font-weight: 800;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.review-card {
+    margin-bottom: 15px;
+    padding: 23px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.review-card h4 {
+    margin-bottom: 14px;
+    font-size: 1rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.review-card p {
+    margin-bottom: 8px;
+    font-size: 0.91rem;
+    overflow-wrap: anywhere;
+}
+
+.review-card p:last-child {
+    margin-bottom: 0;
+}
+
+.review-correct {
+    color: var(--success);
+    font-weight: 700;
+}
+
+.review-incorrect {
+    color: var(--danger);
+    font-weight: 700;
+}
+
+/* -------------------- 10. PERFORMANCE PANELS -------------------- */
+
+.performance-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 26px;
+}
+
+.panel {
+    min-width: 0;
+    padding: 26px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.panel h3 {
+    margin-bottom: 20px;
+    font-size: 1.08rem;
+}
+
+.performance-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+}
+
+.performance-row:first-child {
+    border-top: 0;
+}
+
+.performance-row span:first-child {
+    min-width: 0;
+    color: var(--text-secondary);
+    overflow-wrap: anywhere;
+}
+
+.performance-row strong {
+    flex-shrink: 0;
+    color: var(--text);
+    font-size: 0.91rem;
+}
+
+.history-panel {
+    margin-top: 22px;
+    overflow: hidden;
+}
+
+.history-panel h3 {
+    margin-bottom: 18px;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+    vertical-align: middle;
+}
+
+th {
+    background: var(--surface-soft);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+tbody tr:hover {
+    background: #FAFBF7;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+td {
+    color: var(--text);
+}
+
+/* -------------------- 11. BADGES AND EMPTY STATES -------------------- */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-size: 0.76rem;
+    font-weight: 750;
+}
+
+.badge-success {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.badge-danger {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.badge-warning {
+    background: var(--warning-bg);
+    color: var(--warning);
+}
+
+.empty-state {
+    padding: 32px 20px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--surface-soft);
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.empty-state p:last-child {
+    margin-bottom: 0;
+}
+
+/* -------------------- 12. ACCOUNT DIALOG -------------------- */
+
+dialog {
+    width: min(460px, calc(100% - 32px));
+    max-width: 460px;
+    max-height: min(85vh, 720px);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 24px 80px rgba(36, 53, 47, 0.22);
+}
+
+dialog::backdrop {
+    background: rgba(36, 53, 47, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.auth-form {
+    position: relative;
+    display: grid;
+    gap: 13px;
+    padding: 34px;
+}
+
+.auth-form h2 {
+    margin-bottom: 0;
+    font-size: 1.7rem;
+}
+
+.auth-form > p:not(.eyebrow, .status-message) {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 0.91rem;
+    line-height: 1.75;
+}
+
+.auth-form .status-message {
+    margin-bottom: 0;
+}
+
+.dialog-close {
+    position: absolute;
+    top: 13px;
+    right: 16px;
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--background);
+    color: var(--text-secondary);
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.dialog-close:hover {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+/* -------------------- 13. FOOTER -------------------- */
+
+.site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px max(24px, calc((100% - var(--container-width)) / 2));
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.site-footer p {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+}
+
+/* -------------------- 14. TABLET RESPONSIVENESS -------------------- */
+
+@media (max-width: 900px) {
+    :root {
+        --header-height: 72px;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding: 64px 6%;
+    }
+
+    .hero-content {
+        max-width: 700px;
+    }
+
+    .hero-card {
+        width: 100%;
+        max-width: 680px;
+    }
+
+    .section {
+        padding: 60px 6%;
+    }
+
+    .assessment-form {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .assessment-form button {
+        grid-column: auto;
+        margin-top: 5px;
+    }
+
+    .result-summary,
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .site-header {
+        padding-inline: 6%;
+    }
+
+    .site-footer {
+        padding-inline: 6%;
+    }
+}
+
+/* -------------------- 15. MOBILE RESPONSIVENESS -------------------- */
+
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        width: calc(100% - 32px);
+    }
+
+    .site-header {
+        position: relative;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px 20px;
+    }
+
+    .brand {
+        font-size: 1.55rem;
+    }
+
+    .site-header nav {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+    }
+
+    .site-header nav > a {
+        font-size: 0.82rem;
+    }
+
+    .site-header nav .button {
+        min-height: 38px;
+        padding: 8px 12px;
+        font-size: 0.82rem;
+    }
+
+    .hero {
+        gap: 30px;
+        padding: 48px 20px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.25rem, 10vw, 3rem);
+        letter-spacing: -0.045em;
+    }
+
+    .hero-description {
+        font-size: 0.96rem;
+    }
+
+    .hero-card {
+        padding: 22px;
+        border-radius: var(--radius-lg);
+    }
+
+    .journey-item {
+        gap: 12px;
+        padding: 15px 0;
+    }
+
+    .journey-number {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+
+    .section {
+        padding: 48px 20px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .assessment-form {
+        padding: 21px;
+    }
+
+    .quiz-section {
+        padding: 21px;
+    }
+
+    .quiz-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 22px;
+        padding-bottom: 18px;
+    }
+
+    .question-card h3 {
+        font-size: 1rem;
+    }
+
+    .option-label {
+        gap: 10px;
+        padding: 14px;
+    }
+
+    .quiz-actions {
+        justify-content: stretch;
+        gap: 10px;
+    }
+
+    .quiz-actions .button {
+        flex: 1 1 calc(50% - 10px);
+        padding-inline: 12px;
+    }
+
+    .result-summary,
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.4rem;
+    }
+
+    .review-card {
+        padding: 17px;
+    }
+
+    .performance-columns {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    .history-panel {
+        padding: 18px 14px;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        font-size: 0.81rem;
+    }
+
+    .site-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        padding: 24px 20px;
+    }
+
+    .auth-form {
+        padding: 28px 22px;
+    }
+}
+
+/* -------------------- 16. SMALL MOBILE SCREENS -------------------- */
+
+@media (max-width: 380px) {
+    .site-header nav {
+        gap: 9px 12px;
+    }
+
+    .hero h1 {
+        font-size: 2.15rem;
+    }
+
+    .hero-card,
+    .assessment-form,
+    .quiz-section,
+    .panel {
+        padding: 17px;
+    }
+
+    .result-summary,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quiz-actions .button {
+        flex-basis: 100%;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.55rem;
+    }
+}
+
+/* -------------------- 17. ACCESSIBILITY -------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+#assessments {
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding: 76px 32px;
+}
+
+#assessments .section-heading {
+    margin-bottom: 28px;
+}
+
+#assessments .section-heading h2 {
+    margin-bottom: 10px;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    letter-spacing: -0.045em;
+}
+
+#assessments .assessment-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto auto;
+    align-items: end;
+    column-gap: 22px;
+    row-gap: 10px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--surface);
+    box-shadow: 0 12px 36px rgba(32, 47, 39, 0.07);
+}
+
+#assessments .assessment-form label {
+    margin: 0 0 2px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+
+#assessments #assessmentType {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#assessments label[for="assessmentType"] {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#assessments label[for="difficulty"] {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#assessments #difficulty {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#assessments label[for="questionCount"] {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+#assessments #questionCount {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+#assessments .assessment-form select {
+    min-height: 50px;
+    padding: 12px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background-color: #fff;
+    font-size: 0.94rem;
+}
+
+#assessments .assessment-form select:focus-visible {
+    outline: 3px solid rgba(82, 121, 111, 0.2);
+    outline-offset: 2px;
+    border-color: var(--primary);
+}
+
+#assessments .assessment-form button {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    justify-self: start;
+    width: auto;
+    min-width: 190px;
+    min-height: 46px;
+    margin-top: 14px;
+    padding: 12px 24px;
+}
+
+#assessments .status-message {
+    margin-top: 16px;
+    line-height: 1.6;
+}
+
+#assessments .quiz-section {
+    margin-top: 30px;
+}
+
+#assessments .quiz-actions {
+    justify-content: flex-start;
+}
+
+#assessments .quiz-actions #nextQuestion,
+#assessments .quiz-actions #submitAssessment {
+    margin-left: auto;
+}
+
+@media (max-width: 760px) {
+    #assessments {
+        padding: 54px 24px;
+    }
+
+    #assessments .assessment-form {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto;
+        gap: 10px;
+        padding: 22px;
+    }
+
+    #assessments label[for="assessmentType"],
+    #assessments label[for="difficulty"],
+    #assessments label[for="questionCount"],
+    #assessments #assessmentType,
+    #assessments #difficulty,
+    #assessments #questionCount {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    #assessments .assessment-form select {
+        margin-bottom: 10px;
+    }
+
+    #assessments .assessment-form button {
+        grid-column: 1;
+        grid-row: auto;
+        justify-self: stretch;
+        width: 100%;
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 420px) {
+    #assessments {
+        padding: 42px 16px;
+    }
+
+    #assessments .assessment-form {
+        padding: 18px;
+    }
+
+    #assessments .quiz-actions {
+        gap: 8px;
+    }
+
+    #assessments .quiz-actions .button {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+}

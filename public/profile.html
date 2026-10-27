@@ -1,0 +1,802 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Complete your HireForge student profile.">
+  <title>Complete Your Profile | HireForge</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    :root {
+      --profile-bg: #f7f7f3;
+      --profile-text: #26332c;
+      --profile-muted: #747d74;
+      --profile-border: #e2e6de;
+      --profile-green: #285847;
+      --profile-dark: #1d4436;
+      --profile-soft: #e7eee7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--profile-bg);
+      color: var(--profile-text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 3px solid #88ad97;
+      outline-offset: 3px;
+    }
+
+    .profile-page {
+      width: min(100% - 48px, 1000px);
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .profile-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .profile-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--profile-dark);
+      font: 700 23px Georgia, "Times New Roman", serif;
+      letter-spacing: -.6px;
+    }
+
+    .profile-brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 4px;
+      background: var(--profile-dark);
+      color: #fff;
+      font-size: 21px;
+    }
+
+    .profile-step {
+      color: var(--profile-green);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+
+    .profile-progress {
+      height: 4px;
+      margin-top: 23px;
+      overflow: hidden;
+      background: #e3e8e0;
+    }
+
+    .profile-progress span {
+      display: block;
+      width: 50%;
+      height: 100%;
+      background: var(--profile-green);
+    }
+
+    .profile-heading {
+      max-width: 650px;
+      margin: 48px 0 34px;
+    }
+
+    .profile-heading h1 {
+      margin: 0;
+      font: 500 clamp(35px, 5vw, 49px)/1.15 Georgia, "Times New Roman", serif;
+      letter-spacing: -1.4px;
+    }
+
+    .profile-heading h1 span {
+      color: var(--profile-green);
+    }
+
+    .profile-heading > p:last-child {
+      max-width: 560px;
+      margin: 15px 0 0;
+      color: var(--profile-muted);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .profile-form {
+      display: grid;
+      gap: 24px;
+    }
+
+    .profile-card {
+      padding: 27px 0;
+      border-top: 1px solid var(--profile-border);
+    }
+
+    .profile-card:last-child {
+      border-bottom: 1px solid var(--profile-border);
+    }
+
+    .profile-card-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 23px;
+    }
+
+    .profile-card-heading h2 {
+      margin: 0;
+      font: 500 24px/1.35 Georgia, "Times New Roman", serif;
+      letter-spacing: -.4px;
+    }
+
+    .profile-card-heading p {
+      max-width: 580px;
+      margin: 7px 0 0;
+      color: var(--profile-muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px 24px;
+    }
+
+    .profile-field {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .profile-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .profile-field label,
+    .skill-label {
+      color: var(--profile-text);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .profile-field input:not([type="range"]),
+    .profile-field select,
+    .skill-name {
+      width: 100%;
+      min-height: 45px;
+      padding: 11px 13px;
+      border: 1px solid #d9dfd6;
+      border-radius: 4px;
+      background: #fff;
+      color: var(--profile-text);
+      font: inherit;
+      font-size: 13px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .profile-field input:focus,
+    .profile-field select:focus,
+    .skill-name:focus {
+      border-color: var(--profile-green);
+      box-shadow: 0 0 0 3px rgba(40, 88, 71, .08);
+    }
+
+    .profile-field input::placeholder,
+    .skill-name::placeholder {
+      color: #a0a69f;
+    }
+
+    .profile-field input[type="number"] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    .profile-field input[type="number"]::-webkit-inner-spin-button,
+    .profile-field input[type="number"]::-webkit-outer-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+
+    .profile-range {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 48px;
+      align-items: center;
+      gap: 13px;
+      min-height: 45px;
+    }
+
+    .profile-range input[type="range"] {
+      width: 100%;
+      accent-color: var(--profile-green);
+      cursor: pointer;
+    }
+
+    .range-value {
+      color: var(--profile-green);
+      font-size: 12px;
+      font-weight: 750;
+      text-align: right;
+    }
+
+    .skill-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .skill-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 18px;
+      padding: 18px 0;
+      border-top: 1px solid var(--profile-border);
+    }
+
+    .profile-button {
+      min-height: 43px;
+      padding: 11px 17px;
+      border: 1px solid var(--profile-green);
+      border-radius: 4px;
+      background: var(--profile-green);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+
+    .profile-button:hover {
+      border-color: var(--profile-dark);
+      background: var(--profile-dark);
+    }
+
+    .profile-button.secondary {
+      border-color: #cbd8cc;
+      background: transparent;
+      color: var(--profile-green);
+    }
+
+    .profile-button.secondary:hover {
+      background: var(--profile-soft);
+    }
+
+    .profile-button.remove {
+      min-height: 40px;
+      padding: 9px 12px;
+      border-color: #ead6d1;
+      background: transparent;
+      color: #873f34;
+    }
+
+    .profile-button.remove:hover {
+      background: #f8eae7;
+    }
+
+    .profile-message {
+      display: none;
+      margin: 17px 0 0;
+      padding: 12px 14px;
+      border-left: 3px solid #a33d32;
+      background: #f8eae7;
+      color: #873f34;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-message:not(:empty) {
+      display: block;
+    }
+
+    .profile-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .profile-actions > span {
+      color: var(--profile-muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .profile-actions .profile-button {
+      min-width: 180px;
+    }
+
+    @media (max-width: 650px) {
+      .profile-page {
+        width: calc(100% - 36px);
+        padding: 21px 0 38px;
+      }
+
+      .profile-heading {
+        margin: 37px 0 25px;
+      }
+
+      .profile-heading h1 {
+        font-size: 37px;
+      }
+
+      .profile-card {
+        padding: 23px 0;
+      }
+
+      .profile-card-heading {
+        flex-wrap: wrap;
+      }
+
+      .profile-grid,
+      .skill-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .profile-field.full {
+        grid-column: auto;
+      }
+
+      .skill-row {
+        gap: 15px;
+      }
+
+      .profile-button.remove {
+        justify-self: start;
+      }
+
+      .profile-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .profile-actions .profile-button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .profile-page {
+        width: calc(100% - 28px);
+      }
+
+      .profile-brand {
+        font-size: 20px;
+      }
+
+      .profile-step {
+        font-size: 9px;
+      }
+
+      .profile-heading h1 {
+        font-size: 33px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="profile-page">
+    <div class="profile-top">
+      <a class="profile-brand" href="index.html" aria-label="HireForge home">
+        <span class="profile-brand-mark" aria-hidden="true">H</span>
+        <span>HireForge</span>
+      </a>
+      <span class="profile-step">Profile setup · Step 1 of 2</span>
+    </div>
+
+    <div
+      class="profile-progress"
+      role="progressbar"
+      aria-label="Profile setup progress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="50"
+    >
+      <span></span>
+    </div>
+
+    <header class="profile-heading">
+      <p class="profile-step">Your foundation</p>
+      <h1>Let's build your student <span>profile.</span></h1>
+      <p>
+        Start with your education and current skill levels. Your answers help
+        HireForge understand your starting point and prepare your next steps.
+      </p>
+    </header>
+
+    <form id="profileForm" class="profile-form">
+      <section class="profile-card">
+        <div class="profile-card-heading">
+          <div>
+            <h2>Education</h2>
+            <p>Enter your current or most recently completed education details.</p>
+          </div>
+        </div>
+
+        <div class="profile-grid">
+          <div class="profile-field">
+            <label for="degree">Degree / qualification *</label>
+            <input
+              id="degree"
+              name="degree"
+              required
+              maxlength="100"
+              placeholder="e.g. B.Tech Computer Science"
+            >
+          </div>
+
+          <div class="profile-field">
+            <label for="college">College / university *</label>
+            <input
+              id="college"
+              name="college"
+              required
+              maxlength="150"
+              placeholder="Enter your institution"
+            >
+          </div>
+
+          <div class="profile-field">
+            <label for="cgpa">CGPA (out of 10) *</label>
+            <input
+              id="cgpa"
+              name="cgpa"
+              type="number"
+              required
+              min="0"
+              max="10"
+              step="0.01"
+              placeholder="e.g. 8.50"
+            >
+          </div>
+
+          <div class="profile-field">
+            <label for="graduationYear">Graduation year *</label>
+            <input
+              id="graduationYear"
+              name="graduationYear"
+              type="number"
+              required
+              min="2000"
+              max="2100"
+              step="1"
+              placeholder="e.g. 2027"
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="profile-card">
+        <div class="profile-card-heading">
+          <div>
+            <h2>Core readiness areas</h2>
+            <p>
+              Rate your current confidence honestly. These are self-assessments,
+              not test results.
+            </p>
+          </div>
+        </div>
+
+        <div class="profile-grid">
+          <div class="profile-field">
+            <label for="dsaRating">Data structures and algorithms</label>
+            <div class="profile-range">
+              <input
+                id="dsaRating"
+                name="dsaRating"
+                type="range"
+                min="1"
+                max="10"
+                value="5"
+              >
+              <output class="range-value" id="dsaRatingValue" for="dsaRating">5/10</output>
+            </div>
+          </div>
+
+          <div class="profile-field">
+            <label for="aptitudeRating">Aptitude</label>
+            <div class="profile-range">
+              <input
+                id="aptitudeRating"
+                name="aptitudeRating"
+                type="range"
+                min="1"
+                max="10"
+                value="5"
+              >
+              <output class="range-value" id="aptitudeRatingValue" for="aptitudeRating">5/10</output>
+            </div>
+          </div>
+
+          <div class="profile-field">
+            <label for="communicationRating">Communication</label>
+            <div class="profile-range">
+              <input
+                id="communicationRating"
+                name="communicationRating"
+                type="range"
+                min="1"
+                max="10"
+                value="5"
+              >
+              <output class="range-value" id="communicationRatingValue" for="communicationRating">5/10</output>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="profile-card">
+        <div class="profile-card-heading">
+          <div>
+            <h2>Technical skills</h2>
+            <p>
+              Add each skill separately and rate your current proficiency
+              from 1 to 10.
+            </p>
+          </div>
+
+          <button
+            class="profile-button secondary"
+            type="button"
+            id="addSkillButton"
+          >+ Add skill</button>
+        </div>
+
+        <datalist id="skillSuggestions">
+          <option value="Python"></option>
+          <option value="Java"></option>
+          <option value="JavaScript"></option>
+          <option value="C"></option>
+          <option value="C++"></option>
+          <option value="HTML"></option>
+          <option value="CSS"></option>
+          <option value="React"></option>
+          <option value="Django"></option>
+          <option value="Flask"></option>
+          <option value="Node.js"></option>
+          <option value="SQL"></option>
+          <option value="MySQL"></option>
+          <option value="PostgreSQL"></option>
+          <option value="Git"></option>
+          <option value="GitHub"></option>
+          <option value="Data Structures and Algorithms"></option>
+          <option value="Machine Learning"></option>
+          <option value="Pandas"></option>
+          <option value="NumPy"></option>
+          <option value="Excel"></option>
+          <option value="Power BI"></option>
+          <option value="Tableau"></option>
+          <option value="Docker"></option>
+          <option value="AWS"></option>
+          <option value="Linux"></option>
+          <option value="TypeScript"></option>
+          <option value="Bootstrap"></option>
+          <option value="Tailwind CSS"></option>
+          <option value="FastAPI"></option>
+        </datalist>
+
+        <div class="skill-list" id="skillList"></div>
+
+        <p
+          id="profileMessage"
+          class="profile-message"
+          role="alert"
+          aria-live="polite"
+        ></p>
+
+        <div class="profile-actions">
+          <span>Fields marked * are required.</span>
+          <button class="profile-button" type="submit">Save and continue →</button>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <script>
+    (() => {
+      const form = document.getElementById("profileForm");
+      const skillList = document.getElementById("skillList");
+      const message = document.getElementById("profileMessage");
+      const draftKey = "hireforgeProfileDraft";
+
+      ["dsaRating", "aptitudeRating", "communicationRating"].forEach(id => {
+        const input = document.getElementById(id);
+        const output = document.getElementById(id + "Value");
+
+        input.addEventListener("input", () => {
+          output.value = input.value + "/10";
+        });
+      });
+
+      function addSkill(name = "", rating = 5) {
+        const row = document.createElement("div");
+        row.className = "skill-row";
+
+        const nameField = document.createElement("div");
+        nameField.className = "profile-field";
+
+        const nameLabel = document.createElement("label");
+        nameLabel.textContent = "Skill name *";
+
+        const nameInput = document.createElement("input");
+        nameInput.className = "skill-name";
+        nameInput.name = "skillName";
+        nameInput.setAttribute("list", "skillSuggestions");
+        nameInput.maxLength = 80;
+        nameInput.required = true;
+        nameInput.placeholder = "e.g. Python";
+        nameInput.value = name;
+
+        nameLabel.appendChild(nameInput);
+        nameField.appendChild(nameLabel);
+
+        const ratingField = document.createElement("div");
+        ratingField.className = "profile-field";
+
+        const ratingLabel = document.createElement("label");
+        ratingLabel.textContent = "Proficiency (1–10)";
+
+        const rangeWrap = document.createElement("div");
+        rangeWrap.className = "profile-range";
+
+        const range = document.createElement("input");
+        range.type = "range";
+        range.min = "1";
+        range.max = "10";
+        range.value = String(Math.min(10, Math.max(1, Number(rating) || 5)));
+        range.setAttribute("aria-label", "Skill proficiency");
+
+        const output = document.createElement("output");
+        output.className = "range-value";
+        output.value = range.value + "/10";
+
+        range.addEventListener("input", () => {
+          output.value = range.value + "/10";
+        });
+
+        rangeWrap.append(range, output);
+        ratingLabel.appendChild(rangeWrap);
+        ratingField.appendChild(ratingLabel);
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "profile-button remove";
+        remove.textContent = "Remove";
+        remove.setAttribute("aria-label", "Remove skill");
+
+        remove.addEventListener("click", () => {
+          row.remove();
+
+          if (!skillList.children.length) {
+            addSkill();
+          }
+        });
+
+        row.append(nameField, ratingField, remove);
+        skillList.appendChild(row);
+      }
+
+      document.getElementById("addSkillButton").addEventListener("click", () => {
+        addSkill();
+      });
+
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(draftKey) || "{}");
+
+        ["degree", "college", "cgpa", "graduationYear"].forEach(id => {
+          if (saved[id] !== undefined) {
+            document.getElementById(id).value = saved[id];
+          }
+        });
+
+        ["dsaRating", "aptitudeRating", "communicationRating"].forEach(id => {
+          if (saved[id] !== undefined) {
+            document.getElementById(id).value = saved[id];
+            document.getElementById(id + "Value").value = saved[id] + "/10";
+          }
+        });
+
+        if (Array.isArray(saved.technicalSkills) && saved.technicalSkills.length) {
+          saved.technicalSkills.forEach(skill => {
+            addSkill(skill.name, skill.rating);
+          });
+        } else {
+          addSkill("Python", 5);
+        }
+      } catch {
+        addSkill("Python", 5);
+      }
+
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        message.textContent = "";
+
+        if (!form.reportValidity()) {
+          return;
+        }
+
+        const rows = [...skillList.querySelectorAll(".skill-row")];
+        const names = rows.map(row => row.querySelector(".skill-name").value.trim());
+
+        if (!names.length || names.some(name => !name)) {
+          message.textContent = "Please enter a name for every skill.";
+          return;
+        }
+
+        const normalized = names.map(name => name.toLowerCase());
+
+        if (new Set(normalized).size !== normalized.length) {
+          message.textContent = "Please remove duplicate skill names.";
+          return;
+        }
+
+        let previous = {};
+
+        try {
+          previous = JSON.parse(sessionStorage.getItem(draftKey) || "{}");
+        } catch {
+          previous = {};
+        }
+
+        const data = {
+          ...previous,
+          degree: document.getElementById("degree").value.trim(),
+          college: document.getElementById("college").value.trim(),
+          cgpa: Number(document.getElementById("cgpa").value),
+          graduationYear: Number(document.getElementById("graduationYear").value),
+          dsaRating: Number(document.getElementById("dsaRating").value),
+          aptitudeRating: Number(document.getElementById("aptitudeRating").value),
+          communicationRating: Number(document.getElementById("communicationRating").value),
+          technicalSkills: rows.map(row => ({
+            name: row.querySelector(".skill-name").value.trim(),
+            rating: Number(row.querySelector('input[type="range"]').value)
+          }))
+        };
+
+        try {
+          sessionStorage.setItem(draftKey, JSON.stringify(data));
+          window.location.href = "profile-details.html";
+        } catch {
+          message.textContent = "Your profile could not be saved in this browser. Please check your browser storage settings and try again.";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

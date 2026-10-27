@@ -1,0 +1,1045 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f7f3">
+  <meta name="description" content="Practice aptitude, data structures, algorithms, and technical skills with HireForge assessments.">
+  <title>HireForge — Skill Assessments</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+
+  <style>
+    :root {
+      --page: #f7f7f3;
+      --surface: #ffffff;
+      --surface-soft: #eff1e9;
+      --green: #285847;
+      --green-dark: #1d4436;
+      --green-light: #e5eee2;
+      --text: #242b26;
+      --muted: #737b73;
+      --border: #e4e7df;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --radius: 15px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid #94b6a0;
+      outline-offset: 3px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      padding: 13px max(28px, calc((100% - 1160px) / 2));
+      border-bottom: 1px solid var(--border);
+      background: rgb(247 247 243 / 95%);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      color: var(--green-dark);
+      font-size: 20px;
+      font-weight: 750;
+      letter-spacing: -0.8px;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--green);
+      color: white;
+      font-family: var(--serif);
+      font-size: 23px;
+    }
+
+    .brand > span:last-child:not(.brand-mark) {
+      color: var(--green);
+    }
+
+    .site-header nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 22px;
+    }
+
+    .site-header nav > a {
+      color: #667067;
+      font-size: 12px;
+      transition: color 180ms ease;
+    }
+
+    .site-header nav > a:hover {
+      color: var(--green);
+    }
+
+    .button {
+      min-height: 43px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 19px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.4;
+      cursor: pointer;
+      transition:
+        background 180ms ease,
+        color 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease;
+    }
+
+    .button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .button-primary {
+      border-color: var(--green);
+      background: var(--green);
+      color: white;
+    }
+
+    .button-primary:hover:not(:disabled) {
+      border-color: var(--green-dark);
+      background: var(--green-dark);
+    }
+
+    .button-outline {
+      border-color: #cfd7cd;
+      background: transparent;
+      color: var(--green-dark);
+    }
+
+    .button-outline:hover:not(:disabled) {
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+
+    .hero {
+      width: min(1160px, calc(100% - 56px));
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      align-items: center;
+      gap: 70px;
+      margin: 0 auto;
+      padding-top: 65px;
+      padding-bottom: 68px;
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .eyebrow {
+      margin: 0 0 17px;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: 1.7px;
+      line-height: 1.7;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(43px, 5.2vw, 65px);
+      font-weight: 400;
+      letter-spacing: -2.2px;
+      line-height: 1.1;
+    }
+
+    .hero h1 span,
+    .section-heading h2 span {
+      color: var(--green);
+      font-style: italic;
+    }
+
+    .hero-description {
+      max-width: 520px;
+      margin: 23px 0 27px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 2;
+    }
+
+    .hero-content > .button {
+      min-height: 49px;
+    }
+
+    .hero-card {
+      padding: 26px;
+      border: 1px solid #dfe4da;
+      border-radius: 17px;
+      background:
+        radial-gradient(ellipse at 100% 0%, #e2ebdc 0%, transparent 46%),
+        #f0f1e9;
+    }
+
+    .card-label {
+      margin: 0 0 19px;
+      color: #7b8579;
+      font-size: 9px;
+      font-weight: 750;
+      letter-spacing: 1.5px;
+    }
+
+    .journey-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 17px 0;
+      border-top: 1px solid #dfe4da;
+    }
+
+    .journey-number {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      border: 1px solid #d6e0d2;
+      border-radius: 10px;
+      background: #e7eee2;
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .journey-item h3 {
+      margin: 0 0 4px;
+      color: var(--green-dark);
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 400;
+    }
+
+    .journey-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .section {
+      width: min(1160px, calc(100% - 56px));
+      margin: 0 auto;
+      padding-top: 78px;
+      padding-bottom: 78px;
+    }
+
+    #assessments {
+      border-top: 1px solid var(--border);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 29px;
+    }
+
+    .section-heading .eyebrow {
+      margin-bottom: 10px;
+    }
+
+    .section-heading h2,
+    .results-section > h2,
+    .quiz-header h2 {
+      margin: 0;
+      color: var(--text);
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 43px);
+      font-weight: 400;
+      letter-spacing: -1.2px;
+      line-height: 1.2;
+    }
+
+    .section-heading > div > p:last-child {
+      margin: 11px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .assessment-form {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: end;
+      gap: 12px 16px;
+      padding: 25px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .assessment-form label,
+    .auth-form label {
+      display: block;
+      margin-bottom: 7px;
+      color: #4e5a50;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .assessment-form select,
+    .auth-form input {
+      width: 100%;
+      min-height: 47px;
+      padding: 0 13px;
+      border: 1px solid #dfe4dc;
+      border-radius: 8px;
+      background: #fcfcfa;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .assessment-form select {
+      margin-bottom: 8px;
+    }
+
+    .assessment-form button {
+      grid-column: 1 / -1;
+      justify-self: start;
+      margin-top: 7px;
+    }
+
+    .status-message {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .quiz-section,
+    .results-section {
+      margin-top: 30px;
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .quiz-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quiz-header .eyebrow {
+      margin-bottom: 9px;
+    }
+
+    .quiz-header h2 {
+      font-size: 32px;
+    }
+
+    .question-progress {
+      margin: 0;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    #questionContainer {
+      padding-top: 23px;
+    }
+
+    #questionContainer h3 {
+      margin: 0 0 20px;
+      font-family: var(--serif);
+      font-size: 23px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    #questionContainer label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 10px 0;
+      padding: 14px 15px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fcfcfa;
+      color: #485449;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    #questionContainer label:has(input:checked) {
+      border-color: #9db9a0;
+      background: #f0f5ed;
+    }
+
+    #questionContainer input {
+      margin-top: 5px;
+      accent-color: var(--green);
+    }
+
+    .quiz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 19px;
+      border-top: 1px solid var(--border);
+    }
+
+    .results-section > .eyebrow {
+      margin-bottom: 9px;
+    }
+
+    .results-section > h3 {
+      margin: 27px 0 14px;
+      color: var(--green-dark);
+      font-family: var(--serif);
+      font-size: 23px;
+      font-weight: 400;
+    }
+
+    .result-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 23px;
+    }
+
+    .result-summary > *,
+    .stats-grid > * {
+      min-width: 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fafbf8;
+      overflow-wrap: anywhere;
+    }
+
+    #answerReview {
+      display: grid;
+      gap: 12px;
+    }
+
+    #answerReview > * {
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fcfcfa;
+      overflow-wrap: anywhere;
+    }
+
+    #performance {
+      border-top: 1px solid var(--border);
+    }
+
+    .performance-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 23px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      overflow-wrap: anywhere;
+    }
+
+    .panel h3 {
+      margin: 0 0 19px;
+      color: var(--green-dark);
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .history-panel {
+      margin-top: 16px;
+    }
+
+    #categoryPerformance,
+    #difficultyPerformance,
+    #assessmentHistory {
+      color: #667067;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    #categoryPerformance > *,
+    #difficultyPerformance > *,
+    #assessmentHistory > * {
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    .site-footer {
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px max(28px, calc((100% - 1160px) / 2));
+      border-top: 1px solid var(--border);
+      background: #f1f2eb;
+    }
+
+    .site-footer p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    #authDialog {
+      width: min(440px, calc(100% - 32px));
+      max-height: calc(100% - 32px);
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--page);
+      color: var(--text);
+      box-shadow: 0 25px 90px rgb(0 0 0 / 18%);
+    }
+
+    #authDialog::backdrop {
+      background: rgb(22 35 26 / 48%);
+      backdrop-filter: blur(3px);
+    }
+
+    .auth-form {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 32px;
+    }
+
+    .dialog-close {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      width: 35px;
+      height: 35px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      color: var(--green-dark);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .auth-form .eyebrow {
+      margin: 7px 0 9px;
+    }
+
+    .auth-form h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 400;
+      letter-spacing: -0.8px;
+    }
+
+    .auth-form > p:not(.eyebrow):not(.status-message) {
+      margin: 12px 0 21px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .auth-form input {
+      margin-bottom: 16px;
+    }
+
+    .auth-form details {
+      margin: 0 0 19px;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+    }
+
+    .auth-form summary {
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .auth-form details label {
+      margin-top: 16px;
+    }
+
+    .auth-form details input {
+      margin-bottom: 0;
+    }
+
+    .auth-form > button[type="submit"] {
+      width: 100%;
+    }
+
+    .auth-form .status-message {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 1050px) {
+      .site-header {
+        padding-inline: 24px;
+      }
+
+      .site-header nav {
+        gap: 14px;
+      }
+
+      .hero {
+        gap: 35px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .site-header {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+        padding: 18px 22px;
+      }
+
+      .site-header nav {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 12px 20px;
+      }
+
+      .site-header nav > a {
+        font-size: 11px;
+      }
+
+      .hero {
+        width: calc(100% - 36px);
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding-top: 48px;
+        padding-bottom: 55px;
+      }
+
+      .hero h1 {
+        font-size: clamp(42px, 9vw, 58px);
+      }
+
+      .hero-card {
+        padding: 22px;
+      }
+
+      .section {
+        width: calc(100% - 36px);
+        padding-top: 58px;
+        padding-bottom: 58px;
+      }
+
+      .assessment-form {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 20px;
+      }
+
+      .assessment-form button {
+        grid-column: auto;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .performance-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .site-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        padding: 23px 22px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-heading h2 {
+        font-size: 34px;
+      }
+
+      .quiz-section,
+      .results-section {
+        padding: 18px;
+      }
+
+      .quiz-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .quiz-header h2 {
+        font-size: 28px;
+      }
+
+      .quiz-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .quiz-actions button {
+        width: 100%;
+        padding-inline: 10px;
+      }
+
+      #submitAssessment {
+        grid-column: 1 / -1;
+      }
+
+      .result-summary,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+      .auth-form {
+        padding: 26px 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="HireForge home">
+      <span class="brand-mark">H</span>
+      HireForge<span>.</span>
+    </a>
+
+    <nav aria-label="Main navigation">
+      <a href="../dashboard.html">Dashboard</a>
+      <a href="#assessments" aria-current="page">Assessments</a>
+      <a href="#performance">Performance</a>
+      <a href="/interview/">Mock Interview</a>
+      <a href="../resume/index.html">Resume</a>
+      <button id="authButton" class="button button-outline" type="button">
+        Connect Account
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-content">
+        <p class="eyebrow">YOUR CAREER. YOUR NEXT STEP.</p>
+        <h1 id="heroTitle">Build skills.<br><span>Prove your potential.</span></h1>
+        <p class="hero-description">
+          Practice aptitude, data structures and algorithms, and technical
+          questions through structured assessments. Review your results and
+          track your performance.
+        </p>
+        <a class="button button-primary" href="#assessments">
+          Explore Assessments <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="hero-card">
+        <p class="card-label">YOUR LEARNING JOURNEY</p>
+
+        <div class="journey-item">
+          <span class="journey-number">01</span>
+          <div>
+            <h3>Choose a category</h3>
+            <p>Select the skill you want to practice.</p>
+          </div>
+        </div>
+
+        <div class="journey-item">
+          <span class="journey-number">02</span>
+          <div>
+            <h3>Take an assessment</h3>
+            <p>Answer questions and submit your responses.</p>
+          </div>
+        </div>
+
+        <div class="journey-item">
+          <span class="journey-number">03</span>
+          <div>
+            <h3>Review your results</h3>
+            <p>See your score and answer explanations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="assessments" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">PRACTICE CENTER</p>
+          <h2>Choose your assessment</h2>
+          <p>Select a category, difficulty, and question count.</p>
+        </div>
+      </div>
+
+      <form id="assessmentForm" class="assessment-form">
+        <div>
+          <label for="assessmentType">Assessment category</label>
+          <select id="assessmentType" name="assessmentType" required>
+            <option value="aptitude">Aptitude</option>
+            <option value="dsa">Data Structures &amp; Algorithms</option>
+            <option value="technical">Technical</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty" name="difficulty" required>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="questionCount">Number of questions</label>
+          <select id="questionCount" name="questionCount" required>
+            <option value="25">25 questions</option>
+            <option value="50">50 questions</option>
+          </select>
+        </div>
+
+        <button class="button button-primary" type="submit">
+          Start Assessment <span aria-hidden="true">→</span>
+        </button>
+      </form>
+
+      <p id="assessmentMessage" class="status-message" role="status" aria-live="polite">
+        Connect your account before starting an assessment.
+      </p>
+
+      <section id="quizSection" class="quiz-section" hidden>
+        <div class="quiz-header">
+          <div>
+            <p class="eyebrow">ASSESSMENT IN PROGRESS</p>
+            <h2 id="quizTitle">Assessment</h2>
+          </div>
+          <p id="questionProgress" class="question-progress"></p>
+        </div>
+
+        <div id="questionContainer"></div>
+
+        <div class="quiz-actions">
+          <button id="previousQuestion" class="button button-outline" type="button">
+            Previous
+          </button>
+          <button id="nextQuestion" class="button button-primary" type="button">
+            Next
+          </button>
+          <button id="submitAssessment" class="button button-primary" type="button" hidden>
+            Submit Assessment
+          </button>
+        </div>
+
+        <p id="quizMessage" class="status-message" role="status" aria-live="polite"></p>
+      </section>
+    </section>
+
+    <section id="results" class="section results-section" hidden>
+      <p class="eyebrow">ASSESSMENT COMPLETE</p>
+      <h2>Your results</h2>
+      <div id="resultSummary" class="result-summary"></div>
+      <h3>Answer review</h3>
+      <div id="answerReview"></div>
+    </section>
+
+    <section id="performance" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">YOUR PROGRESS</p>
+          <h2>Performance overview</h2>
+          <p>Review your completed assessments and scores.</p>
+        </div>
+        <button id="refreshPerformance" class="button button-outline" type="button">
+          Refresh
+        </button>
+      </div>
+
+      <div id="performanceMessage" class="status-message" role="status" aria-live="polite">
+        Connect your account to load your performance.
+      </div>
+
+      <div id="performanceSummary" class="stats-grid"></div>
+
+      <div class="performance-columns">
+        <div class="panel">
+          <h3>Category performance</h3>
+          <div id="categoryPerformance"></div>
+        </div>
+
+        <div class="panel">
+          <h3>Difficulty performance</h3>
+          <div id="difficultyPerformance"></div>
+        </div>
+      </div>
+
+      <div class="panel history-panel">
+        <h3>Recent assessments</h3>
+        <div id="assessmentHistory"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href="../index.html" aria-label="HireForge home">
+      <span class="brand-mark">H</span>
+      HireForge<span>.</span>
+    </a>
+    <p>Practice consistently. Grow confidently.</p>
+  </footer>
+
+  <dialog id="authDialog">
+    <form id="authForm" class="auth-form">
+      <button id="closeAuthDialog" class="dialog-close" type="button" aria-label="Close">
+        ×
+      </button>
+
+      <p class="eyebrow">ACCOUNT CONNECTION</p>
+      <h2>Connect to HireForge</h2>
+      <p>
+        Log in with the email and password you use on HireForge.
+        Your token is kept in this browser only.
+      </p>
+
+      <label for="loginEmail">Email</label>
+      <input
+        id="loginEmail"
+        name="loginEmail"
+        type="email"
+        autocomplete="username"
+      >
+
+      <label for="loginPassword">Password</label>
+      <input
+        id="loginPassword"
+        name="loginPassword"
+        type="password"
+        autocomplete="current-password"
+      >
+
+      <details>
+        <summary>Or use an authentication token</summary>
+        <label for="apiToken">Authentication token</label>
+        <input
+          id="apiToken"
+          name="apiToken"
+          type="password"
+          autocomplete="off"
+        >
+      </details>
+
+      <button class="button button-primary" type="submit">Connect</button>
+      <p id="authMessage" class="status-message" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+</body>
+</html>
