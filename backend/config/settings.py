@@ -1,4 +1,4 @@
-"""
+﻿"""
 Django settings for the unified HireForge project
 (Member 1 dashboard + Member 2 assessments + Member 3 mock interviews + Member 4 resume).
 
@@ -131,8 +131,10 @@ if DATABASE_URL:
         # Needed for pooled connections (Neon/Supabase pgbouncer, transaction mode).
         DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
     if "mysql" in _engine:
-    DATABASES["default"].setdefault("OPTIONS", {}).setdefault("charset", "utf8mb4")
-    DATABASES["default"]["OPTIONS"].pop("ssl-mode", None)
+        options = DATABASES["default"].setdefault("OPTIONS", {})
+        options.setdefault("charset", "utf8mb4")
+        options.pop("ssl-mode", None)
+        options.pop("ssl_mode", None)
     DATABASES["default"]["OPTIONS"].pop("ssl_mode", None)
 elif ON_VERCEL:
     raise ImproperlyConfigured(
@@ -215,3 +217,4 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "root": {"handlers": ["console"], "level": os.getenv("LOG_LEVEL", "INFO")},
 }
+
