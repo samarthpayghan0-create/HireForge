@@ -8,17 +8,35 @@
     }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index" },
-    { "source": "/admin/(.*)", "destination": "/api/index" },
-    { "source": "/interview/(.*)", "destination": "/api/index" },
-    { "source": "/static/(.*)", "destination": "/api/index" }
+    {
+      "source": "/api/:path*",
+      "destination": "/api/index?original_path=/api/:path*"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/api/index?original_path=/admin/:path*"
+    },
+    {
+      "source": "/interview/:path*",
+      "destination": "/api/index?original_path=/interview/:path*"
+    },
+    {
+      "source": "/static/:path*",
+      "destination": "/api/index?original_path=/static/:path*"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
       ]
     }
   ]
