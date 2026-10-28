@@ -127,40 +127,36 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASE_URL = os.getenv("DATABASE_URL", "")
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 
-if DATABASE_URL:
+if not DATABASE_URL:
+    raise ImproperlyConfigured(
+        "DATABASE_URL is required. Configure the Aiven MySQL connection."
+    )
+
+try:
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
             conn_max_age=0,
         )
     }
-
-    _engine = DATABASES["default"]["ENGINE"]
-
-    if "postgresql" in _engine:
-        DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
-
-    if "mysql" in _engine:
-        options = DATABASES["default"].setdefault("OPTIONS", {})
-        options.setdefault("charset", "utf8mb4")
-        options.pop("ssl-mode", None)
-        options.pop("ssl_mode", None)
-
-elif ON_VERCEL:
+except Exception as exc:
     raise ImproperlyConfigured(
-        "DATABASE_URL is not set. Vercel needs a hosted database "
-        "(for example Neon PostgreSQL or a MySQL provider). See DEPLOY.md."
+        "DATABASE_URL is invalid. Check your Aiven MySQL connection settings."
+    ) from exc
+
+_engine = DATABASES["default"]["ENGINE"]
+
+if "mysql" not in _engine:
+    raise ImproperlyConfigured(
+        "HireForge requires MySQL. SQLite is not supported."
     )
 
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+options = DATABASES["default"].setdefault("OPTIONS", {})
+options.setdefault("charset", "utf8mb4")
+options.pop("ssl-mode", None)
+options.pop("ssl_mode", None)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -249,4 +245,3 @@ LOGGING = {
         "level": os.getenv("LOG_LEVEL", "INFO"),
     },
 }
-
