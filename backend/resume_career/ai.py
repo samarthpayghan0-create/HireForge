@@ -1,4 +1,4 @@
-"""Optional Gemini enhancement.
+﻿"""Optional Gemini enhancement.
 
 The rule-based analysis always runs. If GEMINI_API_KEY is configured, Gemini adds a
 written review on top. Any failure falls back silently to the rule-based result.
@@ -22,7 +22,7 @@ def ai_enabled():
 
 
 def _fence(text):
-    return str(text).replace("<<<", "«").replace(">>>", "»")
+    return str(text).replace("<<<", "Â«").replace(">>>", "Â»")
 
 
 def _generate_json(prompt):
@@ -31,7 +31,7 @@ def _generate_json(prompt):
 
     client = genai.Client(api_key=settings.GEMINI_API_KEY)
     response = client.models.generate_content(
-        model=getattr(settings, "GEMINI_MODEL", "gemini-3.8-flash"),
+        model=getattr(settings, "GEMINI_MODEL", "gemini-3.5-flash-lite"),
         contents=prompt,
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
@@ -103,3 +103,4 @@ Use at most 5 items per list and at most 3 rewritten bullets.
         "improvements": _str_list(data.get("improvements"), 5),
         "rewritten_bullets": bullets,
     }
+

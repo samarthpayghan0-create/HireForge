@@ -1,4 +1,4 @@
-
+﻿
 import json
 import os
 import re
@@ -10,7 +10,7 @@ GEMINI_API_URL = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
     "{model}:generateContent"
 )
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
 class GeminiAssessmentError(Exception):
     pass
@@ -185,3 +185,4 @@ Rules:
 
     result["skill_gaps"] = valid_skill_gaps
     return result
+
