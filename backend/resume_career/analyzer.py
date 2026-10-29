@@ -87,38 +87,77 @@ def _pct(points, weight):
     return round(max(0.0, min(1.0, points)) * weight, 1)
 
 
+
 def score_resume(text, sections, skills, stats, contact):
     b = {}
+
     b["contact"] = _pct(
-        (contact["email"] * 0.4) + (contact["phone"] * 0.3) + ((contact["linkedin"] or contact["github"]) * 0.3),
+        (contact["email"] * 0.4)
+        + (contact["phone"] * 0.3)
+        + ((contact["linkedin"] or contact["github"]) * 0.3),
         WEIGHTS["contact"],
     )
+
     core_sections = ["Education", "Skills", "Projects", "Experience"]
-    sec_points = sum(0.2 for s in core_sections if s in sections)
+    sec_points = sum(0.2 for section in core_sections if section in sections)
     sec_points += 0.1 if "Summary / Objective" in sections else 0
-    sec_points += 0.1 if ("Certifications" in sections or "Achievements" in sections) else 0
+    sec_points += 0.1 if (
+        "Certifications" in sections or "Achievements" in sections
+    ) else 0
     b["sections"] = _pct(sec_points, WEIGHTS["sections"])
-    b["skills_keywords"] = _pct(len(skills) / 12, WEIGHTS["skills_keywords"])
-    wc = stats["word_count"]
-    if 300 <= wc <= 900:
+
+    b["skills_keywords"] = _pct(len(skills) / 18, WEIGHTS["skills_keywords"])
+
+    word_count = stats["word_count"]
+    if 400 <= word_count <= 750:
         length = 1.0
-    elif wc < 300:
-        length = wc / 300
+    elif word_count < 400:
+        length = word_count / 400
     else:
-        length = max(0.4, 1 - (wc - 900) / 1500)
+        length = max(0.0, 1 - (word_count - 750) / 1250)
+
     b["length"] = _pct(length, WEIGHTS["length"])
-    bullet_part = min(stats["bullet_count"] / 8, 1) * 0.5
-    verb_part = min(stats["action_verb_lines"] / 6, 1) * 0.5
-    b["bullets_action"] = _pct(bullet_part + verb_part, WEIGHTS["bullets_action"])
-    b["quantified"] = _pct(stats["quantified_lines"] / 4, WEIGHTS["quantified"])
-    b["language"] = _pct(1.0 if stats["first_person_count"] <= 1 else 0.4, WEIGHTS["language"])
-    overall = round(sum(b.values()), 1)
-    ats = round(
-        (b["contact"] + b["sections"] + b["skills_keywords"] + b["length"]) / (
-            WEIGHTS["contact"] + WEIGHTS["sections"] + WEIGHTS["skills_keywords"] + WEIGHTS["length"]
-        ) * 100, 1,
+
+    bullet_part = min(stats["bullet_count"] / 10, 1) * 0.5
+    verb_part = min(stats["action_verb_lines"] / 8, 1) * 0.5
+    b["bullets_action"] = _pct(
+        bullet_part + verb_part,
+        WEIGHTS["bullets_action"],
     )
+
+    b["quantified"] = _pct(
+        stats["quantified_lines"] / 6,
+        WEIGHTS["quantified"],
+    )
+
+    b["language"] = _pct(
+        1.0 if stats["first_person_count"] == 0
+        else 0.4 if stats["first_person_count"] <= 2
+        else 0.0,
+        WEIGHTS["language"],
+    )
+
+    overall = round(sum(b.values()), 1)
+
+    ats_weights = (
+        WEIGHTS["contact"]
+        + WEIGHTS["sections"]
+        + WEIGHTS["skills_keywords"]
+        + WEIGHTS["length"]
+    )
+
+    ats = round(
+        (
+            b["contact"]
+            + b["sections"]
+            + b["skills_keywords"]
+            + b["length"]
+        ) / ats_weights * 100,
+        1,
+    )
+
     return overall, ats, b
+
 
 
 def build_feedback(text, sections, skills, stats, contact):
