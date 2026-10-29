@@ -792,6 +792,23 @@
                 gap: 8px;
             }
         }
+
+        .focus-reminder {
+            margin: 12px auto 16px;
+            padding: 12px 16px;
+            max-width: 480px;
+            border: 1px solid #f59e0b;
+            border-radius: 10px;
+            background: #fffbeb;
+            color: #92400e;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .focus-reminder.hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -909,6 +926,9 @@
                         <span>Camera is off</span>
                     </div>
                 </div>
+                <div id="focusReminder" class="focus-reminder hidden" role="status" aria-live="polite">
+                    Please stay focused on your interview and look toward the screen.
+                </div>
 
                 <div class="actions camera-actions">
                     <button class="button button-secondary" id="enableCameraBtn" type="button">
@@ -959,7 +979,7 @@
             <p>Practice consistently. Learn from every answer.</p>
         </div>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.js"></script>
     <script>
         (() => {
             const $ = id => document.getElementById(id);
@@ -1545,7 +1565,17 @@
             setupSpeech();
         })();
 
+
         let cameraStream = null;
+        let faceLandmarker = null;
+        let faceDetectionRunning = false;
+        let faceDetectionTimer = null;
+        let lookingAwaySince = null;
+        let noFaceSince = null;
+        let lastDetectionTime = 0;
+
+        const FOCUS_DELAY_MS = 3000;
+        const DETECTION_INTERVAL_MS = 250;
 
         const cameraVideo = document.getElementById("cameraVideo");
         const enableCameraBtn = document.getElementById("enableCameraBtn");
@@ -1553,6 +1583,130 @@
         const cameraStatus = document.getElementById("cameraStatus");
         const cameraIndicator = document.getElementById("cameraIndicator");
         const cameraPlaceholder = document.getElementById("cameraPlaceholder");
+        const focusReminder = document.getElementById("focusReminder");
+
+        function resetFocusState() {
+            lookingAwaySince = null;
+            noFaceSince = null;
+            focusReminder.classList.add("hidden");
+        }
+
+        async function initializeFaceDetection() {
+            if (faceLandmarker) return faceLandmarker;
+
+            if (!window.vision || !window.vision.FaceLandmarker) {
+                throw new Error("Face detection library did not load.");
+            }
+
+            const fileset = await window.vision.FilesetResolver.forVisionTasks(
+                "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
+            );
+
+            faceLandmarker = await window.vision.FaceLandmarker.createFromOptions(
+                fileset,
+                {
+                    baseOptions: {
+                        modelAssetPath:
+                            "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+                        delegate: "GPU"
+                    },
+                    runningMode: "VIDEO",
+                    numFaces: 1
+                }
+            );
+
+            return faceLandmarker;
+        }
+
+        function showFocusMessage(message) {
+            focusReminder.textContent = message;
+            focusReminder.classList.remove("hidden");
+        }
+
+        function detectFocus() {
+            if (
+                !faceDetectionRunning ||
+                !cameraStream ||
+                cameraVideo.readyState < HTMLMediaElement.HAVE_CURRENT_DATA
+            ) {
+                return;
+            }
+
+            try {
+                const now = performance.now();
+
+                if (now - lastDetectionTime < DETECTION_INTERVAL_MS) return;
+                lastDetectionTime = now;
+
+                const result = faceLandmarker.detectForVideo(cameraVideo, now);
+                const face = result.faceLandmarks && result.faceLandmarks[0];
+
+                if (!face) {
+                    lookingAwaySince = null;
+
+                    if (noFaceSince === null) noFaceSince = now;
+
+                    if (now - noFaceSince >= FOCUS_DELAY_MS) {
+                        showFocusMessage("We can't see your face. Please return to the interview screen.");
+                    }
+
+                    return;
+                }
+
+                noFaceSince = null;
+
+                const nose = face[1];
+                const leftEye = face[33];
+                const rightEye = face[263];
+
+                if (!nose || !leftEye || !rightEye) return;
+
+                const eyeCenterX = (leftEye.x + rightEye.x) / 2;
+                const eyeWidth = Math.abs(rightEye.x - leftEye.x);
+
+                if (!eyeWidth) return;
+
+                const horizontalOffset = Math.abs(nose.x - eyeCenterX) / eyeWidth;
+                const appearsToLookAway = horizontalOffset > 0.22;
+
+                if (appearsToLookAway) {
+                    if (lookingAwaySince === null) lookingAwaySince = now;
+
+                    if (now - lookingAwaySince >= FOCUS_DELAY_MS) {
+                        showFocusMessage("Please stay focused on your interview and look toward the screen.");
+                    }
+                } else {
+                    lookingAwaySince = null;
+                    focusReminder.classList.add("hidden");
+                }
+            } catch (error) {
+                console.error("Focus detection error:", error);
+                showFocusMessage("Focus detection is temporarily unavailable.");
+                stopFocusDetection();
+            }
+        }
+
+        function startFocusDetection() {
+            stopFocusDetection();
+            resetFocusState();
+            faceDetectionRunning = true;
+
+            faceDetectionTimer = setInterval(
+                detectFocus,
+                DETECTION_INTERVAL_MS
+            );
+        }
+
+        function stopFocusDetection() {
+            faceDetectionRunning = false;
+
+            if (faceDetectionTimer !== null) {
+                clearInterval(faceDetectionTimer);
+                faceDetectionTimer = null;
+            }
+
+            resetFocusState();
+        }
 
         enableCameraBtn.addEventListener("click", async () => {
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -1576,26 +1730,44 @@
                 cameraPlaceholder.classList.add("hidden");
                 cameraIndicator.textContent = "ON";
                 cameraIndicator.classList.add("active");
-                cameraStatus.textContent = "Your camera is active. Video is not being recorded.";
-                enableCameraBtn.disabled = true;
+                cameraStatus.textContent = "Camera is active. Video is not recorded or uploaded.";
                 disableCameraBtn.disabled = false;
+
+                cameraStatus.textContent = "Loading local face detection...";
+
+                try {
+                    await initializeFaceDetection();
+                    startFocusDetection();
+                    cameraStatus.textContent =
+                        "Camera and focus reminders are active. Video is not recorded or uploaded.";
+                } catch (error) {
+                    console.error(error);
+                    cameraStatus.textContent =
+                        "Camera is active, but focus detection could not load. Check your internet connection and refresh.";
+                }
             } catch (error) {
-                cameraStream = null;
+                if (cameraStream) {
+                    cameraStream.getTracks().forEach(track => track.stop());
+                    cameraStream = null;
+                }
+
                 enableCameraBtn.disabled = false;
 
                 if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
                     cameraStatus.textContent =
                         "Camera permission denied. Allow camera access in your browser settings.";
-                } else if (error.name === "NotFoundError" || error.name === "DevicesNotFoundError") {
+                } else if (error.name === "NotFoundError") {
                     cameraStatus.textContent = "No camera was found on this device.";
                 } else {
                     cameraStatus.textContent =
-                        "Could not start the camera. Check that it is connected and not being used by another app.";
+                        "Could not start the camera. Check permissions and try again.";
                 }
             }
         });
 
         disableCameraBtn.addEventListener("click", () => {
+            stopFocusDetection();
+
             if (cameraStream) {
                 cameraStream.getTracks().forEach(track => track.stop());
                 cameraStream = null;
@@ -1611,11 +1783,14 @@
         });
 
         window.addEventListener("pagehide", () => {
+            stopFocusDetection();
+
             if (cameraStream) {
                 cameraStream.getTracks().forEach(track => track.stop());
                 cameraStream = null;
             }
         });
+
 
     </script>
 </body>
