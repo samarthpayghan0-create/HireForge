@@ -1,10 +1,10 @@
-
 from django.urls import path
 
 from .views import (
     LoginView,
     ReadinessAssessmentView,
     RegisterView,
+    StudentPerformanceView,
     StudentProfileView,
 )
 
@@ -17,5 +17,10 @@ urlpatterns = [
         "assessment/",
         ReadinessAssessmentView.as_view(),
         name="readiness-assessment",
+    ),
+    path(
+        "performance/",
+        StudentPerformanceView.as_view(),
+        name="student-performance",
     ),
 ]

@@ -7,7 +7,6 @@
   <meta name="description" content="Complete your HireForge student profile.">
   <title>Complete Your Profile | HireForge</title>
   <link rel="stylesheet" href="style.css">
-
   <style>
     :root {
       --profile-bg: #f7f7f3;
@@ -19,9 +18,7 @@
       --profile-soft: #e7eee7;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -32,14 +29,9 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
-    a:focus-visible,
-    button:focus-visible,
-    input:focus-visible,
+    a:focus-visible, button:focus-visible, input:focus-visible,
     select:focus-visible {
       outline: 3px solid #88ad97;
       outline-offset: 3px;
@@ -112,9 +104,7 @@
       letter-spacing: -1.4px;
     }
 
-    .profile-heading h1 span {
-      color: var(--profile-green);
-    }
+    .profile-heading h1 span { color: var(--profile-green); }
 
     .profile-heading > p:last-child {
       max-width: 560px;
@@ -124,19 +114,14 @@
       line-height: 1.9;
     }
 
-    .profile-form {
-      display: grid;
-      gap: 24px;
-    }
+    .profile-form { display: grid; gap: 24px; }
 
     .profile-card {
       padding: 27px 0;
       border-top: 1px solid var(--profile-border);
     }
 
-    .profile-card:last-child {
-      border-bottom: 1px solid var(--profile-border);
-    }
+    .profile-card:last-child { border-bottom: 1px solid var(--profile-border); }
 
     .profile-card-heading {
       display: flex;
@@ -173,20 +158,16 @@
       gap: 9px;
     }
 
-    .profile-field.full {
-      grid-column: 1 / -1;
-    }
+    .profile-field.full { grid-column: 1 / -1; }
 
-    .profile-field label,
-    .skill-label {
+    .profile-field label, .skill-label {
       color: var(--profile-text);
       font-size: 12px;
       font-weight: 650;
     }
 
     .profile-field input:not([type="range"]),
-    .profile-field select,
-    .skill-name {
+    .profile-field select, .skill-name {
       width: 100%;
       min-height: 45px;
       padding: 11px 13px;
@@ -200,17 +181,13 @@
       transition: border-color .15s, box-shadow .15s;
     }
 
-    .profile-field input:focus,
-    .profile-field select:focus,
+    .profile-field input:focus, .profile-field select:focus,
     .skill-name:focus {
       border-color: var(--profile-green);
       box-shadow: 0 0 0 3px rgba(40, 88, 71, .08);
     }
 
-    .profile-field input::placeholder,
-    .skill-name::placeholder {
-      color: #a0a69f;
-    }
+    .profile-field input::placeholder, .skill-name::placeholder { color: #a0a69f; }
 
     .profile-field input[type="number"] {
       appearance: textfield;
@@ -244,10 +221,7 @@
       text-align: right;
     }
 
-    .skill-list {
-      display: grid;
-      gap: 14px;
-    }
+    .skill-list { display: grid; gap: 14px; }
 
     .skill-row {
       display: grid;
@@ -282,9 +256,7 @@
       color: var(--profile-green);
     }
 
-    .profile-button.secondary:hover {
-      background: var(--profile-soft);
-    }
+    .profile-button.secondary:hover { background: var(--profile-soft); }
 
     .profile-button.remove {
       min-height: 40px;
@@ -294,9 +266,7 @@
       color: #873f34;
     }
 
-    .profile-button.remove:hover {
-      background: #f8eae7;
-    }
+    .profile-button.remove:hover { background: #f8eae7; }
 
     .profile-message {
       display: none;
@@ -310,9 +280,7 @@
       overflow-wrap: anywhere;
     }
 
-    .profile-message:not(:empty) {
-      display: block;
-    }
+    .profile-message:not(:empty) { display: block; }
 
     .profile-actions {
       display: flex;
@@ -329,87 +297,34 @@
       line-height: 1.7;
     }
 
-    .profile-actions .profile-button {
-      min-width: 180px;
-    }
+    .profile-actions .profile-button { min-width: 180px; }
 
     @media (max-width: 650px) {
-      .profile-page {
-        width: calc(100% - 36px);
-        padding: 21px 0 38px;
-      }
-
-      .profile-heading {
-        margin: 37px 0 25px;
-      }
-
-      .profile-heading h1 {
-        font-size: 37px;
-      }
-
-      .profile-card {
-        padding: 23px 0;
-      }
-
-      .profile-card-heading {
-        flex-wrap: wrap;
-      }
-
-      .profile-grid,
-      .skill-row {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .profile-field.full {
-        grid-column: auto;
-      }
-
-      .skill-row {
-        gap: 15px;
-      }
-
-      .profile-button.remove {
-        justify-self: start;
-      }
-
-      .profile-actions {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .profile-actions .profile-button {
-        width: 100%;
-      }
+      .profile-page { width: calc(100% - 36px); padding: 21px 0 38px; }
+      .profile-heading { margin: 37px 0 25px; }
+      .profile-heading h1 { font-size: 37px; }
+      .profile-card { padding: 23px 0; }
+      .profile-card-heading { flex-wrap: wrap; }
+      .profile-grid, .skill-row { grid-template-columns: minmax(0, 1fr); }
+      .profile-field.full { grid-column: auto; }
+      .skill-row { gap: 15px; }
+      .profile-button.remove { justify-self: start; }
+      .profile-actions { align-items: stretch; flex-direction: column; }
+      .profile-actions .profile-button { width: 100%; }
     }
 
     @media (max-width: 380px) {
-      .profile-page {
-        width: calc(100% - 28px);
-      }
-
-      .profile-brand {
-        font-size: 20px;
-      }
-
-      .profile-step {
-        font-size: 9px;
-      }
-
-      .profile-heading h1 {
-        font-size: 33px;
-      }
+      .profile-page { width: calc(100% - 28px); }
+      .profile-brand { font-size: 20px; }
+      .profile-step { font-size: 9px; }
+      .profile-heading h1 { font-size: 33px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        transition: none !important;
-      }
+      *, *::before, *::after { transition: none !important; }
     }
   </style>
 </head>
-
 <body>
   <main class="profile-page">
     <div class="profile-top">
@@ -420,14 +335,9 @@
       <span class="profile-step">Profile setup · Step 1 of 2</span>
     </div>
 
-    <div
-      class="profile-progress"
-      role="progressbar"
-      aria-label="Profile setup progress"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      aria-valuenow="50"
-    >
+    <div class="profile-progress" role="progressbar"
+      aria-label="Profile setup progress" aria-valuemin="0"
+      aria-valuemax="100" aria-valuenow="50">
       <span></span>
     </div>
 
@@ -452,52 +362,26 @@
         <div class="profile-grid">
           <div class="profile-field">
             <label for="degree">Degree / qualification *</label>
-            <input
-              id="degree"
-              name="degree"
-              required
-              maxlength="100"
-              placeholder="e.g. B.Tech Computer Science"
-            >
+            <input id="degree" name="degree" required maxlength="100"
+              placeholder="e.g. B.Tech Computer Science">
           </div>
 
           <div class="profile-field">
             <label for="college">College / university *</label>
-            <input
-              id="college"
-              name="college"
-              required
-              maxlength="150"
-              placeholder="Enter your institution"
-            >
+            <input id="college" name="college" required maxlength="150"
+              placeholder="Enter your institution">
           </div>
 
           <div class="profile-field">
             <label for="cgpa">CGPA (out of 10) *</label>
-            <input
-              id="cgpa"
-              name="cgpa"
-              type="number"
-              required
-              min="0"
-              max="10"
-              step="0.01"
-              placeholder="e.g. 8.50"
-            >
+            <input id="cgpa" name="cgpa" type="number" required
+              min="0" max="10" step="0.01" placeholder="e.g. 8.50">
           </div>
 
           <div class="profile-field">
             <label for="graduationYear">Graduation year *</label>
-            <input
-              id="graduationYear"
-              name="graduationYear"
-              type="number"
-              required
-              min="2000"
-              max="2100"
-              step="1"
-              placeholder="e.g. 2027"
-            >
+            <input id="graduationYear" name="graduationYear" type="number"
+              required min="2000" max="2100" step="1" placeholder="e.g. 2027">
           </div>
         </div>
       </section>
@@ -517,45 +401,30 @@
           <div class="profile-field">
             <label for="dsaRating">Data structures and algorithms</label>
             <div class="profile-range">
-              <input
-                id="dsaRating"
-                name="dsaRating"
-                type="range"
-                min="1"
-                max="10"
-                value="5"
-              >
-              <output class="range-value" id="dsaRatingValue" for="dsaRating">5/10</output>
+              <input id="dsaRating" name="dsaRating" type="range"
+                min="1" max="10" value="5">
+              <output class="range-value" id="dsaRatingValue"
+                for="dsaRating">5/10</output>
             </div>
           </div>
 
           <div class="profile-field">
             <label for="aptitudeRating">Aptitude</label>
             <div class="profile-range">
-              <input
-                id="aptitudeRating"
-                name="aptitudeRating"
-                type="range"
-                min="1"
-                max="10"
-                value="5"
-              >
-              <output class="range-value" id="aptitudeRatingValue" for="aptitudeRating">5/10</output>
+              <input id="aptitudeRating" name="aptitudeRating" type="range"
+                min="1" max="10" value="5">
+              <output class="range-value" id="aptitudeRatingValue"
+                for="aptitudeRating">5/10</output>
             </div>
           </div>
 
           <div class="profile-field">
             <label for="communicationRating">Communication</label>
             <div class="profile-range">
-              <input
-                id="communicationRating"
-                name="communicationRating"
-                type="range"
-                min="1"
-                max="10"
-                value="5"
-              >
-              <output class="range-value" id="communicationRatingValue" for="communicationRating">5/10</output>
+              <input id="communicationRating" name="communicationRating"
+                type="range" min="1" max="10" value="5">
+              <output class="range-value" id="communicationRatingValue"
+                for="communicationRating">5/10</output>
             </div>
           </div>
         </div>
@@ -570,12 +439,8 @@
               from 1 to 10.
             </p>
           </div>
-
-          <button
-            class="profile-button secondary"
-            type="button"
-            id="addSkillButton"
-          >+ Add skill</button>
+          <button class="profile-button secondary" type="button"
+            id="addSkillButton">+ Add skill</button>
         </div>
 
         <datalist id="skillSuggestions">
@@ -613,16 +478,14 @@
 
         <div class="skill-list" id="skillList"></div>
 
-        <p
-          id="profileMessage"
-          class="profile-message"
-          role="alert"
-          aria-live="polite"
-        ></p>
+        <p id="profileMessage" class="profile-message"
+          role="alert" aria-live="polite"></p>
 
         <div class="profile-actions">
           <span>Fields marked * are required.</span>
-          <button class="profile-button" type="submit">Save and continue →</button>
+          <button class="profile-button" type="submit">
+            Save and continue →
+          </button>
         </div>
       </section>
     </form>
@@ -633,16 +496,84 @@
       const form = document.getElementById("profileForm");
       const skillList = document.getElementById("skillList");
       const message = document.getElementById("profileMessage");
-      const draftKey = "hireforgeProfileDraft";
+      const addButton = document.getElementById("addSkillButton");
+      const token = localStorage.getItem("hireforgeToken");
+      const draftKey = token
+        ? "hireforgeProfileDraft:" + token
+        : "hireforgeProfileDraft";
 
-      ["dsaRating", "aptitudeRating", "communicationRating"].forEach(id => {
-        const input = document.getElementById(id);
-        const output = document.getElementById(id + "Value");
+      let loadingProfile = true;
 
-        input.addEventListener("input", () => {
-          output.value = input.value + "/10";
-        });
-      });
+      function apiRoot() {
+        return window.HIREFORGE_API_ROOT ||
+          (location.port === "5500" || location.protocol === "file:"
+            ? "http://127.0.0.1:8000/api"
+            : "/api");
+      }
+
+      function getDraft() {
+        try {
+          return JSON.parse(sessionStorage.getItem(draftKey) || "{}");
+        } catch {
+          return {};
+        }
+      }
+
+      function setDraft(draft) {
+        sessionStorage.setItem(draftKey, JSON.stringify(draft));
+      }
+
+      function showMessage(text, success = false) {
+        message.textContent = text;
+        message.style.borderLeftColor = success ? "#285847" : "#a33d32";
+        message.style.background = success ? "#e7eee7" : "#f8eae7";
+        message.style.color = success ? "#285847" : "#873f34";
+      }
+
+      function markDraftTouched() {
+        if (loadingProfile) return;
+
+        try {
+          const draft = getDraft();
+          draft.draftTouched = true;
+          setDraft(draft);
+        } catch {
+          showMessage("Your changes could not be saved temporarily in this browser.");
+        }
+      }
+
+      function normalizeSkills(skills) {
+        if (!Array.isArray(skills)) return [];
+
+        return skills.map(skill => {
+          if (typeof skill === "string") {
+            return { name: skill, rating: 5 };
+          }
+
+          return {
+            name: String(skill?.name || skill?.skill || ""),
+            rating: Math.min(10, Math.max(1, Number(skill?.rating) || 5))
+          };
+        }).filter(skill => skill.name.trim());
+      }
+
+      function fromApi(data) {
+        return {
+          fullName: data.full_name || "",
+          degree: data.degree || "",
+          college: data.college_name || "",
+          cgpa: data.cgpa ?? "",
+          graduationYear: data.graduation_year ?? "",
+          dsaRating: data.dsa_rating ?? 5,
+          aptitudeRating: data.aptitude_rating ?? 5,
+          communicationRating: data.communication_rating ?? 5,
+          technicalSkills: normalizeSkills(data.technical_skills),
+          projects: Array.isArray(data.projects) ? data.projects : [],
+          internships: Array.isArray(data.internships) ? data.internships : [],
+          certifications: Array.isArray(data.certifications) ? data.certifications : [],
+          targetRole: data.target_role || ""
+        };
+      }
 
       function addSkill(name = "", rating = 5) {
         const row = document.createElement("div");
@@ -663,6 +594,7 @@
         nameInput.placeholder = "e.g. Python";
         nameInput.value = name;
 
+        nameInput.addEventListener("input", markDraftTouched);
         nameLabel.appendChild(nameInput);
         nameField.appendChild(nameLabel);
 
@@ -688,6 +620,7 @@
 
         range.addEventListener("input", () => {
           output.value = range.value + "/10";
+          markDraftTouched();
         });
 
         rangeWrap.append(range, output);
@@ -702,100 +635,150 @@
 
         remove.addEventListener("click", () => {
           row.remove();
-
-          if (!skillList.children.length) {
-            addSkill();
-          }
+          if (!skillList.children.length) addSkill();
+          markDraftTouched();
         });
 
         row.append(nameField, ratingField, remove);
         skillList.appendChild(row);
       }
 
-      document.getElementById("addSkillButton").addEventListener("click", () => {
-        addSkill();
-      });
-
-      try {
-        const saved = JSON.parse(sessionStorage.getItem(draftKey) || "{}");
-
-        ["degree", "college", "cgpa", "graduationYear"].forEach(id => {
-          if (saved[id] !== undefined) {
-            document.getElementById(id).value = saved[id];
-          }
-        });
+      function render(data) {
+        document.getElementById("degree").value = data.degree || "";
+        document.getElementById("college").value = data.college || "";
+        document.getElementById("cgpa").value = data.cgpa ?? "";
+        document.getElementById("graduationYear").value =
+          data.graduationYear ?? "";
 
         ["dsaRating", "aptitudeRating", "communicationRating"].forEach(id => {
-          if (saved[id] !== undefined) {
-            document.getElementById(id).value = saved[id];
-            document.getElementById(id + "Value").value = saved[id] + "/10";
-          }
+          const value = Math.min(10, Math.max(1, Number(data[id]) || 5));
+          document.getElementById(id).value = value;
+          document.getElementById(id + "Value").value = value + "/10";
         });
 
-        if (Array.isArray(saved.technicalSkills) && saved.technicalSkills.length) {
-          saved.technicalSkills.forEach(skill => {
-            addSkill(skill.name, skill.rating);
-          });
+        skillList.replaceChildren();
+
+        const skills = normalizeSkills(data.technicalSkills);
+
+        if (skills.length) {
+          skills.forEach(skill => addSkill(skill.name, skill.rating));
         } else {
           addSkill("Python", 5);
         }
-      } catch {
-        addSkill("Python", 5);
       }
+
+      ["dsaRating", "aptitudeRating", "communicationRating"].forEach(id => {
+        document.getElementById(id).addEventListener("input", event => {
+          document.getElementById(id + "Value").value =
+            event.target.value + "/10";
+          markDraftTouched();
+        });
+      });
+
+      ["degree", "college", "cgpa", "graduationYear"].forEach(id => {
+        document.getElementById(id).addEventListener("input", markDraftTouched);
+      });
+
+      addButton.addEventListener("click", () => {
+        addSkill();
+        markDraftTouched();
+      });
 
       form.addEventListener("submit", event => {
         event.preventDefault();
         message.textContent = "";
 
-        if (!form.reportValidity()) {
-          return;
-        }
+        if (!form.reportValidity()) return;
 
         const rows = [...skillList.querySelectorAll(".skill-row")];
-        const names = rows.map(row => row.querySelector(".skill-name").value.trim());
+        const names = rows.map(row =>
+          row.querySelector(".skill-name").value.trim()
+        );
 
         if (!names.length || names.some(name => !name)) {
-          message.textContent = "Please enter a name for every skill.";
+          showMessage("Please enter a name for every skill.");
           return;
         }
 
-        const normalized = names.map(name => name.toLowerCase());
-
-        if (new Set(normalized).size !== normalized.length) {
-          message.textContent = "Please remove duplicate skill names.";
+        if (new Set(names.map(name => name.toLowerCase())).size !== names.length) {
+          showMessage("Please remove duplicate skill names.");
           return;
         }
 
-        let previous = {};
-
-        try {
-          previous = JSON.parse(sessionStorage.getItem(draftKey) || "{}");
-        } catch {
-          previous = {};
-        }
+        const previous = getDraft();
 
         const data = {
           ...previous,
           degree: document.getElementById("degree").value.trim(),
           college: document.getElementById("college").value.trim(),
-          cgpa: Number(document.getElementById("cgpa").value),
-          graduationYear: Number(document.getElementById("graduationYear").value),
+          cgpa: document.getElementById("cgpa").value,
+          graduationYear: document.getElementById("graduationYear").value,
           dsaRating: Number(document.getElementById("dsaRating").value),
           aptitudeRating: Number(document.getElementById("aptitudeRating").value),
-          communicationRating: Number(document.getElementById("communicationRating").value),
+          communicationRating: Number(
+            document.getElementById("communicationRating").value
+          ),
           technicalSkills: rows.map(row => ({
             name: row.querySelector(".skill-name").value.trim(),
             rating: Number(row.querySelector('input[type="range"]').value)
-          }))
+          })),
+          draftTouched: true
         };
 
         try {
-          sessionStorage.setItem(draftKey, JSON.stringify(data));
-          window.location.href = "profile-details.html";
+          setDraft(data);
+          location.href = "profile-details.html";
         } catch {
-          message.textContent = "Your profile could not be saved in this browser. Please check your browser storage settings and try again.";
+          showMessage(
+            "Your profile could not be saved in this browser. Check your browser storage settings and try again."
+          );
         }
       });
+
+      async function loadProfile() {
+        const draft = getDraft();
+
+        if (!token) {
+          loadingProfile = false;
+          render(draft);
+          return;
+        }
+
+        try {
+          const response = await fetch(apiRoot() + "/profile/", {
+            headers: { Authorization: "Token " + token }
+          });
+
+          if (!response.ok) {
+            if (response.status === 401) {
+              throw new Error("Your session has expired. Please log in again.");
+            }
+            throw new Error("Could not load your saved profile.");
+          }
+
+          const savedProfile = await response.json();
+          const savedData = fromApi(savedProfile);
+
+          const data = draft.draftTouched
+            ? { ...savedData, ...draft }
+            : savedData;
+
+          if (!draft.draftTouched) {
+            setDraft({ ...savedData, draftTouched: false });
+          }
+
+          loadingProfile = false;
+          render(data);
+        } catch (error) {
+          loadingProfile = false;
+          render(draft);
+          showMessage(
+            error.message + " Your temporary draft is available if one exists."
+          );
+        }
+      }
+
+      loadProfile();
     })();
   </script>
 </body>

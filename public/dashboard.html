@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -898,30 +897,68 @@
 
       function displayAssessment(payload) {
         const assessment = payload.assessment;
+
         if (!assessment || typeof assessment !== "object") {
           throw new Error("The server did not return an assessment.");
         }
 
         const score = Number(assessment.readiness_score);
-        setText("assessmentScore", Number.isFinite(score)
-          ? `${Math.max(0, Math.min(100, Math.round(score)))}/100`
-          : "—");
 
-        setText("assessmentTargetRole",
-          assessment.target_role || byId("careerValue").textContent || "Your target role");
-        setText("assessmentSummary", assessment.summary || "No summary was provided.");
+        setText(
+          "assessmentScore",
+          Number.isFinite(score)
+            ? `${Math.max(0, Math.min(100, Math.round(score)))}/100`
+            : "—"
+        );
 
-        renderAssessmentList("assessmentStrengths", assessment.strengths, "No strengths were returned.");
-        renderAssessmentList("assessmentSkillGaps", assessment.skill_gaps, "No skill gaps were returned.");
-        renderAssessmentList("assessmentActionPlan", assessment.action_plan, "No action steps were returned.");
-        renderAssessmentList("assessmentProfileImprovements", assessment.profile_items_to_improve, "No profile improvements were returned.");
+        setText(
+          "assessmentTargetRole",
+          assessment.target_role ||
+            byId("careerValue").textContent ||
+            "Your target role"
+        );
 
-        setText("assessmentLimitations", assessment.limitations
-          ? `Assessment limitations: ${assessment.limitations}`
-          : "");
+        setText(
+          "assessmentSummary",
+          assessment.summary || "No summary was provided."
+        );
 
-        setText("assessmentDisclaimer", payload.disclaimer ||
-          "This assessment provides indicative preparation guidance, not a validated probability of getting hired or placed.");
+        renderAssessmentList(
+          "assessmentStrengths",
+          assessment.strengths,
+          "No strengths were returned."
+        );
+
+        renderAssessmentList(
+          "assessmentSkillGaps",
+          assessment.skill_gaps,
+          "No skill gaps were returned."
+        );
+
+        renderAssessmentList(
+          "assessmentActionPlan",
+          assessment.action_plan,
+          "No action steps were returned."
+        );
+
+        renderAssessmentList(
+          "assessmentProfileImprovements",
+          assessment.profile_items_to_improve,
+          "No profile improvements were returned."
+        );
+
+        setText(
+          "assessmentLimitations",
+          assessment.limitations
+            ? `Assessment limitations: ${assessment.limitations}`
+            : ""
+        );
+
+        setText(
+          "assessmentDisclaimer",
+          payload.disclaimer ||
+            "This assessment provides indicative preparation guidance, not a validated probability of getting hired or placed."
+        );
 
         byId("assessmentResults").hidden = false;
       }
@@ -932,53 +969,11 @@
 
         try {
           const response = await fetch(`${API_BASE}/assessment/`, {
-            headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" }
-          });
-
-          if (response.status === 401 || response.status === 403) {
-            localStorage.removeItem("hireforgeToken");
-            window.location.href = "login.html";
-            return;
-          }
-
-          if (!response.ok) throw new Error("Could not load your saved assessment.");
-
-          const payload = await response.json();
-          if (!payload.assessment || typeof payload.assessment !== "object") {
-            byId("assessmentResults").hidden = true;
-            status.textContent = "No saved assessment is available yet.";
-            return;
-          }
-
-          displayAssessment(payload);
-          status.textContent = payload.created_at
-            ? `Saved assessment loaded · ${new Date(payload.created_at).toLocaleString()}`
-            : "Your saved assessment has been loaded.";
-        } catch (error) {
-          status.textContent = error.message || "Could not load your saved assessment.";
-        }
-      }
-
-      byId("generateAssessmentButton").addEventListener("click", async () => {
-        const button = byId("generateAssessmentButton");
-        const status = byId("assessmentStatus");
-
-        button.disabled = true;
-        button.textContent = "Generating assessment…";
-        status.textContent = "Your profile is being analyzed. This may take a little while.";
-
-        try {
-          const response = await fetch(`${API_BASE}/assessment/`, {
-            method: "POST",
             headers: {
               Authorization: `Token ${token}`,
               "Content-Type": "application/json"
-            },
-            body: "{}"
+            }
           });
-
-          let payload = {};
-          try { payload = await response.json(); } catch {}
 
           if (response.status === 401 || response.status === 403) {
             localStorage.removeItem("hireforgeToken");
@@ -987,18 +982,81 @@
           }
 
           if (!response.ok) {
-            throw new Error(payload.detail || `Assessment failed (HTTP ${response.status}).`);
+            throw new Error("Could not load your saved assessment.");
+          }
+
+          const payload = await response.json();
+
+          if (!payload.assessment ||
+              typeof payload.assessment !== "object") {
+            byId("assessmentResults").hidden = true;
+            status.textContent = "No saved assessment is available yet.";
+            return;
           }
 
           displayAssessment(payload);
-          status.textContent = "Assessment generated successfully.";
+
+          status.textContent = payload.created_at
+            ? `Saved assessment loaded · ${new Date(payload.created_at).toLocaleString()}`
+            : "Your saved assessment has been loaded.";
         } catch (error) {
-          status.textContent = error.message || "Could not generate the assessment. Please try again.";
-        } finally {
-          button.disabled = false;
-          button.textContent = "Predict & analyze skill gaps";
+          status.textContent =
+            error.message || "Could not load your saved assessment.";
         }
-      });
+      }
+
+      byId("generateAssessmentButton").addEventListener(
+        "click",
+        async () => {
+          const button = byId("generateAssessmentButton");
+          const status = byId("assessmentStatus");
+
+          button.disabled = true;
+          button.textContent = "Generating assessment…";
+          status.textContent =
+            "Your profile is being analyzed. This may take a little while.";
+
+          try {
+            const response = await fetch(`${API_BASE}/assessment/`, {
+              method: "POST",
+              headers: {
+                Authorization: `Token ${token}`,
+                "Content-Type": "application/json"
+              },
+              body: "{}"
+            });
+
+            let payload = {};
+
+            try {
+              payload = await response.json();
+            } catch {}
+
+            if (response.status === 401 || response.status === 403) {
+              localStorage.removeItem("hireforgeToken");
+              window.location.href = "login.html";
+              return;
+            }
+
+            if (!response.ok) {
+              throw new Error(
+                payload.detail ||
+                  `Assessment failed (HTTP ${response.status}).`
+              );
+            }
+
+            displayAssessment(payload);
+            status.textContent = "Assessment generated successfully.";
+          } catch (error) {
+            status.textContent =
+              error.message ||
+              "Could not generate the assessment. Please try again.";
+          } finally {
+            button.disabled = false;
+            button.textContent = "Predict & analyze skill gaps";
+          }
+        }
+      );
 
       if (!token) {
         showNotice("Please log in to view your saved HireForge profile.");
@@ -1016,14 +1074,21 @@
 
         if (response.status === 401 || response.status === 403) {
           localStorage.removeItem("hireforgeToken");
-          showNotice("Your login session is no longer valid. Please log in again.");
+          showNotice(
+            "Your login session is no longer valid. Please log in again."
+          );
           window.location.href = "login.html";
           return;
         }
 
-        if (!response.ok) throw new Error(`Could not load your profile (HTTP ${response.status}).`);
+        if (!response.ok) {
+          throw new Error(
+            `Could not load your profile (HTTP ${response.status}).`
+          );
+        }
 
         const data = await response.json();
+
         const profile = {
           fullName: data.full_name || "",
           degree: data.degree || "",
@@ -1034,44 +1099,171 @@
           dsaRating: data.dsa_rating,
           aptitudeRating: data.aptitude_rating,
           communicationRating: data.communication_rating,
-          technicalSkills: Array.isArray(data.technical_skills) ? data.technical_skills : [],
+          technicalSkills: Array.isArray(data.technical_skills)
+            ? data.technical_skills
+            : [],
           projects: Array.isArray(data.projects) ? data.projects : [],
-          internships: Array.isArray(data.internships) ? data.internships : [],
-          certifications: Array.isArray(data.certifications) ? data.certifications : []
+          internships: Array.isArray(data.internships)
+            ? data.internships
+            : [],
+          certifications: Array.isArray(data.certifications)
+            ? data.certifications
+            : []
         };
 
-        setText("welcomeTitle", profile.fullName ? `Welcome back, ${profile.fullName}` : "Welcome to HireForge");
+        setText(
+          "welcomeTitle",
+          profile.fullName
+            ? `Welcome back, ${profile.fullName}`
+            : "Welcome to HireForge"
+        );
+
         setText("accountName", profile.fullName || "Student");
-        setText("userAvatar", (profile.fullName || "S").trim().charAt(0).toUpperCase());
-        setText("cgpaValue",
-          profile.cgpa !== null && profile.cgpa !== undefined && profile.cgpa !== ""
+
+        setText(
+          "userAvatar",
+          (profile.fullName || "S").trim().charAt(0).toUpperCase()
+        );
+
+        setText(
+          "cgpaValue",
+          profile.cgpa !== null &&
+          profile.cgpa !== undefined &&
+          profile.cgpa !== ""
             ? Number(profile.cgpa).toFixed(2)
-            : "—");
+            : "—"
+        );
+
         setText("degreeValue", profile.degree || "Degree not available");
         setText("collegeValue", profile.college || "College not provided");
         setText("graduationValue", profile.graduationYear || "Not provided");
         setText("careerValue", profile.targetRole || "Not selected");
-        setText("assessmentRole", profile.targetRole
-          ? `Assessment target: ${profile.targetRole}`
-          : "Set your target role in your profile before generating an assessment.");
+
+        setText(
+          "assessmentRole",
+          profile.targetRole
+            ? `Assessment target: ${profile.targetRole}`
+            : "Set your target role in your profile before generating an assessment."
+        );
+
+        let performance = {
+          assessments: {},
+          interview_count: 0,
+          interview_average_out_of_10: null
+        };
+
+        try {
+          const performanceResponse = await fetch(
+            `${API_BASE}/performance/`,
+            {
+              headers: {
+                Authorization: `Token ${token}`,
+                "Content-Type": "application/json"
+              }
+            }
+          );
+
+          if (
+            performanceResponse.status === 401 ||
+            performanceResponse.status === 403
+          ) {
+            localStorage.removeItem("hireforgeToken");
+            window.location.href = "login.html";
+            return;
+          }
+
+          if (performanceResponse.ok) {
+            performance = await performanceResponse.json();
+          } else {
+            console.error(
+              "Could not load performance data:",
+              performanceResponse.status
+            );
+          }
+        } catch (error) {
+          console.error("Could not load performance data:", error);
+        }
 
         const readinessList = byId("readinessList");
         readinessList.replaceChildren();
 
-        [
-          ["Data structures and algorithms", profile.dsaRating],
-          ["Aptitude", profile.aptitudeRating],
-          ["Communication", profile.communicationRating]
-        ].forEach(([label, value]) => {
+        const profileRows = [
+          {
+            label: "Data structures and algorithms",
+            value: profile.dsaRating,
+            assessmentType: "dsa"
+          },
+          {
+            label: "Aptitude",
+            value: profile.aptitudeRating,
+            assessmentType: "aptitude"
+          },
+          {
+            label: "Communication",
+            value: profile.communicationRating,
+            assessmentType: null
+          }
+        ];
+
+        function addReadinessItem(label, details) {
           const item = document.createElement("div");
           item.className = "dash-item";
+
           const heading = document.createElement("h3");
           heading.textContent = label;
+
           const score = document.createElement("p");
-          score.textContent = value !== null && value !== undefined ? `${value}/10` : "Not rated";
+          score.textContent = details;
+
           item.append(heading, score);
           readinessList.appendChild(item);
+        }
+
+        profileRows.forEach(({ label, value, assessmentType }) => {
+          const profileScore =
+            value !== null && value !== undefined && value !== ""
+              ? `Profile self-rating: ${value}/10`
+              : "Profile self-rating: Not rated";
+
+          const result = assessmentType
+            ? performance.assessments?.[assessmentType]
+            : null;
+
+          const actualScore =
+            result &&
+            result.average_score !== null &&
+            result.average_score !== undefined
+              ? `Completed assessment average: ${Number(result.average_score).toFixed(2)}% (${result.attempts} attempt${result.attempts === 1 ? "" : "s"})`
+              : "No completed assessment yet";
+
+          addReadinessItem(
+            label,
+            `${profileScore} · ${actualScore}`
+          );
         });
+
+        const technicalResult = performance.assessments?.technical;
+
+        addReadinessItem(
+          "Technical skills assessment",
+          technicalResult &&
+          technicalResult.average_score !== null &&
+          technicalResult.average_score !== undefined
+            ? `Completed assessment average: ${Number(technicalResult.average_score).toFixed(2)}% (${technicalResult.attempts} attempt${technicalResult.attempts === 1 ? "" : "s"})`
+            : "No completed technical assessment yet"
+        );
+
+        addReadinessItem(
+          "Mock interviews",
+          performance.interview_count > 0
+            ? `${performance.interview_count} completed interview${performance.interview_count === 1 ? "" : "s"} · Average score: ${
+                performance.interview_average_out_of_10 !== null &&
+                performance.interview_average_out_of_10 !== undefined
+                  ? `${Number(performance.interview_average_out_of_10).toFixed(2)}/10`
+                  : "Unavailable"
+              }`
+            : "No completed interviews yet"
+        );
 
         const skillsList = byId("skillsList");
         skillsList.replaceChildren();
@@ -1083,6 +1275,7 @@
           tag.textContent = typeof skill === "string"
             ? skill
             : `${skill.name || "Skill"}${skill.rating ? ` · ${skill.rating}/10` : ""}`;
+
           skillsList.appendChild(tag);
         });
 
@@ -1103,13 +1296,22 @@
             item.className = "dash-item";
 
             const heading = document.createElement("h3");
-            heading.textContent = entry.title || entry.organization || entry.name || "Untitled entry";
+            heading.textContent =
+              entry.title ||
+              entry.organization ||
+              entry.name ||
+              "Untitled entry";
+
             item.appendChild(heading);
 
             Object.entries(entry).forEach(([field, value]) => {
               if (!value || field === "title" || field === "link") return;
+
               const paragraph = document.createElement("p");
-              const label = field.replace(/([A-Z])/g, " $1").replace(/^./, c => c.toUpperCase());
+              const label = field
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, c => c.toUpperCase());
+
               paragraph.textContent = `${label}: ${value}`;
               item.appendChild(paragraph);
             });
@@ -1117,6 +1319,7 @@
             if (entry.link) {
               try {
                 const url = new URL(entry.link);
+
                 if (["https:", "http:"].includes(url.protocol)) {
                   const link = document.createElement("a");
                   link.href = url.href;
@@ -1134,55 +1337,80 @@
 
         renderItems("projectsList", profile.projects, "projects");
         renderItems("internshipsList", profile.internships, "internships");
-        renderItems("certificationsList", profile.certifications, "certifications");
+        renderItems(
+          "certificationsList",
+          profile.certifications,
+          "certifications"
+        );
 
         const checks = [
           Boolean(profile.degree && profile.college),
-          profile.cgpa !== null && profile.cgpa !== undefined && profile.cgpa !== "",
+          profile.cgpa !== null &&
+            profile.cgpa !== undefined &&
+            profile.cgpa !== "",
           Boolean(profile.graduationYear),
           profile.technicalSkills.length > 0,
           profile.dsaRating !== null && profile.dsaRating !== undefined,
-          profile.aptitudeRating !== null && profile.aptitudeRating !== undefined,
-          profile.communicationRating !== null && profile.communicationRating !== undefined,
+          profile.aptitudeRating !== null &&
+            profile.aptitudeRating !== undefined,
+          profile.communicationRating !== null &&
+            profile.communicationRating !== undefined,
           Boolean(profile.targetRole),
           profile.projects.length > 0,
           profile.internships.length > 0,
           profile.certifications.length > 0
         ];
 
-        const completion = Math.round(checks.filter(Boolean).length / checks.length * 100);
+        const completion = Math.round(
+          checks.filter(Boolean).length / checks.length * 100
+        );
+
         setText("completionValue", `${completion}%`);
         byId("completionFill").style.width = `${completion}%`;
-        byId("completionBar").setAttribute("aria-valuenow", String(completion));
+        byId("completionBar").setAttribute(
+          "aria-valuenow",
+          String(completion)
+        );
 
-        setText("completionDescription", completion === 100
-          ? "All profile sections have been completed."
-          : "Complete the missing sections to increase your profile completion.");
+        setText(
+          "completionDescription",
+          completion === 100
+            ? "All profile sections have been completed."
+            : "Complete the missing sections to increase your profile completion."
+        );
 
-        showNotice("Your profile has been loaded from your HireForge account.");
+        showNotice(
+          "Your profile has been loaded from your HireForge account."
+        );
+
         await loadSavedAssessment();
 
         try {
-          sessionStorage.setItem("hireforgeProfileDraft", JSON.stringify({
-            fullName: profile.fullName,
-            degree: profile.degree,
-            college: profile.college,
-            cgpa: profile.cgpa,
-            graduationYear: profile.graduationYear,
-            targetRole: profile.targetRole,
-            dsaLevel: profile.dsaRating,
-            aptitudeLevel: profile.aptitudeRating,
-            communicationLevel: profile.communicationRating,
-            technicalSkills: profile.technicalSkills,
-            projects: profile.projects,
-            internships: profile.internships,
-            certifications: profile.certifications
-          }));
+          sessionStorage.setItem(
+            "hireforgeProfileDraft",
+            JSON.stringify({
+              fullName: profile.fullName,
+              degree: profile.degree,
+              college: profile.college,
+              cgpa: profile.cgpa,
+              graduationYear: profile.graduationYear,
+              targetRole: profile.targetRole,
+              dsaLevel: profile.dsaRating,
+              aptitudeLevel: profile.aptitudeRating,
+              communicationLevel: profile.communicationRating,
+              technicalSkills: profile.technicalSkills,
+              projects: profile.projects,
+              internships: profile.internships,
+              certifications: profile.certifications
+            })
+          );
         } catch {}
       } catch (error) {
-        showNotice(`${error.message} Your saved database profile has not been deleted.`);
+        showNotice(
+          `${error.message} Your saved database profile has not been deleted.`
+        );
       }
     })();
-  </script>
+</script>
 </body>
 </html>

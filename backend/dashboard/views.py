@@ -1,4 +1,3 @@
-
 from django.contrib.auth import authenticate, get_user_model
 
 from rest_framework import generics, permissions, status
@@ -12,9 +11,52 @@ from .gemini_service import (
 )
 from .models import ReadinessAssessment, StudentProfile
 from .serializers import RegisterSerializer, StudentProfileSerializer
+from .performance_service import get_student_performance
 
 
 User = get_user_model()
+
+
+ASSESSMENT_DISCLAIMER = (
+    "This AI-generated score is an indicative preparation "
+    "assessment based on profile information and available "
+    "completed assessment and interview results. "
+    "It is not a validated probability of getting hired or placed."
+)
+
+
+def refresh_readiness_assessment(user):
+    profile, _ = StudentProfile.objects.get_or_create(user=user)
+
+    if not profile.target_role or not profile.target_role.strip():
+        return None
+
+    performance = get_student_performance(user)
+
+    assessment = generate_readiness_assessment(
+        profile,
+        performance=performance,
+    )
+
+    saved = ReadinessAssessment.objects.create(
+        user=user,
+        assessment=assessment,
+        disclaimer=ASSESSMENT_DISCLAIMER,
+    )
+
+    return saved
+
+
+class StudentPerformanceView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        performance = get_student_performance(request.user)
+
+        return Response(
+            performance,
+            status=status.HTTP_200_OK,
+        )
 
 
 class RegisterView(generics.CreateAPIView):
@@ -79,7 +121,8 @@ class LoginView(APIView):
                 "token": token.key,
                 "username": user.get_username(),
                 "email": user.email,
-            }
+            },
+            status=status.HTTP_200_OK,
         )
 
 
@@ -98,10 +141,9 @@ class ReadinessAssessmentView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        # Retrieve the latest saved assessment for this user.
         saved = ReadinessAssessment.objects.filter(
             user=request.user
-        ).first()
+        ).order_by("-created_at").first()
 
         if saved is None:
             return Response(
@@ -142,31 +184,29 @@ class ReadinessAssessmentView(APIView):
             )
 
         try:
-            assessment = generate_readiness_assessment(profile)
+            saved = refresh_readiness_assessment(request.user)
+
         except GeminiAssessmentError as exc:
             print("READINESS ASSESSMENT ERROR:", str(exc))
             return Response(
-            {"detail": str(exc)},
-            status=status.HTTP_502_BAD_GATEWAY,
-    )
+                {"detail": str(exc)},
+                status=status.HTTP_502_BAD_GATEWAY,
+            )
 
-        disclaimer = (
-            "This AI-generated score is an indicative preparation "
-            "assessment based on the profile information provided. "
-            "It is not a validated probability of getting hired "
-            "or placed."
-        )
-
-        # Save the assessment in MySQL for future logins.
-        saved = ReadinessAssessment.objects.create(
-            user=request.user,
-            assessment=assessment,
-            disclaimer=disclaimer,
-        )
+        if saved is None:
+            return Response(
+                {
+                    "detail": (
+                        "Set your target role in your student profile "
+                        "before requesting an assessment."
+                    )
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         return Response(
             {
-                "message": "Skill-gap analysis generated successfully.",
+                "message": "Readiness assessment refreshed successfully.",
                 "assessment": saved.assessment,
                 "disclaimer": saved.disclaimer,
                 "created_at": saved.created_at,

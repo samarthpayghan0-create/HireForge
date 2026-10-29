@@ -6,6 +6,7 @@ import re
 import requests
 
 
+
 GEMINI_API_URL = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
     "{model}:generateContent"
@@ -36,7 +37,7 @@ def _parse_json_response(text):
     return result
 
 
-def generate_readiness_assessment(profile):
+def generate_readiness_assessment(profile, performance=None):
     api_key = os.environ.get("GEMINI_API_KEY")
 
     if not api_key:
@@ -60,11 +61,19 @@ def generate_readiness_assessment(profile):
         "certifications": profile.certifications or [],
     }
 
+    performance_data = performance or {
+        "assessments": {},
+        "interview_count": 0,
+        "interview_average_out_of_10": None,
+    }
+
     instructions = """
 You are HireForge's career-readiness coach.
-Assess the student's preparation for their target role using only the
-provided profile. Be practical, supportive, specific, and honest.
-Do not invent achievements or skills. Treat missing information as unknown.
+Assess the student's preparation for their target role using both
+their self-reported profile and their actual completed assessment
+and interview results. Give greater weight to completed practical
+results than unverified self-ratings. If no practical results exist,
+use the profile as the initial baseline. Never invent scores or achievements.
 
 Return only a valid JSON object with exactly these keys:
 {
@@ -84,7 +93,9 @@ Return only a valid JSON object with exactly these keys:
 
 Rules:
 - readiness_score must be an integer from 0 to 100.
-- It is an indicative preparation score, not a hiring probability.
+- This is an indicative preparation score, not a hiring probability.
+- Use actual performance data when available.
+- Do not treat missing results as zero.
 - Include up to 4 strengths, 5 skill gaps, 5 next steps, and 4 profile improvements.
 - Priority must be High, Medium, or Low.
 - Keep explanations concise and actionable.
@@ -99,8 +110,12 @@ Rules:
                 "role": "user",
                 "parts": [
                     {
-                        "text": "Student profile JSON:\n"
-                        + json.dumps(profile_data, ensure_ascii=False)
+                        "text": (
+                            "Student profile JSON:\n"
+                            + json.dumps(profile_data, ensure_ascii=False)
+                            + "\nCompleted performance JSON:\n"
+                            + json.dumps(performance_data, ensure_ascii=False)
+                        )
                     }
                 ],
             }
@@ -110,7 +125,6 @@ Rules:
             "temperature": 0.2,
         },
     }
-
     try:
         response = requests.post(
             GEMINI_API_URL.format(model=GEMINI_MODEL),

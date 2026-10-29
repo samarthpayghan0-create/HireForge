@@ -1,7 +1,7 @@
-
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.db.models import Avg, Max, Count, Sum
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -14,8 +14,10 @@ from assessments.questions import QUESTIONS
 from .models import AssessmentAnswer, AssessmentAttempt
 from .serializers import AssessmentAttemptSerializer
 
-from django.db.models import Avg, Max, Count, Sum
-
+from dashboard.views import (
+    refresh_readiness_assessment,
+)
+from dashboard.gemini_service import GeminiAssessmentError
 
 
 def get_question_bank():
@@ -70,8 +72,6 @@ def start_assessment(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def submit_assessment(request, attempt_id):
-    # Lock the attempt while validating and saving its submission.
-    # This helps prevent two simultaneous submissions for the same attempt.
     with transaction.atomic():
         attempt = get_object_or_404(
             AssessmentAttempt.objects.select_for_update(),
@@ -100,7 +100,6 @@ def submit_assessment(request, attempt_id):
 
         selected_ids = attempt.question_ids
 
-        # The saved attempt, not the request, defines the valid questions.
         if (
             not isinstance(selected_ids, list)
             or len(selected_ids) != attempt.question_count
@@ -115,7 +114,6 @@ def submit_assessment(request, attempt_id):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Do not allow answers for questions outside this attempt.
         if any(
             not isinstance(question_id, str)
             or question_id not in selected_ids
@@ -131,7 +129,6 @@ def submit_assessment(request, attempt_id):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Normalize answer letters and reject malformed values.
         normalized_answers = {}
 
         for question_id, answer in answers.items():
@@ -182,8 +179,6 @@ def submit_assessment(request, attempt_id):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Persist every answer and the final score in the same transaction.
-        # Missing answers remain unanswered and are scored as incorrect.
         for item in result["results"]:
             AssessmentAnswer.objects.update_or_create(
                 attempt=attempt,
@@ -212,7 +207,26 @@ def submit_assessment(request, attempt_id):
             ]
         )
 
-    # Return correct answers and explanations only after submission.
+    readiness_refresh_message = (
+        "Readiness prediction refreshed successfully."
+    )
+
+    try:
+        refreshed_assessment = refresh_readiness_assessment(request.user)
+
+        if refreshed_assessment is None:
+            readiness_refresh_message = (
+                "Assessment completed. Set your target role to generate "
+                "a readiness prediction."
+            )
+
+    except GeminiAssessmentError as exc:
+        print("AUTOMATIC READINESS REFRESH ERROR:", str(exc))
+        readiness_refresh_message = (
+            "Assessment completed, but the readiness prediction could "
+            "not be refreshed. Use the dashboard button to retry."
+        )
+
     return Response(
         {
             "attempt_id": str(attempt.id),
@@ -221,6 +235,7 @@ def submit_assessment(request, attempt_id):
             "incorrect_or_unanswered": result["incorrect_or_unanswered"],
             "score_percentage": result["score_percentage"],
             "results": result["results"],
+            "readiness_refresh_message": readiness_refresh_message,
         },
         status=status.HTTP_200_OK,
     )
@@ -237,6 +252,8 @@ def assessment_history(request):
         AssessmentAttemptSerializer(attempts, many=True).data,
         status=status.HTTP_200_OK,
     )
+
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def performance_summary(request):
@@ -290,7 +307,6 @@ def performance_summary(request):
             ),
         })
 
-        
     difficulty_performance = []
 
     for assessment_type, label in AssessmentAttempt.AssessmentType.choices:
@@ -317,7 +333,6 @@ def performance_summary(request):
                     else 0
                 ),
             })
-        
 
     recent_attempts = attempts.order_by("-completed_at")[:10]
 
@@ -334,23 +349,26 @@ def performance_summary(request):
         for attempt in recent_attempts
     ]
 
-    return Response({
-        "summary": {
-            "total_assessments": total_assessments,
-            "average_score": (
-                round(float(summary["average_score"]), 2)
-                if summary["average_score"] is not None
-                else 0
-            ),
-            "highest_score": (
-                round(float(summary["highest_score"]), 2)
-                if summary["highest_score"] is not None
-                else 0
-            ),
-            "total_correct_answers": total_correct,
-            "total_questions_answered_or_attempted": total_questions,
+    return Response(
+        {
+            "summary": {
+                "total_assessments": total_assessments,
+                "average_score": (
+                    round(float(summary["average_score"]), 2)
+                    if summary["average_score"] is not None
+                    else 0
+                ),
+                "highest_score": (
+                    round(float(summary["highest_score"]), 2)
+                    if summary["highest_score"] is not None
+                    else 0
+                ),
+                "total_correct_answers": total_correct,
+                "total_questions_answered_or_attempted": total_questions,
+            },
+            "category_performance": category_performance,
+            "difficulty_performance": difficulty_performance,
+            "recent_results": recent_results,
         },
-        "category_performance": category_performance,
-        "difficulty_performance": difficulty_performance,
-        "recent_results": recent_results,
-    }, status=status.HTTP_200_OK)
+        status=status.HTTP_200_OK,
+    )

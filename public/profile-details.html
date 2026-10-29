@@ -19,9 +19,7 @@
       --details-soft: #e7eee7;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -32,16 +30,10 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
-    a:focus-visible,
-    button:focus-visible,
-    input:focus-visible,
-    textarea:focus-visible,
-    select:focus-visible {
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    textarea:focus-visible, select:focus-visible {
       outline: 3px solid #88ad97;
       outline-offset: 3px;
     }
@@ -113,9 +105,7 @@
       letter-spacing: -1.4px;
     }
 
-    .details-heading h1 span {
-      color: var(--details-green);
-    }
+    .details-heading h1 span { color: var(--details-green); }
 
     .details-heading > p:last-child {
       margin: 15px 0 0;
@@ -124,19 +114,14 @@
       line-height: 1.9;
     }
 
-    .details-form {
-      display: grid;
-      gap: 24px;
-    }
+    .details-form { display: grid; gap: 24px; }
 
     .details-card {
       padding: 27px 0;
       border-top: 1px solid var(--details-border);
     }
 
-    .details-card:last-child {
-      border-bottom: 1px solid var(--details-border);
-    }
+    .details-card:last-child { border-bottom: 1px solid var(--details-border); }
 
     .details-card-heading {
       display: flex;
@@ -173,9 +158,7 @@
       gap: 9px;
     }
 
-    .details-field.full {
-      grid-column: 1 / -1;
-    }
+    .details-field.full { grid-column: 1 / -1; }
 
     .details-field label {
       color: var(--details-text);
@@ -183,9 +166,7 @@
       font-weight: 650;
     }
 
-    .details-field input,
-    .details-field textarea,
-    .details-field select {
+    .details-field input, .details-field textarea, .details-field select {
       width: 100%;
       min-height: 44px;
       padding: 11px 13px;
@@ -205,15 +186,13 @@
       line-height: 1.7;
     }
 
-    .details-field input:focus,
-    .details-field textarea:focus,
+    .details-field input:focus, .details-field textarea:focus,
     .details-field select:focus {
       border-color: var(--details-green);
       box-shadow: 0 0 0 3px rgba(40, 88, 71, .08);
     }
 
-    .details-field input::placeholder,
-    .details-field textarea::placeholder {
+    .details-field input::placeholder, .details-field textarea::placeholder {
       color: #a0a69f;
     }
 
@@ -260,9 +239,7 @@
       color: var(--details-green);
     }
 
-    .details-button.secondary:hover {
-      background: var(--details-soft);
-    }
+    .details-button.secondary:hover { background: var(--details-soft); }
 
     .details-button.remove {
       min-height: 35px;
@@ -272,9 +249,7 @@
       color: #873f34;
     }
 
-    .details-button.remove:hover {
-      background: #f8eae7;
-    }
+    .details-button.remove:hover { background: #f8eae7; }
 
     .details-message {
       display: none;
@@ -288,9 +263,7 @@
       overflow-wrap: anywhere;
     }
 
-    .details-message:not(:empty) {
-      display: block;
-    }
+    .details-message:not(:empty) { display: block; }
 
     .details-actions {
       display: flex;
@@ -301,70 +274,28 @@
       margin-top: 28px;
     }
 
-    .details-actions .details-button {
-      min-width: 165px;
-    }
+    .details-actions .details-button { min-width: 165px; }
 
     @media (max-width: 650px) {
-      .details-page {
-        width: calc(100% - 36px);
-        padding: 21px 0 38px;
-      }
-
-      .details-heading {
-        margin: 37px 0 25px;
-      }
-
-      .details-heading h1 {
-        font-size: 37px;
-      }
-
-      .details-card {
-        padding: 23px 0;
-      }
-
-      .details-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .details-field.full {
-        grid-column: auto;
-      }
-
-      .details-card-heading {
-        align-items: flex-start;
-      }
-
-      .details-actions {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .details-actions .details-button {
-        width: 100%;
-      }
+      .details-page { width: calc(100% - 36px); padding: 21px 0 38px; }
+      .details-heading { margin: 37px 0 25px; }
+      .details-heading h1 { font-size: 37px; }
+      .details-card { padding: 23px 0; }
+      .details-grid { grid-template-columns: minmax(0, 1fr); }
+      .details-field.full { grid-column: auto; }
+      .details-card-heading { align-items: flex-start; }
+      .details-actions { align-items: stretch; flex-direction: column; }
+      .details-actions .details-button { width: 100%; }
     }
 
     @media (max-width: 380px) {
-      .details-page {
-        width: calc(100% - 28px);
-      }
-
-      .details-brand {
-        font-size: 20px;
-      }
-
-      .details-heading h1 {
-        font-size: 33px;
-      }
+      .details-page { width: calc(100% - 28px); }
+      .details-brand { font-size: 20px; }
+      .details-heading h1 { font-size: 33px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        transition: none !important;
-      }
+      *, *::before, *::after { transition: none !important; }
     }
   </style>
 </head>
@@ -379,14 +310,9 @@
       <span class="details-step">Profile setup · Step 2 of 2</span>
     </div>
 
-    <div
-      class="details-progress"
-      role="progressbar"
-      aria-label="Profile setup progress"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      aria-valuenow="100"
-    >
+    <div class="details-progress" role="progressbar"
+      aria-label="Profile setup progress" aria-valuemin="0"
+      aria-valuemax="100" aria-valuenow="100">
       <span></span>
     </div>
 
@@ -466,7 +392,8 @@
           </div>
         </div>
 
-        <p id="detailsMessage" class="details-message" role="alert" aria-live="polite"></p>
+        <p id="detailsMessage" class="details-message"
+          role="alert" aria-live="polite"></p>
 
         <div class="details-actions">
           <button class="details-button secondary" type="button" id="backButton">
@@ -480,12 +407,22 @@
 
   <script>
     (() => {
-      const draftKey = "hireforgeProfileDraft";
       const form = document.getElementById("detailsForm");
       const message = document.getElementById("detailsMessage");
       const projectsList = document.getElementById("projectsList");
       const internshipsList = document.getElementById("internshipsList");
       const certificationsList = document.getElementById("certificationsList");
+      const token = localStorage.getItem("hireforgeToken");
+      const draftKey = token
+        ? "hireforgeProfileDraft:" + token
+        : "hireforgeProfileDraft";
+
+      function apiRoot() {
+        return window.HIREFORGE_API_ROOT ||
+          (location.port === "5500" || location.protocol === "file:"
+            ? "http://127.0.0.1:8000/api"
+            : "/api");
+      }
 
       function getDraft() {
         try {
@@ -495,7 +432,25 @@
         }
       }
 
-      function makeField(labelText, name, placeholder, type = "text", required = false, full = false) {
+      function setDraft(draft) {
+        sessionStorage.setItem(draftKey, JSON.stringify(draft));
+      }
+
+      function showMessage(text, success = false) {
+        message.textContent = text;
+        message.style.borderLeftColor = success ? "#285847" : "#a33d32";
+        message.style.background = success ? "#e7eee7" : "#f8eae7";
+        message.style.color = success ? "#285847" : "#873f34";
+      }
+
+      function normalizeList(value) {
+        return Array.isArray(value) ? value.filter(item =>
+          item && typeof item === "object"
+        ) : [];
+      }
+
+      function makeField(labelText, name, placeholder, type = "text",
+        required = false, full = false) {
         const wrapper = document.createElement("div");
         wrapper.className = "details-field" + (full ? " full" : "");
 
@@ -510,19 +465,13 @@
         input.placeholder = placeholder || "";
         input.required = required;
 
-        if (type !== "textarea") {
-          input.type = type;
-        }
+        if (type !== "textarea") input.type = type;
+        if (type === "url") input.maxLength = 500;
+        if (type === "text") input.maxLength = 200;
 
-        if (type === "url") {
-          input.maxLength = 500;
-        }
+        const inputId = name + "-" +
+          Math.random().toString(36).slice(2, 9);
 
-        if (type === "text") {
-          input.maxLength = 200;
-        }
-
-        const inputId = name + "-" + Math.random().toString(36).slice(2, 9);
         input.id = inputId;
         label.htmlFor = inputId;
 
@@ -634,7 +583,9 @@
               : "");
         };
 
-        entry.querySelector("input, textarea").addEventListener("input", updateHeading);
+        entry.querySelector("input, textarea")
+          .addEventListener("input", updateHeading);
+
         updateHeading();
       }
 
@@ -646,13 +597,18 @@
         addEntry(internshipsList, "internship");
       });
 
-      document.getElementById("addCertification").addEventListener("click", () => {
-        addEntry(certificationsList, "certification");
-      });
+      document.getElementById("addCertification")
+        .addEventListener("click", () => {
+          addEntry(certificationsList, "certification");
+        });
 
       document.getElementById("backButton").addEventListener("click", () => {
-        saveDraft();
-        window.location.href = "profile.html";
+        try {
+          saveDraft();
+          location.href = "profile.html";
+        } catch {
+          showMessage("Could not save your draft. Check browser storage settings.");
+        }
       });
 
       function readEntries(container, type) {
@@ -669,85 +625,127 @@
 
       function saveDraft() {
         const draft = getDraft();
+
         draft.projects = readEntries(projectsList, "project");
         draft.internships = readEntries(internshipsList, "internship");
         draft.certifications = readEntries(certificationsList, "certification");
         draft.targetRole = document.getElementById("targetRole").value;
-        sessionStorage.setItem(draftKey, JSON.stringify(draft));
+        draft.draftTouched = true;
+
+        setDraft(draft);
       }
 
-      const draft = getDraft();
-
-      if (Array.isArray(draft.projects)) {
-        draft.projects.forEach(item => addEntry(projectsList, "project", item));
+      function renderEntries(container, type, items) {
+        container.replaceChildren();
+        items.forEach(item => addEntry(container, type, item));
       }
 
-      if (Array.isArray(draft.internships)) {
-        draft.internships.forEach(item => addEntry(internshipsList, "internship", item));
+      async function loadProfile() {
+        const draft = getDraft();
+
+        if (!token) {
+          renderEntries(projectsList, "project", draft.projects || []);
+          renderEntries(internshipsList, "internship", draft.internships || []);
+          renderEntries(certificationsList, "certification", draft.certifications || []);
+          document.getElementById("targetRole").value = draft.targetRole || "";
+          showMessage("Log in to load and save your profile to your account.");
+          return;
+        }
+
+        try {
+          const response = await fetch(apiRoot() + "/profile/", {
+            headers: { Authorization: "Token " + token }
+          });
+
+          if (!response.ok) {
+            throw new Error(response.status === 401
+              ? "Your session has expired. Please log in again."
+              : "Could not load your saved profile.");
+          }
+
+          const profile = await response.json();
+
+          const savedProjects = normalizeList(profile.projects);
+          const savedInternships = normalizeList(profile.internships);
+          const savedCertifications = normalizeList(profile.certifications);
+          const savedRole = profile.target_role || "";
+
+          const projects = draft.draftTouched
+            ? normalizeList(draft.projects)
+            : savedProjects;
+          const internships = draft.draftTouched
+            ? normalizeList(draft.internships)
+            : savedInternships;
+          const certifications = draft.draftTouched
+            ? normalizeList(draft.certifications)
+            : savedCertifications;
+          const targetRole = draft.draftTouched
+            ? draft.targetRole || ""
+            : savedRole;
+
+          renderEntries(projectsList, "project", projects);
+          renderEntries(internshipsList, "internship", internships);
+          renderEntries(certificationsList, "certification", certifications);
+          document.getElementById("targetRole").value = targetRole;
+
+          if (!draft.draftTouched) {
+            setDraft({
+              ...draft,
+              projects: savedProjects,
+              internships: savedInternships,
+              certifications: savedCertifications,
+              targetRole: savedRole,
+              draftTouched: false
+            });
+          }
+        } catch (error) {
+          renderEntries(projectsList, "project", draft.projects || []);
+          renderEntries(internshipsList, "internship", draft.internships || []);
+          renderEntries(certificationsList, "certification", draft.certifications || []);
+          document.getElementById("targetRole").value = draft.targetRole || "";
+          showMessage(error.message);
+        }
       }
 
-      if (Array.isArray(draft.certifications)) {
-        draft.certifications.forEach(item => addEntry(certificationsList, "certification", item));
-      }
+      ["projectsList", "internshipsList", "certificationsList"]
+        .forEach(id => {
+          document.getElementById(id).addEventListener("input", () => {
+            if (getDraft().draftTouched) return;
+            const draft = getDraft();
+            draft.draftTouched = true;
+            setDraft(draft);
+          });
+        });
 
-      if (draft.targetRole) {
-        document.getElementById("targetRole").value = draft.targetRole;
-      }
+      document.getElementById("targetRole").addEventListener("change", () => {
+        const draft = getDraft();
+        draft.draftTouched = true;
+        setDraft(draft);
+      });
 
       form.addEventListener("submit", async event => {
         event.preventDefault();
         message.textContent = "";
-        message.style.color = "";
 
-        if (!form.reportValidity()) {
-          return;
-        }
+        if (!form.reportValidity()) return;
 
-        for (const container of [projectsList, internshipsList, certificationsList]) {
+        for (const container of [
+          projectsList, internshipsList, certificationsList
+        ]) {
           const invalidUrl = [
             ...container.querySelectorAll('input[type="url"]')
           ].find(input => input.value.trim() && !input.validity.valid);
 
           if (invalidUrl) {
-            message.textContent = "Please enter a valid URL or leave the optional link empty.";
+            showMessage("Please enter a valid URL or leave the optional link empty.");
             invalidUrl.reportValidity();
             return;
           }
         }
 
-        const token = localStorage.getItem("hireforgeToken");
-
-        try {
-          saveDraft();
-        } catch {
-          message.textContent = "Your profile draft could not be saved in this browser. Check your browser storage settings.";
-          return;
-        }
-
         if (!token) {
-          message.textContent = "Your draft is saved temporarily. Please log in before saving it to your account.";
+          showMessage("Please log in before saving your profile.");
           return;
-        }
-
-        const saved = getDraft();
-
-        const payload = {
-          college_name: saved.college || "",
-          degree: saved.degree || "",
-          graduation_year: saved.graduationYear ? Number(saved.graduationYear) : null,
-          cgpa: saved.cgpa !== undefined && saved.cgpa !== "" ? Number(saved.cgpa) : null,
-          dsa_rating: Number(saved.dsaRating ?? saved.dsaLevel ?? 5),
-          aptitude_rating: Number(saved.aptitudeRating ?? 5),
-          communication_rating: Number(saved.communicationRating ?? 5),
-          technical_skills: Array.isArray(saved.technicalSkills) ? saved.technicalSkills : [],
-          projects: saved.projects || [],
-          internships: saved.internships || [],
-          certifications: saved.certifications || [],
-          target_role: saved.targetRole || ""
-        };
-
-        if (saved.fullName) {
-          payload.full_name = saved.fullName;
         }
 
         const button = form.querySelector('button[type="submit"]');
@@ -757,15 +755,36 @@
         button.textContent = "Saving profile...";
 
         try {
-          const apiRoot = window.HIREFORGE_API_ROOT ||
-            (location.port === "5500" || location.protocol === "file:"
-              ? "http://127.0.0.1:8000/api"
-              : "/api");
+          saveDraft();
+          const saved = getDraft();
 
-          const response = await fetch(apiRoot + "/profile/", {
+          const payload = {
+            college_name: saved.college || "",
+            degree: saved.degree || "",
+            graduation_year: saved.graduationYear
+              ? Number(saved.graduationYear)
+              : null,
+            cgpa: saved.cgpa !== undefined && saved.cgpa !== ""
+              ? Number(saved.cgpa)
+              : null,
+            dsa_rating: Number(saved.dsaRating ?? saved.dsaLevel ?? 5),
+            aptitude_rating: Number(saved.aptitudeRating ?? 5),
+            communication_rating: Number(saved.communicationRating ?? 5),
+            technical_skills: Array.isArray(saved.technicalSkills)
+              ? saved.technicalSkills
+              : [],
+            projects: saved.projects || [],
+            internships: saved.internships || [],
+            certifications: saved.certifications || [],
+            target_role: saved.targetRole || ""
+          };
+
+          if (saved.fullName) payload.full_name = saved.fullName;
+
+          const response = await fetch(apiRoot() + "/profile/", {
             method: "PATCH",
             headers: {
-              "Authorization": `Token ${token}`,
+              Authorization: "Token " + token,
               "Content-Type": "application/json"
             },
             body: JSON.stringify(payload)
@@ -774,29 +793,47 @@
           const result = await response.json().catch(() => ({}));
 
           if (!response.ok) {
-            const details = Object.values(result).flat().join(" ");
+            const details = Object.values(result)
+              .flat()
+              .map(value => typeof value === "string" ? value : "")
+              .filter(Boolean)
+              .join(" ");
+
             throw new Error(details || `Save failed (${response.status}).`);
           }
 
-          sessionStorage.setItem(
-            draftKey,
-            JSON.stringify({
-              ...saved,
-              backendProfileSaved: true,
-              backendProfile: result
-            })
-          );
+          setDraft({
+            ...saved,
+            fullName: result.full_name ?? saved.fullName ?? "",
+            degree: result.degree ?? saved.degree ?? "",
+            college: result.college_name ?? saved.college ?? "",
+            cgpa: result.cgpa ?? "",
+            graduationYear: result.graduation_year ?? "",
+            dsaRating: result.dsa_rating ?? saved.dsaRating,
+            aptitudeRating: result.aptitude_rating ?? saved.aptitudeRating,
+            communicationRating:
+              result.communication_rating ?? saved.communicationRating,
+            technicalSkills: result.technical_skills ?? saved.technicalSkills,
+            projects: result.projects ?? saved.projects,
+            internships: result.internships ?? saved.internships,
+            certifications: result.certifications ?? saved.certifications,
+            targetRole: result.target_role ?? saved.targetRole,
+            backendProfileSaved: true,
+            backendProfile: result,
+            draftTouched: false
+          });
 
-          message.style.color = "var(--details-green)";
-          message.textContent = "Your profile has been saved. Opening dashboard...";
-          window.location.href = "dashboard.html";
+          showMessage("Your profile has been saved. Opening dashboard...", true);
+          location.href = "dashboard.html";
         } catch (error) {
-          message.textContent = `${error.message} Your temporary draft is still available.`;
+          showMessage(error.message + " Your temporary draft is still available.");
         } finally {
           button.disabled = false;
           button.textContent = originalText;
         }
       });
+
+      loadProfile();
     })();
   </script>
 </body>
