@@ -980,15 +980,9 @@
         </div>
     </footer>
     <script type="module">
-        import {
-            FaceLandmarker,
-            FilesetResolver
-        } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
+        import * as vision from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
 
-        window.HireForgeVision = {
-            FaceLandmarker,
-            FilesetResolver
-        };
+        window.HireForgeVision = vision;
     </script>
     <script>
         (() => {
@@ -1608,11 +1602,11 @@
                 throw new Error("Face detection library did not load.");
             }
 
-            const fileset = await window.vision.FilesetResolver.forVisionTasks(
+            const fileset = await window.HireForgeVision.FilesetResolver.forVisionTasks(
                 "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm"
             );
 
-            faceLandmarker = await window.vision.FaceLandmarker.createFromOptions(
+            faceLandmarker = await window.HireForgeVision.FaceLandmarker.createFromOptions(
                 fileset,
                 {
                     baseOptions: {
@@ -1624,7 +1618,6 @@
                     numFaces: 1
                 }
             );
-
             return faceLandmarker;
         }
 
