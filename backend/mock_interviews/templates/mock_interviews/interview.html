@@ -699,6 +699,99 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        .camera-panel {
+            margin: 24px 0;
+            padding: 20px;
+            border: 1px solid var(--border-color, #e2e8f0);
+            border-radius: 16px;
+            background: var(--panel-bg, #ffffff);
+        }
+
+        .camera-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .camera-header h3 {
+            margin: 0 0 6px;
+            font-size: 18px;
+        }
+
+        .camera-header p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--muted, #64748b);
+        }
+
+        .camera-indicator {
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .camera-indicator.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .camera-preview {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            aspect-ratio: 16 / 9;
+            margin: 0 auto 16px;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #111827;
+        }
+
+        .camera-preview video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+
+        .camera-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e5e7eb;
+            font-size: 15px;
+        }
+
+        .camera-placeholder.hidden {
+            display: none;
+        }
+
+        .camera-actions {
+            justify-content: center;
+        }
+
+        .camera-panel>.small {
+            margin: 12px 0 0;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .camera-panel {
+                padding: 14px;
+            }
+
+            .camera-header {
+                gap: 8px;
+            }
+        }
     </style>
 </head>
 
@@ -801,6 +894,34 @@
             </div>
 
             <div class="question" id="questionText"></div>
+            <div class="camera-panel" id="cameraPanel">
+                <div class="camera-header">
+                    <div>
+                        <h3>Camera Preview</h3>
+                        <p id="cameraStatus">Camera is off. Enable it when you're ready.</p>
+                    </div>
+                    <span class="camera-indicator" id="cameraIndicator">OFF</span>
+                </div>
+
+                <div class="camera-preview">
+                    <video id="cameraVideo" autoplay playsinline muted></video>
+                    <div class="camera-placeholder" id="cameraPlaceholder">
+                        <span>Camera is off</span>
+                    </div>
+                </div>
+
+                <div class="actions camera-actions">
+                    <button class="button button-secondary" id="enableCameraBtn" type="button">
+                        Enable Camera
+                    </button>
+                    <button class="button button-neutral" id="disableCameraBtn" type="button" disabled>
+                        Turn Off Camera
+                    </button>
+                </div>
+
+                <p class="small">Your camera preview stays in this browser page. HireForge will not record or upload
+                    your video.</p>
+            </div>
 
             <div class="question-nav" id="questionNav" aria-label="Choose question"></div>
 
@@ -1270,7 +1391,7 @@
 
                 recognition = new SpeechRecognition();
                 recognition.lang = "en-IN";
-                recognition.continuous = false;
+                recognition.continuous = true;
                 recognition.interimResults = true;
 
                 recognition.onstart = () => {
@@ -1423,6 +1544,79 @@
 
             setupSpeech();
         })();
+
+        let cameraStream = null;
+
+        const cameraVideo = document.getElementById("cameraVideo");
+        const enableCameraBtn = document.getElementById("enableCameraBtn");
+        const disableCameraBtn = document.getElementById("disableCameraBtn");
+        const cameraStatus = document.getElementById("cameraStatus");
+        const cameraIndicator = document.getElementById("cameraIndicator");
+        const cameraPlaceholder = document.getElementById("cameraPlaceholder");
+
+        enableCameraBtn.addEventListener("click", async () => {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                cameraStatus.textContent =
+                    "Camera access is unavailable. Open HireForge using HTTPS or localhost.";
+                return;
+            }
+
+            enableCameraBtn.disabled = true;
+            cameraStatus.textContent = "Requesting camera permission...";
+
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                });
+
+                cameraVideo.srcObject = cameraStream;
+                await cameraVideo.play();
+
+                cameraPlaceholder.classList.add("hidden");
+                cameraIndicator.textContent = "ON";
+                cameraIndicator.classList.add("active");
+                cameraStatus.textContent = "Your camera is active. Video is not being recorded.";
+                enableCameraBtn.disabled = true;
+                disableCameraBtn.disabled = false;
+            } catch (error) {
+                cameraStream = null;
+                enableCameraBtn.disabled = false;
+
+                if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+                    cameraStatus.textContent =
+                        "Camera permission denied. Allow camera access in your browser settings.";
+                } else if (error.name === "NotFoundError" || error.name === "DevicesNotFoundError") {
+                    cameraStatus.textContent = "No camera was found on this device.";
+                } else {
+                    cameraStatus.textContent =
+                        "Could not start the camera. Check that it is connected and not being used by another app.";
+                }
+            }
+        });
+
+        disableCameraBtn.addEventListener("click", () => {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+
+            cameraVideo.srcObject = null;
+            cameraPlaceholder.classList.remove("hidden");
+            cameraIndicator.textContent = "OFF";
+            cameraIndicator.classList.remove("active");
+            cameraStatus.textContent = "Camera is off. Enable it when you're ready.";
+            enableCameraBtn.disabled = false;
+            disableCameraBtn.disabled = true;
+        });
+
+        window.addEventListener("pagehide", () => {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+        });
+
     </script>
 </body>
 
