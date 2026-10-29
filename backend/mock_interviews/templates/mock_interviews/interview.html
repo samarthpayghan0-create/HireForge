@@ -1271,7 +1271,7 @@
                 recognition = new SpeechRecognition();
                 recognition.lang = "en-IN";
                 recognition.continuous = false;
-                recognition.interimResults = false;
+                recognition.interimResults = true;
 
                 recognition.onstart = () => {
                     isRecording = true;
